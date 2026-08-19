@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b0b0b">
 
-<title>Music Quiz — A0.0.1 Alpha</title>
+<title>Music Quiz — A0.0.2 Alpha</title>
 
 <style>
 /* =========================================================
    MUSIC QUIZ
-   A0.0.1 — ALPHA
+   A0.0.2 — ALPHA
 
+   Reinterpretación del MusicQuiz original.
+   HTML + CSS + JS.
    Sin frameworks.
    Sin imágenes.
-   Sin fuentes externas.
-   Sin 47 cards redondeadas.
+   Sin audio.
    ========================================================= */
 
 :root {
@@ -31,12 +32,18 @@
     --orange: #ff6238;
     --blue: #70dcff;
     --red: #ff4d4d;
+    --yellow: #ffe66d;
 
     --black: #050505;
 
     --max: 1180px;
     --border: 1px solid var(--line);
 }
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -59,6 +66,7 @@ body {
         sans-serif;
 
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 button,
@@ -81,6 +89,7 @@ input:focus-visible {
     color: var(--black);
 }
 
+
 /* =========================================================
    GLOBAL
    ========================================================= */
@@ -91,7 +100,7 @@ input:focus-visible {
 
 .shell {
     width: min(var(--max), calc(100% - 48px));
-    margin: 0 auto;
+    margin-inline: auto;
 }
 
 .screen {
@@ -102,15 +111,15 @@ input:focus-visible {
     display: block;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .mono {
     font-family:
         "Courier New",
         Courier,
         monospace;
-}
-
-.muted {
-    color: var(--muted);
 }
 
 .acid {
@@ -125,17 +134,17 @@ input:focus-visible {
     color: var(--blue);
 }
 
-.upper {
-    text-transform: uppercase;
+.red {
+    color: var(--red);
 }
 
-.hidden {
-    display: none !important;
+.muted {
+    color: var(--muted);
 }
 
 
 /* =========================================================
-   TOP BAR
+   GLOBAL HEADER
    ========================================================= */
 
 .site-header {
@@ -199,6 +208,7 @@ input:focus-visible {
     height: 7px;
 
     border-radius: 50%;
+
     background: #777;
 }
 
@@ -211,7 +221,7 @@ input:focus-visible {
 }
 
 .status-dot.partial {
-    background: #ffd166;
+    background: var(--yellow);
 }
 
 .status-dot.error {
@@ -227,6 +237,7 @@ input:focus-visible {
     overflow: hidden;
 
     border-bottom: var(--border);
+
     background: var(--acid);
     color: var(--black);
 
@@ -237,7 +248,7 @@ input:focus-visible {
     display: inline-flex;
     min-width: 200%;
 
-    animation: ticker 24s linear infinite;
+    animation: ticker 25s linear infinite;
 }
 
 .ticker-text {
@@ -273,11 +284,14 @@ input:focus-visible {
 
 .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(260px, .5fr);
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(260px, .5fr);
 
     gap: 50px;
 
     padding-bottom: 68px;
+
     border-bottom: var(--border);
 }
 
@@ -313,6 +327,7 @@ input:focus-visible {
 
     line-height: .78;
     letter-spacing: -.035em;
+
     text-transform: uppercase;
 }
 
@@ -337,25 +352,26 @@ input:focus-visible {
     color: var(--paper);
 }
 
-.hero-copy .alpha-note {
-    margin-top: 24px;
+.alpha-note {
+    margin-top: 24px !important;
 
     border-left: 2px solid var(--acid);
+
     padding-left: 14px;
 
-    color: var(--muted);
+    color: var(--muted) !important;
 
     font-family:
         "Courier New",
         monospace;
 
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
 }
 
 
 /* =========================================================
-   STATS
+   MENU STATS
    ========================================================= */
 
 .stats-strip {
@@ -397,6 +413,7 @@ input:focus-visible {
 
     font-size: 27px;
     font-weight: 800;
+
     letter-spacing: -.03em;
 }
 
@@ -520,7 +537,7 @@ input:focus-visible {
 .mode-heading p {
     margin: 0;
 
-    max-width: 480px;
+    max-width: 520px;
 
     color: var(--muted);
 
@@ -536,7 +553,11 @@ input:focus-visible {
     width: 100%;
 
     display: grid;
-    grid-template-columns: 70px minmax(0, 1fr) 190px 34px;
+    grid-template-columns:
+        70px
+        minmax(0, 1fr)
+        190px
+        34px;
 
     gap: 22px;
     align-items: center;
@@ -550,6 +571,7 @@ input:focus-visible {
     color: var(--paper);
 
     cursor: pointer;
+
     text-align: left;
 
     transition:
@@ -580,6 +602,14 @@ input:focus-visible {
     color: #555;
 }
 
+.mode-name-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
 .mode-name {
     font-family:
         Impact,
@@ -590,6 +620,24 @@ input:focus-visible {
     font-size: clamp(28px, 4vw, 52px);
 
     letter-spacing: -.015em;
+    text-transform: uppercase;
+}
+
+.mode-badge {
+    display: inline-block;
+
+    padding: 4px 6px 3px;
+
+    border: 1px solid currentColor;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: .08em;
     text-transform: uppercase;
 }
 
@@ -608,7 +656,32 @@ input:focus-visible {
 
 .mode-arrow {
     font-size: 23px;
+
     text-align: right;
+}
+
+.mode.new-mode {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 98, 56, .07),
+            transparent 32%
+        );
+}
+
+.mode.new-mode .mode-name,
+.mode.new-mode .mode-badge {
+    color: var(--orange);
+}
+
+.mode.new-mode:hover {
+    background: var(--orange);
+    color: var(--black);
+}
+
+.mode.new-mode:hover .mode-name,
+.mode.new-mode:hover .mode-badge {
+    color: var(--black);
 }
 
 .mode.random .mode-name {
@@ -663,7 +736,7 @@ input:focus-visible {
 
 
 /* =========================================================
-   GAME SCREEN
+   GAME HEADER
    ========================================================= */
 
 .game-screen {
@@ -678,7 +751,10 @@ input:focus-visible {
     min-height: 78px;
 
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns:
+        auto
+        minmax(0, 1fr)
+        auto;
 
     align-items: center;
 
@@ -721,6 +797,7 @@ input:focus-visible {
 
 .game-live-stats {
     display: flex;
+
     gap: 22px;
 
     font-family:
@@ -733,6 +810,11 @@ input:focus-visible {
 .game-live-stats strong {
     color: var(--acid);
 }
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
 
 .timer-wrap {
     height: 3px;
@@ -750,6 +832,15 @@ input:focus-visible {
 
     transform-origin: left center;
 }
+
+body.new-mode-active .timer-bar {
+    background: var(--orange);
+}
+
+
+/* =========================================================
+   GAME MAIN
+   ========================================================= */
 
 .game-main {
     padding: 64px 0 80px;
@@ -790,7 +881,9 @@ input:focus-visible {
 
 .question-layout {
     display: grid;
-    grid-template-columns: 160px minmax(0, 1fr);
+    grid-template-columns:
+        160px
+        minmax(0, 1fr);
 
     gap: 40px;
 }
@@ -825,6 +918,10 @@ input:focus-visible {
     text-transform: uppercase;
 }
 
+body.new-mode-active .question-label {
+    color: var(--orange);
+}
+
 .question {
     margin: 0;
 
@@ -840,6 +937,8 @@ input:focus-visible {
     font-weight: 400;
     line-height: 1.03;
     letter-spacing: -.035em;
+
+    white-space: pre-line;
 }
 
 .question.quote {
@@ -849,12 +948,138 @@ input:focus-visible {
 .question-subtitle {
     margin-top: 24px;
 
-    max-width: 670px;
+    max-width: 720px;
 
     color: var(--muted);
 
     font-size: 13px;
     line-height: 1.55;
+}
+
+
+/* =========================================================
+   NEW MODE HUD
+   ========================================================= */
+
+.new-hud {
+    margin: -16px 0 42px;
+
+    border-top: 1px solid #453129;
+    border-bottom: 1px solid #453129;
+
+    background: #100e0d;
+}
+
+.new-hud-grid {
+    display: grid;
+    grid-template-columns:
+        1.2fr
+        .7fr
+        .7fr
+        .7fr;
+
+    align-items: stretch;
+}
+
+.new-hud-cell {
+    min-width: 0;
+
+    padding: 16px 18px;
+
+    border-right: 1px solid #453129;
+}
+
+.new-hud-cell:last-child {
+    border-right: 0;
+}
+
+.new-hud-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #78645c;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 9px;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.new-hud-value {
+    display: block;
+
+    overflow: hidden;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.new-hud-value.orange {
+    color: var(--orange);
+}
+
+.new-lives {
+    display: flex;
+
+    gap: 5px;
+}
+
+.life {
+    width: 17px;
+    height: 8px;
+
+    border: 1px solid #64463b;
+}
+
+.life.on {
+    background: var(--orange);
+    border-color: var(--orange);
+}
+
+.new-progress {
+    height: 2px;
+
+    background: #271d19;
+}
+
+.new-progress-bar {
+    width: 0;
+    height: 100%;
+
+    background: var(--orange);
+
+    transition: width .25s ease;
+}
+
+.boss-tag {
+    display: inline-block;
+
+    margin-left: 8px;
+
+    padding: 3px 5px;
+
+    border: 1px solid var(--orange);
+
+    color: var(--orange);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    vertical-align: 2px;
+
+    letter-spacing: .08em;
 }
 
 
@@ -880,7 +1105,9 @@ input:focus-visible {
     min-height: 88px;
 
     display: grid;
-    grid-template-columns: 34px 1fr;
+    grid-template-columns:
+        34px
+        1fr;
 
     gap: 12px;
     align-items: center;
@@ -931,6 +1158,10 @@ input:focus-visible {
     color: var(--black);
 }
 
+body.new-mode-active .choice.correct {
+    background: var(--orange);
+}
+
 .choice:disabled {
     cursor: default;
 }
@@ -942,7 +1173,9 @@ input:focus-visible {
 
 .text-answer {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
 
     border-bottom: 2px solid var(--paper);
 }
@@ -986,7 +1219,12 @@ input:focus-visible {
     font-weight: 700;
 
     cursor: pointer;
+
     text-transform: uppercase;
+}
+
+body.new-mode-active .submit-answer {
+    color: var(--orange);
 }
 
 
@@ -1011,6 +1249,10 @@ input:focus-visible {
     border-top-color: var(--red);
 }
 
+body.new-mode-active .result.good {
+    border-top-color: var(--orange);
+}
+
 .result-kicker {
     margin-bottom: 8px;
 
@@ -1026,6 +1268,10 @@ input:focus-visible {
 
 .result.good .result-kicker {
     color: var(--acid);
+}
+
+body.new-mode-active .result.good .result-kicker {
+    color: var(--orange);
 }
 
 .result.bad .result-kicker {
@@ -1048,6 +1294,37 @@ input:focus-visible {
 
     font-size: 13px;
     line-height: 1.55;
+}
+
+.result-bonus {
+    margin-top: 14px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.result-chip {
+    padding: 5px 7px;
+
+    border: 1px solid #454545;
+
+    color: #aaa;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+}
+
+.result-chip.hot {
+    border-color: var(--orange);
+
+    color: var(--orange);
 }
 
 .result-actions {
@@ -1077,6 +1354,16 @@ input:focus-visible {
     border-color: var(--paper);
 }
 
+body.new-mode-active .next-btn {
+    background: var(--orange);
+    border-color: var(--orange);
+}
+
+body.new-mode-active .next-btn:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+}
+
 .result-score {
     color: var(--muted);
 
@@ -1098,6 +1385,7 @@ body.og-active {
 
 body.og-active .game-header {
     background: #181b20;
+
     border-color: #292c33;
 }
 
@@ -1109,6 +1397,7 @@ body.og-active .game-main {
     padding: 25px;
 
     background: #1e2128;
+
     border-left: 4px solid #5865f2;
 
     font-family:
@@ -1187,7 +1476,7 @@ body.og-active .game-main {
 
 
 /* =========================================================
-   ERROR / LOADER
+   OVERLAYS
    ========================================================= */
 
 .overlay {
@@ -1200,7 +1489,7 @@ body.og-active .game-main {
 
     padding: 24px;
 
-    background: rgba(0, 0, 0, .86);
+    background: rgba(0, 0, 0, .88);
 }
 
 .overlay-box {
@@ -1212,7 +1501,26 @@ body.og-active .game-main {
     color: var(--black);
 
     border: 2px solid var(--black);
+
     box-shadow: 10px 10px 0 var(--acid);
+}
+
+.overlay-box.new-summary {
+    box-shadow: 10px 10px 0 var(--orange);
+}
+
+.overlay-kicker {
+    margin-bottom: 10px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
 }
 
 .overlay-box h2 {
@@ -1233,6 +1541,8 @@ body.og-active .game-main {
 
 .overlay-actions {
     display: flex;
+    flex-wrap: wrap;
+
     gap: 10px;
 
     margin-top: 25px;
@@ -1256,7 +1566,65 @@ body.og-active .game-main {
 
 
 /* =========================================================
-   MICRO ANIMATIONS
+   NEW MODE SUMMARY
+   ========================================================= */
+
+.run-grade {
+    margin: 18px 0;
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size: 90px;
+
+    line-height: .8;
+}
+
+.run-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 1px;
+
+    margin-top: 24px;
+
+    background: #aaa;
+    border: 1px solid #aaa;
+}
+
+.run-summary-cell {
+    padding: 14px;
+
+    background: var(--paper);
+}
+
+.run-summary-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #777;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+}
+
+.run-summary-value {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ANIMATIONS
    ========================================================= */
 
 .pop {
@@ -1280,7 +1648,8 @@ body.og-active .game-main {
 }
 
 @keyframes shake {
-    0%, 100% {
+    0%,
+    100% {
         transform: translateX(0);
     }
 
@@ -1299,12 +1668,17 @@ body.og-active .game-main {
    ========================================================= */
 
 @media (max-width: 850px) {
+
     .shell {
-        width: min(100% - 32px, var(--max));
+        width: min(
+            100% - 32px,
+            var(--max)
+        );
     }
 
     .hero {
         grid-template-columns: 1fr;
+
         gap: 32px;
 
         padding-bottom: 45px;
@@ -1315,7 +1689,8 @@ body.og-active .game-main {
     }
 
     .stats-strip {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns:
+            repeat(3, 1fr);
     }
 
     .stat:nth-child(3) {
@@ -1328,11 +1703,15 @@ body.og-active .game-main {
 
     .config-area {
         grid-template-columns: 1fr;
+
         gap: 10px;
     }
 
     .mode {
-        grid-template-columns: 45px minmax(0, 1fr) 26px;
+        grid-template-columns:
+            45px
+            minmax(0, 1fr)
+            26px;
     }
 
     .mode-meta {
@@ -1341,18 +1720,37 @@ body.og-active .game-main {
 
     .question-layout {
         grid-template-columns: 1fr;
+
         gap: 22px;
     }
 
     .question-number {
         font-size: 42px;
     }
+
+    .new-hud-grid {
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    .new-hud-cell:nth-child(2) {
+        border-right: 0;
+    }
+
+    .new-hud-cell:nth-child(n + 3) {
+        border-top: 1px solid #453129;
+    }
 }
 
 
 @media (max-width: 620px) {
+
     .shell {
-        width: min(100% - 24px, var(--max));
+        width: min(
+            100% - 24px,
+            var(--max)
+        );
     }
 
     .site-header-inner {
@@ -1372,11 +1770,17 @@ body.og-active .game-main {
     }
 
     .hero h1 {
-        font-size: clamp(60px, 22vw, 92px);
+        font-size:
+            clamp(
+                60px,
+                22vw,
+                92px
+            );
     }
 
     .stats-strip {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .stat {
@@ -1393,6 +1797,7 @@ body.og-active .game-main {
 
     .stat:last-child {
         grid-column: 1 / -1;
+
         border-right: 0;
         border-bottom: 0;
     }
@@ -1419,7 +1824,10 @@ body.og-active .game-main {
     }
 
     .mode {
-        grid-template-columns: 35px minmax(0, 1fr) 20px;
+        grid-template-columns:
+            35px
+            minmax(0, 1fr)
+            20px;
 
         gap: 10px;
 
@@ -1434,17 +1842,24 @@ body.og-active .game-main {
         font-size: 32px;
     }
 
+    .mode-badge {
+        font-size: 8px;
+    }
+
     .site-footer {
         display: block;
     }
 
     .site-footer span:last-child {
         display: block;
+
         margin-top: 8px;
     }
 
     .game-header-inner {
-        grid-template-columns: auto 1fr;
+        grid-template-columns:
+            auto 1fr;
+
         min-height: 66px;
     }
 
@@ -1508,6 +1923,22 @@ body.og-active .game-main {
     .og-box {
         padding: 18px;
     }
+
+    .new-hud {
+        margin-top: -8px;
+    }
+
+    .new-hud-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .new-hud-cell {
+        padding: 12px;
+    }
+
+    .overlay-box {
+        padding: 24px;
+    }
 }
 </style>
 </head>
@@ -1521,48 +1952,112 @@ body.og-active .game-main {
          ===================================================== -->
 
     <header class="site-header">
+
         <div class="shell site-header-inner">
 
             <div class="brand">
+
                 <span class="brand-mark"></span>
+
                 MUSIC QUIZ
-                <span class="version">A0.0.1-ALPHA</span>
+
+                <span class="version">
+                    A0.0.2-ALPHA
+                </span>
+
             </div>
 
+
             <div class="header-status">
-                <span id="statusDot" class="status-dot loading"></span>
-                <span id="statusText">conectando bancos...</span>
+
+                <span
+                    id="statusDot"
+                    class="status-dot loading"
+                ></span>
+
+                <span id="statusText">
+                    conectando bancos...
+                </span>
+
             </div>
 
         </div>
+
     </header>
 
 
     <!-- =====================================================
-         MENU SCREEN
+         MENU
          ===================================================== -->
 
-    <main id="menuScreen" class="screen active">
+    <main
+        id="menuScreen"
+        class="screen active"
+    >
 
         <div class="ticker">
+
             <div class="ticker-track">
+
                 <span class="ticker-text">
-                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
-                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                    MUSIC QUIZ ///
+                    LETRAS ///
+                    FEATS ///
+                    BENITO O NO ///
+                    NEW MODE ///
+                    10 ROUND RUN ///
+                    BOSS ROUND ///
+                    RANDOM ///
+                    OG MODE ///
+                    A0.0.2 ///
+                    MUSIC QUIZ ///
+                    LETRAS ///
+                    FEATS ///
+                    BENITO O NO ///
+                    NEW MODE ///
+                    10 ROUND RUN ///
+                    BOSS ROUND ///
+                    RANDOM ///
+                    OG MODE ///
+                    A0.0.2 ///
                 </span>
 
                 <span class="ticker-text">
-                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
-                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                    MUSIC QUIZ ///
+                    LETRAS ///
+                    FEATS ///
+                    BENITO O NO ///
+                    NEW MODE ///
+                    10 ROUND RUN ///
+                    BOSS ROUND ///
+                    RANDOM ///
+                    OG MODE ///
+                    A0.0.2 ///
+                    MUSIC QUIZ ///
+                    LETRAS ///
+                    FEATS ///
+                    BENITO O NO ///
+                    NEW MODE ///
+                    10 ROUND RUN ///
+                    BOSS ROUND ///
+                    RANDOM ///
+                    OG MODE ///
+                    A0.0.2 ///
                 </span>
+
             </div>
+
         </div>
 
+
         <div class="shell menu">
+
+            <!-- HERO -->
 
             <section class="hero">
 
                 <div>
+
                     <p class="eyebrow">
                         el juegazo volvió
                     </p>
@@ -1571,54 +2066,119 @@ body.og-active .game-main {
                         MUSIC<br>
                         <span>QUIZ.</span>
                     </h1>
+
                 </div>
 
+
                 <div class="hero-copy">
+
                     <p>
                         Cuatro juegos originales.
                         Un modo aleatorio.
-                        Un modo hecho para recordar
-                        <strong>cómo empezó todo.</strong>
+                        Un laboratorio nuevo.
+                        Y una forma de volver a
+                        <strong>
+                            donde empezó todo.
+                        </strong>
                     </p>
 
                     <p class="alpha-note">
-                        BUILD A0.0.1<br>
+                        BUILD A0.0.2<br>
                         SIN FOTOS · SIN AUDIO · PURO JUEGO
                     </p>
+
                 </div>
 
             </section>
 
+
+            <!-- STATS -->
 
             <section class="stats-strip">
 
                 <div class="stat">
-                    <span class="stat-label">correctas</span>
-                    <span id="menuWins" class="stat-value">0</span>
+
+                    <span class="stat-label">
+                        correctas
+                    </span>
+
+                    <span
+                        id="menuWins"
+                        class="stat-value"
+                    >
+                        0
+                    </span>
+
                 </div>
 
-                <div class="stat">
-                    <span class="stat-label">incorrectas</span>
-                    <span id="menuLosses" class="stat-value">0</span>
-                </div>
 
                 <div class="stat">
-                    <span class="stat-label">racha</span>
-                    <span id="menuStreak" class="stat-value acid">x0</span>
+
+                    <span class="stat-label">
+                        incorrectas
+                    </span>
+
+                    <span
+                        id="menuLosses"
+                        class="stat-value"
+                    >
+                        0
+                    </span>
+
                 </div>
 
-                <div class="stat">
-                    <span class="stat-label">mejor racha</span>
-                    <span id="menuBest" class="stat-value">x0</span>
-                </div>
 
                 <div class="stat">
-                    <span class="stat-label">score</span>
-                    <span id="menuScore" class="stat-value">0</span>
+
+                    <span class="stat-label">
+                        racha
+                    </span>
+
+                    <span
+                        id="menuStreak"
+                        class="stat-value acid"
+                    >
+                        x0
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span class="stat-label">
+                        mejor racha
+                    </span>
+
+                    <span
+                        id="menuBest"
+                        class="stat-value"
+                    >
+                        x0
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span class="stat-label">
+                        score
+                    </span>
+
+                    <span
+                        id="menuScore"
+                        class="stat-value"
+                    >
+                        0
+                    </span>
+
                 </div>
 
             </section>
 
+
+            <!-- DIFFICULTY -->
 
             <section class="config-area">
 
@@ -1626,9 +2186,13 @@ body.og-active .game-main {
                     01 / DIFICULTAD
                 </div>
 
+
                 <div class="config-content">
 
-                    <h2>¿Cómo quieres sufrir?</h2>
+                    <h2>
+                        ¿Cómo quieres sufrir?
+                    </h2>
+
 
                     <div class="difficulty-switch">
 
@@ -1636,20 +2200,31 @@ body.og-active .game-main {
                             class="difficulty-btn active"
                             data-difficulty="easy"
                         >
-                            <strong>FÁCIL</strong>
+
+                            <strong>
+                                FÁCIL
+                            </strong>
+
                             <small>
-                                OPCIONES · SIN PRESIÓN · BUENA VIDA
+                                MÁS OPCIONES · MÁS TIEMPO · BUENA VIDA
                             </small>
+
                         </button>
+
 
                         <button
                             class="difficulty-btn"
                             data-difficulty="hard"
                         >
-                            <strong>DIFÍCIL</strong>
+
+                            <strong>
+                                DIFÍCIL
+                            </strong>
+
                             <small>
-                                ESCRIBIR RESPUESTAS · TIMER · + PUNTOS
+                                MÁS INPUT · MENOS TIEMPO · MÁS PUNTOS
                             </small>
+
                         </button>
 
                     </div>
@@ -1659,15 +2234,20 @@ body.og-active .game-main {
             </section>
 
 
+            <!-- MODES -->
+
             <section class="mode-section">
 
                 <div class="mode-heading">
 
-                    <h2>Escoge modo.</h2>
+                    <h2>
+                        Escoge modo.
+                    </h2>
 
                     <p>
-                        En Random cada ronda puede cambiar de juego.
-                        OG ignora tu dificultad y sigue sus propias reglas.
+                        Random puede mezclar incluso retos del NEW MODE.
+                        OG utiliza exclusivamente las cuatro modalidades
+                        originales.
                     </p>
 
                 </div>
@@ -1675,9 +2255,16 @@ body.og-active .game-main {
 
                 <div class="mode-list">
 
-                    <button class="mode" data-mode="lyrics">
+                    <!-- 01 -->
 
-                        <span class="mode-number">01</span>
+                    <button
+                        class="mode"
+                        data-mode="lyrics"
+                    >
+
+                        <span class="mode-number">
+                            01
+                        </span>
 
                         <span class="mode-name">
                             LETRA → CANCIÓN
@@ -1688,32 +2275,50 @@ body.og-active .game-main {
                             adivina el título
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
 
-                    <button class="mode" data-mode="feat">
+                    <!-- 02 -->
 
-                        <span class="mode-number">02</span>
+                    <button
+                        class="mode"
+                        data-mode="feat"
+                    >
+
+                        <span class="mode-number">
+                            02
+                        </span>
 
                         <span class="mode-name">
                             ADIVINA EL FEAT
                         </span>
 
                         <span class="mode-meta">
-                            una canción<br>
-                            cuatro posibles feats
+                            canción / nombre<br>
+                            adivina el feat
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
 
-                    <button class="mode" data-mode="benito">
+                    <!-- 03 -->
 
-                        <span class="mode-number">03</span>
+                    <button
+                        class="mode"
+                        data-mode="benito"
+                    >
+
+                        <span class="mode-number">
+                            03
+                        </span>
 
                         <span class="mode-name">
                             ¿BENITO O NO?
@@ -1724,50 +2329,116 @@ body.og-active .game-main {
                             sí o no
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
 
-                    <button class="mode" data-mode="featSong">
+                    <!-- 04 -->
 
-                        <span class="mode-number">04</span>
+                    <button
+                        class="mode"
+                        data-mode="featSong"
+                    >
+
+                        <span class="mode-number">
+                            04
+                        </span>
 
                         <span class="mode-name">
                             FEAT → CANCIÓN
                         </span>
 
                         <span class="mode-meta">
-                            descubre qué canción<br>
-                            corresponde al feat
+                            feat + 4 canciones<br>
+                            escoge la correcta
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
 
-                    <button class="mode random" data-mode="random">
+                    <!-- NEW -->
 
-                        <span class="mode-number">05</span>
+                    <button
+                        class="mode new-mode"
+                        data-mode="new"
+                    >
+
+                        <span class="mode-number">
+                            05
+                        </span>
+
+                        <span class="mode-name-wrap">
+
+                            <span class="mode-name">
+                                NEW MODE
+                            </span>
+
+                            <span class="mode-badge">
+                                NEW
+                            </span>
+
+                        </span>
+
+                        <span class="mode-meta">
+                            10 rondas · 3 vidas<br>
+                            8 tipos de reto · bosses<br>
+                            best:
+                            <span id="newBestLabel">
+                                0
+                            </span>
+                        </span>
+
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
+
+                    </button>
+
+
+                    <!-- RANDOM -->
+
+                    <button
+                        class="mode random"
+                        data-mode="random"
+                    >
+
+                        <span class="mode-number">
+                            06
+                        </span>
 
                         <span class="mode-name">
                             RANDOM
                         </span>
 
                         <span class="mode-meta">
-                            cambia de modalidad<br>
+                            cambia modalidad<br>
                             en cada ronda
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
 
-                    <button class="mode og" data-mode="og">
+                    <!-- OG -->
 
-                        <span class="mode-number">06</span>
+                    <button
+                        class="mode og"
+                        data-mode="og"
+                    >
+
+                        <span class="mode-number">
+                            07
+                        </span>
 
                         <span class="mode-name">
                             OG MODE
@@ -1775,10 +2446,13 @@ body.og-active .game-main {
 
                         <span class="mode-meta">
                             10–13 segundos<br>
-                            sabor a bot de discord
+                            las 4 modalidades originales<br>
+                            discord bot energy
                         </span>
 
-                        <span class="mode-arrow">↗</span>
+                        <span class="mode-arrow">
+                            ↗
+                        </span>
 
                     </button>
 
@@ -1794,7 +2468,7 @@ body.og-active .game-main {
                 </span>
 
                 <span>
-                    A0.0.1-ALPHA
+                    A0.0.2-ALPHA
                 </span>
 
             </footer>
@@ -1808,44 +2482,70 @@ body.og-active .game-main {
          GAME SCREEN
          ===================================================== -->
 
-    <main id="gameScreen" class="screen game-screen">
+    <main
+        id="gameScreen"
+        class="screen game-screen"
+    >
 
         <header class="game-header">
 
             <div class="shell game-header-inner">
 
-                <button id="backBtn" class="back-btn">
+                <button
+                    id="backBtn"
+                    class="back-btn"
+                >
                     ← menú
                 </button>
 
-                <div id="gameModeTitle" class="game-mode-title">
-                    LETRA → CANCIÓN
+
+                <div
+                    id="gameModeTitle"
+                    class="game-mode-title"
+                >
+                    MUSIC QUIZ
                 </div>
+
 
                 <div class="game-live-stats">
 
                     <span>
                         RACHA
-                        <strong id="liveStreak">x0</strong>
+                        <strong id="liveStreak">
+                            x0
+                        </strong>
                     </span>
 
                     <span>
                         SCORE
-                        <strong id="liveScore">0</strong>
+                        <strong id="liveScore">
+                            0
+                        </strong>
                     </span>
 
                 </div>
 
             </div>
 
-            <div id="timerWrap" class="timer-wrap hidden">
-                <div id="timerBar" class="timer-bar"></div>
+
+            <div
+                id="timerWrap"
+                class="timer-wrap hidden"
+            >
+
+                <div
+                    id="timerBar"
+                    class="timer-bar"
+                ></div>
+
             </div>
 
         </header>
 
 
         <div class="shell game-main">
+
+            <!-- ROUND INFO -->
 
             <div class="round-meta">
 
@@ -1857,14 +2557,17 @@ body.og-active .game-main {
 
                     <span>
                         ROUND
-                        <strong id="roundNumber">01</strong>
+                        <strong id="roundNumber">
+                            01
+                        </strong>
                     </span>
 
                     <span id="roundSource">
-                        JSON / LETRAS
+                        JSON
                     </span>
 
                 </div>
+
 
                 <span
                     id="timerNumber"
@@ -1875,6 +2578,93 @@ body.og-active .game-main {
 
             </div>
 
+
+            <!-- NEW MODE HUD -->
+
+            <section
+                id="newModeHud"
+                class="new-hud hidden"
+            >
+
+                <div class="new-hud-grid">
+
+                    <div class="new-hud-cell">
+
+                        <span class="new-hud-label">
+                            challenge
+                        </span>
+
+                        <span
+                            id="newChallengeName"
+                            class="new-hud-value orange"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="new-hud-cell">
+
+                        <span class="new-hud-label">
+                            run
+                        </span>
+
+                        <span
+                            id="newRunProgress"
+                            class="new-hud-value"
+                        >
+                            1 / 10
+                        </span>
+
+                    </div>
+
+
+                    <div class="new-hud-cell">
+
+                        <span class="new-hud-label">
+                            vidas
+                        </span>
+
+                        <div
+                            id="newLives"
+                            class="new-lives"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="new-hud-cell">
+
+                        <span class="new-hud-label">
+                            multiplier
+                        </span>
+
+                        <span
+                            id="newMultiplier"
+                            class="new-hud-value"
+                        >
+                            x1.00
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="new-progress">
+
+                    <div
+                        id="newProgressBar"
+                        class="new-progress-bar"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STANDARD -->
 
             <div id="standardQuestion">
 
@@ -1887,14 +2677,16 @@ body.og-active .game-main {
                         01
                     </div>
 
+
                     <div>
 
                         <div
                             id="questionLabel"
                             class="question-label"
                         >
-                            ADIVINA LA CANCIÓN
+                            PREGUNTA
                         </div>
+
 
                         <h1
                             id="questionText"
@@ -1903,15 +2695,18 @@ body.og-active .game-main {
                             Cargando...
                         </h1>
 
+
                         <div
                             id="questionSubtitle"
                             class="question-subtitle"
                         ></div>
 
+
                         <div
                             id="answerZone"
                             class="answer-zone"
                         ></div>
+
 
                         <div
                             id="resultBox"
@@ -1925,7 +2720,12 @@ body.og-active .game-main {
             </div>
 
 
-            <div id="ogQuestion" class="hidden">
+            <!-- OG -->
+
+            <div
+                id="ogQuestion"
+                class="hidden"
+            >
 
                 <div class="og-box">
 
@@ -1936,6 +2736,7 @@ body.og-active .game-main {
                         </div>
 
                         <div>
+
                             <span class="og-user">
                                 MusicQuiz
                             </span>
@@ -1943,14 +2744,17 @@ body.og-active .game-main {
                             <span class="og-tag">
                                 BOT
                             </span>
+
                         </div>
 
                     </div>
+
 
                     <div
                         id="ogContent"
                         class="og-content"
                     ></div>
+
 
                     <div
                         id="ogOptions"
@@ -1959,10 +2763,12 @@ body.og-active .game-main {
 
                 </div>
 
+
                 <div
                     id="ogAnswerZone"
                     class="answer-zone"
                 ></div>
+
 
                 <div
                     id="ogResultBox"
@@ -1979,10 +2785,13 @@ body.og-active .game-main {
 
 
 <!-- =========================================================
-     ERROR / INFO OVERLAY
+     ERROR OVERLAY
      ========================================================= -->
 
-<div id="overlay" class="overlay hidden">
+<div
+    id="overlay"
+    class="overlay hidden"
+>
 
     <div class="overlay-box">
 
@@ -1993,6 +2802,7 @@ body.og-active .game-main {
         <p id="overlayText">
             No pude cargar uno de los JSON.
         </p>
+
 
         <div class="overlay-actions">
 
@@ -2014,18 +2824,129 @@ body.og-active .game-main {
 </div>
 
 
+<!-- =========================================================
+     NEW MODE RUN SUMMARY
+     ========================================================= -->
+
+<div
+    id="newRunOverlay"
+    class="overlay hidden"
+>
+
+    <div class="overlay-box new-summary">
+
+        <div class="overlay-kicker">
+            NEW MODE / RUN COMPLETE
+        </div>
+
+        <h2 id="newRunEndTitle">
+            RUN TERMINADA.
+        </h2>
+
+        <div
+            id="newRunGrade"
+            class="run-grade"
+        >
+            A
+        </div>
+
+        <p id="newRunEndText">
+            Nada mal.
+        </p>
+
+
+        <div class="run-summary-grid">
+
+            <div class="run-summary-cell">
+
+                <span class="run-summary-label">
+                    score run
+                </span>
+
+                <span
+                    id="summaryRunScore"
+                    class="run-summary-value"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="run-summary-cell">
+
+                <span class="run-summary-label">
+                    correctas
+                </span>
+
+                <span
+                    id="summaryCorrect"
+                    class="run-summary-value"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="run-summary-cell">
+
+                <span class="run-summary-label">
+                    incorrectas
+                </span>
+
+                <span
+                    id="summaryWrong"
+                    class="run-summary-value"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="run-summary-cell">
+
+                <span class="run-summary-label">
+                    best
+                </span>
+
+                <span
+                    id="summaryBest"
+                    class="run-summary-value"
+                >
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="overlay-actions">
+
+            <button id="newRunAgainBtn">
+                OTRA RUN
+            </button>
+
+            <button
+                id="newRunMenuBtn"
+                class="secondary"
+            >
+                MENÚ
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 /* =========================================================
    MUSIC QUIZ
-   A0.0.1-ALPHA
-
-   JS puro.
-
-   IMPORTANTE:
-   La apiKey está en cliente porque esta alpha es un único
-   archivo HTML. Eso significa que cualquiera puede verla.
-   Para una versión pública seria, conviene mover las
-   peticiones a un backend/proxy.
+   A0.0.2-ALPHA
    ========================================================= */
 
 
@@ -2034,33 +2955,62 @@ body.og-active .game-main {
    ========================================================= */
 
 const SOURCES = {
+
     lyrics: {
-        name: "Letras",
-        root: "Letras",
+
+        name:
+            "Letras",
+
+        root:
+            "Letras",
+
         url:
             "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/0a52e232-5186-4185-973d-7c131a540395?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+
     },
+
 
     feat: {
-        name: "FEAT",
-        root: "FEAT",
+
+        name:
+            "FEAT",
+
+        root:
+            "FEAT",
+
         url:
             "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/027a039c-998f-496c-9311-3ee565cbed71?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+
     },
+
 
     benito: {
-        name: "benoOno",
-        root: "benoOno",
+
+        name:
+            "benoOno",
+
+        root:
+            "benoOno",
+
         url:
             "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/dfa489d2-7e55-482f-93e2-c82b93b8103b?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+
     },
 
+
     featSong: {
-        name: "ADIVINARFEAT",
-        root: "ADIVINARFEAT",
+
+        name:
+            "ADIVINARFEAT",
+
+        root:
+            "ADIVINARFEAT",
+
         url:
             "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/35c8da25-3cca-4d1f-b913-2a506c32ea48?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+
     }
+
 };
 
 
@@ -2069,69 +3019,122 @@ const SOURCES = {
    ========================================================= */
 
 const state = {
-    difficulty: "easy",
 
-    sessionMode: null,
-    currentMode: null,
+    difficulty:
+        "easy",
 
-    round: 0,
-    answered: false,
+    sessionMode:
+        null,
 
-    timerId: null,
-    timerDeadline: null,
-    timerDuration: 0,
+    currentMode:
+        null,
+
+    currentRound:
+        null,
+
+    round:
+        0,
+
+    answered:
+        false,
+
+    timerId:
+        null,
+
+    timerDeadline:
+        null,
+
+    timerDuration:
+        0,
 
     data: {
-        lyrics: null,
-        feat: null,
-        benito: null,
-        featSong: null
+
+        lyrics:
+            null,
+
+        feat:
+            null,
+
+        benito:
+            null,
+
+        featSong:
+            null
+
     },
 
     errors: {},
 
-    stats: loadStats()
+    stats:
+        loadStats(),
+
+    newRun:
+        null
+
 };
 
 
 /* =========================================================
-   ELEMENTS
+   DOM
    ========================================================= */
 
-const $ = selector =>
-    document.querySelector(selector);
+const $ =
+    selector =>
+        document.querySelector(
+            selector
+        );
 
-const $$ = selector =>
-    [...document.querySelectorAll(selector)];
+
+const $$ =
+    selector =>
+        [
+            ...document.querySelectorAll(
+                selector
+            )
+        ];
 
 
 const menuScreen =
     $("#menuScreen");
 
+
 const gameScreen =
     $("#gameScreen");
 
+
 const statusDot =
     $("#statusDot");
+
 
 const statusText =
     $("#statusText");
 
 
 /* =========================================================
-   STORAGE
+   LOCAL STORAGE
    ========================================================= */
 
 function loadStats() {
+
     const defaults = {
+
         wins: 0,
         losses: 0,
+
         streak: 0,
         bestStreak: 0,
-        score: 0
+
+        score: 0,
+
+        newBest: 0,
+        newRuns: 0,
+        newPerfectRuns: 0
+
     };
 
+
     try {
+
         const saved =
             JSON.parse(
                 localStorage.getItem(
@@ -2139,90 +3142,155 @@ function loadStats() {
                 )
             );
 
+
         return {
+
             ...defaults,
             ...(saved || {})
+
         };
+
     }
 
     catch {
+
         return defaults;
+
     }
+
 }
 
 
 function saveStats() {
+
     localStorage.setItem(
+
         "musicquiz-alpha-stats",
-        JSON.stringify(state.stats)
+
+        JSON.stringify(
+            state.stats
+        )
+
     );
+
 }
 
 
 /* =========================================================
-   BASIC HELPERS
+   GENERIC HELPERS
    ========================================================= */
 
 function randomItem(array) {
+
+    if (!array?.length) {
+        return null;
+    }
+
     return array[
         Math.floor(
-            Math.random() * array.length
+            Math.random() *
+            array.length
         )
     ];
+
 }
 
 
 function shuffle(array) {
-    const copy = [...array];
+
+    const copy =
+        [...array];
+
 
     for (
-        let i = copy.length - 1;
+        let i =
+            copy.length - 1;
+
         i > 0;
+
         i--
     ) {
+
         const j =
             Math.floor(
-                Math.random() * (i + 1)
+                Math.random() *
+                (i + 1)
             );
+
 
         [
             copy[i],
             copy[j]
-        ] = [
+        ] =
+        [
             copy[j],
             copy[i]
         ];
+
     }
 
+
     return copy;
+
+}
+
+
+function sample(array, amount) {
+
+    return shuffle(array)
+        .slice(
+            0,
+            amount
+        );
+
 }
 
 
 function unique(array) {
+
     return [
         ...new Set(
             array.filter(Boolean)
         )
     ];
+
 }
 
 
 function escapeHTML(value = "") {
+
     return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
 
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
 
-function pad(number) {
-    return String(number).padStart(2, "0");
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
 }
 
 
 function cleanText(value) {
+
     if (
         value === null ||
         value === undefined
@@ -2230,124 +3298,206 @@ function cleanText(value) {
         return "";
     }
 
-    return String(value).trim();
+
+    return String(value)
+        .trim();
+
+}
+
+
+function pad(number) {
+
+    return String(number)
+        .padStart(
+            2,
+            "0"
+        );
+
 }
 
 
 /* =========================================================
-   ANSWER NORMALIZATION
+   TEXT NORMALIZATION
    ========================================================= */
 
 function normalizeAnswer(value) {
+
     return cleanText(value)
+
         .normalize("NFD")
+
         .replace(
             /[\u0300-\u036f]/g,
             ""
         )
+
         .toLowerCase()
-        .replace(/&/g, " y ")
+
+        .replace(
+            /&/g,
+            " y "
+        )
+
         .replace(
             /[^a-z0-9\s]/g,
             " "
         )
+
         .replace(
             /\s+/g,
             " "
         )
+
         .trim();
+
 }
 
 
+/* =========================================================
+   LEVENSHTEIN
+   ========================================================= */
+
 function levenshtein(a, b) {
-    if (!a.length) return b.length;
-    if (!b.length) return a.length;
+
+    if (!a.length) {
+        return b.length;
+    }
+
+    if (!b.length) {
+        return a.length;
+    }
+
 
     const matrix =
         Array.from(
+
             {
                 length:
                     b.length + 1
             },
+
             () =>
                 Array(
                     a.length + 1
                 ).fill(0)
+
         );
+
 
     for (
         let i = 0;
         i <= b.length;
         i++
     ) {
-        matrix[i][0] = i;
+
+        matrix[i][0] =
+            i;
+
     }
+
 
     for (
         let j = 0;
         j <= a.length;
         j++
     ) {
-        matrix[0][j] = j;
+
+        matrix[0][j] =
+            j;
+
     }
+
 
     for (
         let i = 1;
         i <= b.length;
         i++
     ) {
+
         for (
             let j = 1;
             j <= a.length;
             j++
         ) {
+
             const cost =
                 b[i - 1] ===
                 a[j - 1]
                     ? 0
                     : 1;
 
+
             matrix[i][j] =
                 Math.min(
-                    matrix[i - 1][j] + 1,
-                    matrix[i][j - 1] + 1,
+
+                    matrix[i - 1][j] +
+                        1,
+
+                    matrix[i][j - 1] +
+                        1,
+
                     matrix[i - 1][j - 1] +
                         cost
+
                 );
+
         }
+
     }
+
 
     return matrix[
         b.length
     ][
         a.length
     ];
+
 }
 
+
+/* =========================================================
+   FUZZY ANSWERS
+   ========================================================= */
 
 function isTextAnswerCorrect(
     input,
     expected
 ) {
+
     const user =
-        normalizeAnswer(input);
+        normalizeAnswer(
+            input
+        );
+
 
     const answer =
-        normalizeAnswer(expected);
+        normalizeAnswer(
+            expected
+        );
 
-    if (!user || !answer) {
+
+    if (
+        !user ||
+        !answer
+    ) {
         return false;
     }
 
-    if (user === answer) {
+
+    if (
+        user ===
+        answer
+    ) {
         return true;
     }
 
+
     /*
-       Heredado espiritualmente del bot:
-       si escribes algo tipo
-       "creo que es dakiti"
-       también puede contar.
+        Spiritualmente heredado del bot.
+
+        "creo que es dakiti"
+
+        puede contar como DAKITI.
     */
 
     if (
@@ -2357,10 +3507,9 @@ function isTextAnswerCorrect(
         return true;
     }
 
+
     /*
-       Una tolerancia mínima para typo.
-       No queremos que "Dákiti" pierda
-       porque alguien escribió "Dakitti".
+        Pequeña tolerancia a typo.
     */
 
     if (
@@ -2370,36 +3519,99 @@ function isTextAnswerCorrect(
             user.length
         ) <= 2
     ) {
+
         return (
             levenshtein(
                 user,
                 answer
             ) <= 2
         );
+
     }
 
+
     return false;
+
 }
 
 
 /* =========================================================
-   DEEP JSON HELPERS
+   ROUND ANSWER CHECK
+   ========================================================= */
+
+function isRoundAnswerCorrect(
+    input,
+    round
+) {
+
+    const accepted =
+        round.acceptedAnswers?.length
+
+            ? round.acceptedAnswers
+
+            : [
+                round.answer
+            ];
+
+
+    if (
+        round.strict
+    ) {
+
+        return accepted.some(
+
+            answer =>
+                normalizeAnswer(input) ===
+                normalizeAnswer(answer)
+
+        );
+
+    }
+
+
+    return accepted.some(
+
+        answer =>
+            isTextAnswerCorrect(
+                input,
+                answer
+            )
+
+    );
+
+}
+
+
+/* =========================================================
+   JSON HELPERS
    ========================================================= */
 
 function maybeParseJSON(value) {
+
     if (
-        typeof value !== "string"
+        typeof value !==
+        "string"
     ) {
+
         return value;
+
     }
 
+
     try {
-        return JSON.parse(value);
+
+        return JSON.parse(
+            value
+        );
+
     }
 
     catch {
+
         return value;
+
     }
+
 }
 
 
@@ -2408,131 +3620,208 @@ function deepFindKey(
     wanted,
     depth = 0
 ) {
-    if (
-        !node ||
-        typeof node !== "object" ||
-        depth > 8
-    ) {
-        return null;
-    }
 
     if (
-        Object.prototype.hasOwnProperty.call(
-            node,
-            wanted
-        )
+        !node ||
+        typeof node !==
+            "object" ||
+        depth > 8
     ) {
-        return node[wanted];
+
+        return null;
+
     }
+
+
+    if (
+        Object.prototype
+            .hasOwnProperty
+            .call(
+                node,
+                wanted
+            )
+    ) {
+
+        return node[wanted];
+
+    }
+
 
     for (
         const value
         of Object.values(node)
     ) {
+
         if (
             value &&
-            typeof value === "object"
+            typeof value ===
+                "object"
         ) {
+
             const result =
                 deepFindKey(
+
                     value,
                     wanted,
                     depth + 1
+
                 );
+
 
             if (
                 result !== null
             ) {
+
                 return result;
+
             }
+
         }
+
     }
 
+
     return null;
+
 }
 
 
 function objectToArray(value) {
-    if (Array.isArray(value)) {
-        return value.filter(Boolean);
+
+    if (
+        Array.isArray(value)
+    ) {
+
+        return value
+            .filter(Boolean);
+
     }
+
 
     if (
         value &&
-        typeof value === "object"
+        typeof value ===
+            "object"
     ) {
+
         return Object.values(value)
+
             .filter(
+
                 item =>
                     item &&
                     typeof item ===
                         "object"
+
             );
+
     }
 
+
     return [];
+
 }
 
 
 /* =========================================================
-   FETCH JSON
+   FETCH
    ========================================================= */
 
 async function fetchJSON(source) {
+
     const response =
         await fetch(
+
             source.url,
+
             {
-                cache: "no-store"
+                cache:
+                    "no-store"
             }
+
         );
 
-    if (!response.ok) {
+
+    if (
+        !response.ok
+    ) {
+
         throw new Error(
+
             `${response.status} ${response.statusText}`
+
         );
+
     }
+
 
     const rawText =
         await response.text();
 
+
     const parsed =
-        maybeParseJSON(rawText);
+        maybeParseJSON(
+            rawText
+        );
+
 
     if (
-        typeof parsed === "string"
+        typeof parsed ===
+            "string"
     ) {
+
         throw new Error(
             "La API no devolvió JSON válido."
         );
+
     }
 
+
     return parsed;
+
 }
 
 
+/* =========================================================
+   LOAD SOURCE
+   ========================================================= */
+
 async function loadSource(key) {
+
     const source =
         SOURCES[key];
 
+
     try {
+
         const raw =
-            await fetchJSON(source);
+            await fetchJSON(
+                source
+            );
+
 
         const root =
             deepFindKey(
+
                 raw,
                 source.root
+
             );
+
 
         if (
             root === null ||
             root === undefined
         ) {
+
             throw new Error(
+
                 `No encontré "${source.root}" en el JSON.`
+
             );
+
         }
+
 
         state.data[key] =
             normalizeSource(
@@ -2540,48 +3829,79 @@ async function loadSource(key) {
                 root
             );
 
+
         if (
             !state.data[key] ||
             !state.data[key].length
         ) {
+
             throw new Error(
+
                 `El banco "${source.root}" está vacío o cambió de estructura.`
+
             );
+
         }
+
 
         delete state.errors[key];
 
+
         return true;
+
     }
 
     catch (error) {
+
         console.error(
+
             `[MusicQuiz] ${key}:`,
+
             error
+
         );
+
 
         state.errors[key] =
             error.message;
 
+
         state.data[key] =
             null;
 
+
         return false;
+
     }
+
 }
 
 
+/* =========================================================
+   LOAD EVERYTHING
+   ========================================================= */
+
 async function loadAllSources() {
+
     setConnectionStatus(
         "loading"
     );
 
+
     await Promise.all(
-        Object.keys(SOURCES)
-            .map(loadSource)
+
+        Object.keys(
+            SOURCES
+        )
+        .map(
+            loadSource
+        )
+
     );
 
+
     updateConnectionStatus();
+
 }
 
 
@@ -2593,50 +3913,85 @@ function normalizeSource(
     key,
     root
 ) {
-    if (key === "lyrics") {
-        return normalizeLyrics(root);
+
+    if (
+        key === "lyrics"
+    ) {
+
+        return normalizeLyrics(
+            root
+        );
+
     }
 
+
     return objectToArray(root)
+
         .filter(
+
             item =>
                 item &&
-                typeof item === "object"
+                typeof item ===
+                    "object"
+
         );
+
 }
 
 
+/* =========================================================
+   NORMALIZE LYRICS
+   ========================================================= */
+
 function normalizeLyrics(root) {
+
     /*
-       El bot antiguo accedía a:
+        Código original:
 
-       Letras[0].X100PRE[index]
-       Letras[0].OASIS[index]
-       ...
+        Letras[0].X100PRE[index]
+        Letras[0].OASIS[index]
+        Letras[0].YHLQMDLG[index]
+        ...
 
-       Esto soporta esa estructura y también
-       una versión sin el [0].
+        Aquí lo convertimos a un único array:
+
+        {
+            name,
+            letra,
+            album
+        }
     */
 
-    let albumContainer = root;
+
+    let albumContainer =
+        root;
+
 
     if (
         Array.isArray(root) &&
         root.length
     ) {
+
         albumContainer =
             root[0];
+
     }
+
 
     if (
         !albumContainer ||
         typeof albumContainer !==
             "object"
     ) {
+
         return [];
+
     }
 
-    const songs = [];
+
+    const songs =
+        [];
+
 
     for (
         const [
@@ -2647,40 +4002,155 @@ function normalizeLyrics(root) {
             albumContainer
         )
     ) {
+
         const list =
-            objectToArray(entries);
+            objectToArray(
+                entries
+            );
+
 
         for (
             const entry
             of list
         ) {
+
             const name =
                 cleanText(
+
                     entry.name ??
                     entry.Nombre
+
                 );
+
 
             const lyric =
                 cleanText(
+
                     entry.letra ??
                     entry.Letra
+
                 );
+
 
             if (
                 name &&
                 lyric
             ) {
+
                 songs.push({
+
                     ...entry,
+
                     name,
-                    letra: lyric,
+
+                    letra:
+                        lyric,
+
                     album
+
                 });
+
             }
+
         }
+
     }
 
+
     return songs;
+
+}
+
+
+/* =========================================================
+   ALBUM HELPERS
+   ========================================================= */
+
+function prettyAlbum(album) {
+
+    const aliases = {
+
+        SINGLES2:
+            "SINGLES II",
+
+        SINGLES:
+            "SINGLES",
+
+        TOMMY:
+            "TOMMY"
+
+    };
+
+
+    return aliases[album] ||
+        album;
+
+}
+
+
+function getAlbumGroups() {
+
+    const groups =
+        new Map();
+
+
+    for (
+        const song
+        of state.data.lyrics || []
+    ) {
+
+        if (
+            !groups.has(
+                song.album
+            )
+        ) {
+
+            groups.set(
+                song.album,
+                []
+            );
+
+        }
+
+
+        groups
+            .get(song.album)
+            .push(song);
+
+    }
+
+
+    return groups;
+
+}
+
+
+function getAlbumEntries(
+    minimumSongs = 1
+) {
+
+    return [
+        ...getAlbumGroups()
+            .entries()
+    ]
+    .filter(
+        ([, songs]) =>
+            songs.length >=
+            minimumSongs
+    );
+
+}
+
+
+function getAlbumNames() {
+
+    return getAlbumEntries()
+
+        .map(
+            ([album]) =>
+                album
+        );
+
 }
 
 
@@ -2689,17 +4159,25 @@ function normalizeLyrics(root) {
    ========================================================= */
 
 function setConnectionStatus(type) {
+
     statusDot.className =
         `status-dot ${type}`;
 
-    if (type === "loading") {
+
+    if (
+        type === "loading"
+    ) {
+
         statusText.textContent =
             "conectando bancos...";
+
     }
+
 }
 
 
 function updateConnectionStatus() {
+
     const loaded =
         Object.values(
             state.data
@@ -2707,29 +4185,46 @@ function updateConnectionStatus() {
         .filter(Boolean)
         .length;
 
-    if (loaded === 4) {
+
+    if (
+        loaded === 4
+    ) {
+
         statusDot.className =
             "status-dot ready";
 
+
         statusText.textContent =
             "4/4 bancos online";
+
     }
 
-    else if (loaded > 0) {
+
+    else if (
+        loaded > 0
+    ) {
+
         statusDot.className =
             "status-dot partial";
 
+
         statusText.textContent =
             `${loaded}/4 bancos online`;
+
     }
 
+
     else {
+
         statusDot.className =
             "status-dot error";
 
+
         statusText.textContent =
             "sin conexión";
+
     }
+
 }
 
 
@@ -2738,26 +4233,38 @@ function updateConnectionStatus() {
    ========================================================= */
 
 function updateStatsUI() {
+
     $("#menuWins").textContent =
         state.stats.wins;
+
 
     $("#menuLosses").textContent =
         state.stats.losses;
 
+
     $("#menuStreak").textContent =
         `x${state.stats.streak}`;
+
 
     $("#menuBest").textContent =
         `x${state.stats.bestStreak}`;
 
+
     $("#menuScore").textContent =
         state.stats.score;
+
 
     $("#liveStreak").textContent =
         `x${state.stats.streak}`;
 
+
     $("#liveScore").textContent =
         state.stats.score;
+
+
+    $("#newBestLabel").textContent =
+        state.stats.newBest;
+
 }
 
 
@@ -2766,107 +4273,219 @@ function updateStatsUI() {
    ========================================================= */
 
 $$(".difficulty-btn")
-    .forEach(button => {
+    .forEach(
 
-        button.addEventListener(
-            "click",
-            () => {
-                state.difficulty =
-                    button.dataset.difficulty;
+        button => {
 
-                $$(".difficulty-btn")
-                    .forEach(btn =>
-                        btn.classList.remove(
+            button.addEventListener(
+
+                "click",
+
+                () => {
+
+                    state.difficulty =
+                        button.dataset
+                            .difficulty;
+
+
+                    $$(".difficulty-btn")
+                        .forEach(
+
+                            btn =>
+                                btn.classList
+                                    .remove(
+                                        "active"
+                                    )
+
+                        );
+
+
+                    button.classList
+                        .add(
                             "active"
-                        )
-                    );
+                        );
 
-                button.classList.add(
-                    "active"
-                );
-            }
-        );
+                }
 
-    });
+            );
+
+        }
+
+    );
 
 
 /* =========================================================
-   MENU / GAME NAVIGATION
+   MODE BUTTONS
    ========================================================= */
 
 $$(".mode")
-    .forEach(button => {
+    .forEach(
 
-        button.addEventListener(
-            "click",
-            () => {
-                startSession(
-                    button.dataset.mode
-                );
-            }
-        );
+        button => {
 
-    });
+            button.addEventListener(
 
+                "click",
+
+                () => {
+
+                    startSession(
+                        button.dataset.mode
+                    );
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
 
 $("#backBtn")
     .addEventListener(
+
         "click",
+
         returnToMenu
+
     );
 
 
 function returnToMenu() {
+
     stopTimer();
 
-    state.sessionMode = null;
-    state.currentMode = null;
-    state.answered = false;
+
+    state.sessionMode =
+        null;
+
+
+    state.currentMode =
+        null;
+
+
+    state.currentRound =
+        null;
+
+
+    state.newRun =
+        null;
+
+
+    state.answered =
+        false;
+
 
     document.body
         .classList
         .remove(
-            "og-active"
+            "og-active",
+            "new-mode-active"
         );
 
-    gameScreen.classList
+
+    $("#newRunOverlay")
+        .classList
+        .add("hidden");
+
+
+    gameScreen
+        .classList
         .remove("active");
 
-    menuScreen.classList
+
+    menuScreen
+        .classList
         .add("active");
 
+
     updateStatsUI();
+
 }
 
 
 /* =========================================================
-   SOURCE REQUIREMENTS
+   MODE SOURCES
    ========================================================= */
 
 function modeSource(mode) {
+
     const map = {
-        lyrics: "lyrics",
-        feat: "feat",
-        benito: "benito",
-        featSong: "featSong"
+
+        lyrics:
+            "lyrics",
+
+        feat:
+            "feat",
+
+        benito:
+            "benito",
+
+        featSong:
+            "featSong",
+
+        new:
+            "lyrics"
+
     };
 
-    return map[mode] || null;
+
+    return map[mode] ||
+        null;
+
 }
 
 
-function availableModes() {
+/* =========================================================
+   AVAILABLE MODES
+   ========================================================= */
+
+function availableBaseModes() {
+
     return [
+
         "lyrics",
         "feat",
         "benito",
         "featSong"
-    ].filter(
+
+    ]
+    .filter(
+
         mode =>
             state.data[
                 modeSource(mode)
             ]
+
     );
+
+}
+
+
+function availableRandomModes() {
+
+    const modes =
+        availableBaseModes();
+
+
+    if (
+        state.data.lyrics
+    ) {
+
+        modes.push(
+            "new"
+        );
+
+    }
+
+
+    return modes;
+
 }
 
 
@@ -2875,58 +4494,99 @@ function availableModes() {
    ========================================================= */
 
 async function startSession(mode) {
+
     const required =
         modeSource(mode);
+
 
     if (
         required &&
         !state.data[required]
     ) {
+
         await loadSource(
             required
         );
 
+
         updateConnectionStatus();
+
     }
 
-    if (
-        (mode === "random" ||
-         mode === "og") &&
-        !availableModes().length
-    ) {
-        await loadAllSources();
-    }
-
-    if (
-        required &&
-        !state.data[required]
-    ) {
-        showDataError(required);
-        return;
-    }
 
     if (
         (
             mode === "random" ||
             mode === "og"
         ) &&
-        !availableModes().length
+        !availableBaseModes().length
     ) {
-        showDataError();
-        return;
+
+        await loadAllSources();
+
     }
+
+
+    if (
+        required &&
+        !state.data[required]
+    ) {
+
+        showDataError(
+            required
+        );
+
+
+        return;
+
+    }
+
+
+    if (
+        (
+            mode === "random" ||
+            mode === "og"
+        ) &&
+        !availableBaseModes().length
+    ) {
+
+        showDataError();
+
+
+        return;
+
+    }
+
 
     state.sessionMode =
         mode;
 
+
+    state.currentMode =
+        null;
+
+
+    state.currentRound =
+        null;
+
+
     state.round =
         0;
 
-    menuScreen.classList
+
+    state.answered =
+        false;
+
+
+    menuScreen
+        .classList
         .remove("active");
 
-    gameScreen.classList
+
+    gameScreen
+        .classList
         .add("active");
+
 
     document.body
         .classList
@@ -2935,45 +4595,93 @@ async function startSession(mode) {
             mode === "og"
         );
 
+
+    if (
+        mode === "new"
+    ) {
+
+        startNewRun();
+
+        return;
+
+    }
+
+
     nextRound();
+
 }
 
 
 /* =========================================================
-   NEW ROUND
+   STANDARD NEXT ROUND
    ========================================================= */
 
 function nextRound() {
+
     stopTimer();
+
 
     state.answered =
         false;
 
+
+    if (
+        state.sessionMode ===
+        "new"
+    ) {
+
+        nextNewRunRound();
+
+        return;
+
+    }
+
+
     state.round++;
+
 
     let mode =
         state.sessionMode;
 
+
     if (
-        mode === "random" ||
-        mode === "og"
+        mode === "random"
     ) {
+
         mode =
             randomItem(
-                availableModes()
+                availableRandomModes()
             );
+
     }
+
+
+    if (
+        mode === "og"
+    ) {
+
+        mode =
+            randomItem(
+                availableBaseModes()
+            );
+
+    }
+
 
     state.currentMode =
         mode;
 
+
     const isOG =
-        state.sessionMode === "og";
+        state.sessionMode ===
+        "og";
+
 
     const difficulty =
         isOG
             ? "og"
             : state.difficulty;
+
 
     const round =
         buildRound(
@@ -2981,124 +4689,368 @@ function nextRound() {
             difficulty
         );
 
+
     if (!round) {
+
         showDataError(
             modeSource(mode)
         );
+
+
         return;
+
     }
+
 
     state.currentRound =
         round;
+
 
     renderRound(
         round,
         isOG
     );
 
+
     if (
         round.timer > 0
     ) {
+
         startTimer(
             round.timer
         );
+
     }
+
 }
 
 
 /* =========================================================
-   BUILD ROUND
+   NEW MODE RUN
+   ========================================================= */
+
+function startNewRun() {
+
+    state.newRun = {
+
+        maxRounds:
+            10,
+
+        round:
+            0,
+
+        lives:
+            3,
+
+        maxLives:
+            3,
+
+        combo:
+            0,
+
+        multiplier:
+            1,
+
+        score:
+            0,
+
+        correct:
+            0,
+
+        wrong:
+            0,
+
+        bossWins:
+            0,
+
+        lastChallenge:
+            null,
+
+        finished:
+            false
+
+    };
+
+
+    state.round =
+        0;
+
+
+    $("#newRunOverlay")
+        .classList
+        .add(
+            "hidden"
+        );
+
+
+    nextNewRunRound();
+
+}
+
+
+/* =========================================================
+   NEXT NEW RUN ROUND
+   ========================================================= */
+
+function nextNewRunRound() {
+
+    stopTimer();
+
+
+    state.answered =
+        false;
+
+
+    const run =
+        state.newRun;
+
+
+    if (!run) {
+
+        startNewRun();
+
+        return;
+
+    }
+
+
+    if (
+        run.lives <= 0 ||
+        run.round >=
+            run.maxRounds
+    ) {
+
+        finishNewRun();
+
+        return;
+
+    }
+
+
+    run.round++;
+
+
+    state.round =
+        run.round;
+
+
+    state.currentMode =
+        "new";
+
+
+    const boss =
+        run.round === 5 ||
+        run.round === 10;
+
+
+    const round =
+        buildNewChallenge(
+
+            state.difficulty,
+
+            {
+                boss,
+                dedicated:
+                    true
+            }
+
+        );
+
+
+    if (!round) {
+
+        showDataError(
+            "lyrics"
+        );
+
+
+        return;
+
+    }
+
+
+    state.currentRound =
+        round;
+
+
+    renderRound(
+        round,
+        false
+    );
+
+
+    startTimer(
+        round.timer
+    );
+
+}
+
+
+/* =========================================================
+   BUILD ROUND ROUTER
    ========================================================= */
 
 function buildRound(
     mode,
     difficulty
 ) {
+
     switch (mode) {
+
         case "lyrics":
+
             return buildLyricsRound(
                 difficulty
             );
 
+
         case "feat":
+
             return buildFeatRound(
                 difficulty
             );
 
+
         case "benito":
+
             return buildBenitoRound(
                 difficulty
             );
 
+
         case "featSong":
+
             return buildFeatSongRound(
                 difficulty
             );
 
+
+        case "new":
+
+            return buildNewChallenge(
+
+                difficulty,
+
+                {
+                    boss:
+                        false,
+
+                    dedicated:
+                        false
+                }
+
+            );
+
+
         default:
+
             return null;
+
     }
+
 }
 
 
 /* =========================================================
-   LYRICS ROUND
+   MODE 1
+   LETRA -> CANCIÓN
    ========================================================= */
 
 function buildLyricsRound(
     difficulty
 ) {
+
     const bank =
         state.data.lyrics;
 
-    if (!bank?.length) {
+
+    if (
+        !bank?.length
+    ) {
+
         return null;
+
     }
 
+
     const song =
-        randomItem(bank);
+        randomItem(
+            bank
+        );
+
 
     const hard =
-        difficulty === "hard";
+        difficulty ===
+        "hard";
+
 
     const og =
-        difficulty === "og";
+        difficulty ===
+        "og";
 
-    let choices = null;
 
-    if (!hard && !og) {
+    let choices =
+        null;
+
+
+    if (
+        !hard &&
+        !og
+    ) {
+
         const distractors =
             shuffle(
+
                 bank
+
                     .filter(
+
                         item =>
                             item.name !==
                             song.name
+
                     )
+
                     .map(
+
                         item =>
                             item.name
+
                     )
+
             )
-            .slice(0, 3);
+            .slice(
+                0,
+                3
+            );
+
 
         choices =
             shuffle(
+
                 unique([
+
                     song.name,
+
                     ...distractors
+
                 ])
+
             );
+
     }
 
+
     return {
-        mode: "lyrics",
+
+        mode:
+            "lyrics",
 
         title:
             "LETRA → CANCIÓN",
 
         source:
-            `LETRAS / ${song.album}`,
+            `LETRAS / ${prettyAlbum(song.album)}`,
 
         label:
             "ADIVINA LA CANCIÓN",
@@ -3120,192 +5072,293 @@ function buildLyricsRound(
         timer:
             og
                 ? 10
+
                 : hard
                     ? 12
+
                     : 0,
 
         extra:
-            `Álbum / categoría: ${song.album}`,
+            `Álbum / categoría: ${prettyAlbum(song.album)}`,
 
         ogPrompt:
             "Adivina la canción",
 
         ogOptions:
-            []
+            [],
+
+        strict:
+            false
+
     };
+
 }
 
 
 /* =========================================================
-   GUESS FEAT ROUND
+   MODE 2
+   ADIVINA FEAT
    ========================================================= */
 
 function buildFeatRound(
     difficulty
 ) {
+
     const bank =
         state.data.feat;
 
-    if (!bank?.length) {
-        return null;
-    }
-
-    const item =
-        randomItem(bank);
-
-    const name =
-        cleanText(
-            item.Nombre ??
-            item.nombre ??
-            item.name
-        );
-
-    const answer =
-        cleanText(
-            item.Correcta ??
-            item.correcta
-        );
-
-    const options =
-        unique([
-            answer,
-            cleanText(item.feat1),
-            cleanText(item.feat2),
-            cleanText(item.feat3)
-        ]);
 
     if (
-        !name ||
-        !answer
+        !bank?.length
     ) {
-        return buildFeatRound(
-            difficulty
-        );
+
+        return null;
+
     }
 
-    const hard =
-        difficulty === "hard";
 
-    const og =
-        difficulty === "og";
+    for (
+        let attempt = 0;
+        attempt < 20;
+        attempt++
+    ) {
 
-    const shuffled =
-        shuffle(options);
+        const item =
+            randomItem(
+                bank
+            );
 
-    return {
-        mode: "feat",
 
-        title:
-            "ADIVINA EL FEAT",
+        const name =
+            cleanText(
 
-        source:
-            "JSON / FEAT",
+                item.Nombre ??
+                item.nombre ??
+                item.name
 
-        label:
-            "¿QUIÉN ES EL FEAT?",
+            );
 
-        question:
-            name,
 
-        quote:
-            false,
+        const answer =
+            cleanText(
 
-        answer,
+                item.Correcta ??
+                item.correcta
 
-        choices:
-            hard || og
-                ? null
-                : shuffled,
+            );
 
-        input:
-            hard || og,
 
-        timer:
-            og
-                ? 13
-                : hard
-                    ? 11
-                    : 0,
+        const options =
+            unique([
 
-        extra:
-            "Una sola es la respuesta correcta.",
+                answer,
 
-        ogPrompt:
-            "Adivina el feat",
+                cleanText(
+                    item.feat1
+                ),
 
-        ogOptions:
-            shuffled
-    };
+                cleanText(
+                    item.feat2
+                ),
+
+                cleanText(
+                    item.feat3
+                )
+
+            ]);
+
+
+        if (
+            !name ||
+            !answer
+        ) {
+            continue;
+        }
+
+
+        const hard =
+            difficulty ===
+            "hard";
+
+
+        const og =
+            difficulty ===
+            "og";
+
+
+        const shuffled =
+            shuffle(
+                options
+            );
+
+
+        return {
+
+            mode:
+                "feat",
+
+            title:
+                "ADIVINA EL FEAT",
+
+            source:
+                "JSON / FEAT",
+
+            label:
+                "¿QUIÉN ES EL FEAT?",
+
+            question:
+                name,
+
+            quote:
+                false,
+
+            answer,
+
+            choices:
+                hard || og
+                    ? null
+                    : shuffled,
+
+            input:
+                hard || og,
+
+            timer:
+                og
+                    ? 13
+
+                    : hard
+                        ? 11
+
+                        : 0,
+
+            extra:
+                hard
+                    ? "Sin opciones. Te toca sabértelo."
+                    : "Una sola respuesta correcta.",
+
+            ogPrompt:
+                "Adivina el feat",
+
+            ogOptions:
+                shuffled,
+
+            strict:
+                false
+
+        };
+
+    }
+
+
+    return null;
+
 }
 
 
 /* =========================================================
-   BENITO OR NOT
+   MODE 3
+   BENITO O NO
    ========================================================= */
 
 function buildBenitoRound(
     difficulty
 ) {
+
     const bank =
         state.data.benito;
 
-    if (!bank?.length) {
+
+    if (
+        !bank?.length
+    ) {
+
         return null;
+
     }
 
+
     const item =
-        randomItem(bank);
+        randomItem(
+            bank
+        );
+
 
     const lyric =
         cleanText(
+
             item.letra ??
             item.Letra
+
         );
+
 
     const rawAnswer =
         cleanText(
+
             item.beno ??
             item.Beno
+
         );
+
 
     const normalized =
         normalizeAnswer(
             rawAnswer
         );
 
+
+    const yesValues = [
+
+        "si",
+        "sí",
+        "yes",
+        "true",
+        "1"
+
+    ];
+
+
     const answer =
-        [
-            "si",
-            "sí",
-            "yes",
-            "true",
-            "1"
-        ]
-        .some(
+        yesValues.some(
+
             value =>
                 normalized ===
                 normalizeAnswer(value)
+
         )
+
             ? "Sí"
+
             : "No";
+
 
     const name =
         cleanText(
+
             item.name ??
             item.Nombre
+
         );
+
 
     const artist =
         cleanText(
+
             item.artista ??
             item.Artista
+
         );
 
+
     const og =
-        difficulty === "og";
+        difficulty ===
+        "og";
+
 
     return {
-        mode: "benito",
+
+        mode:
+            "benito",
 
         title:
             "¿BENITO O NO?",
@@ -3324,10 +5377,27 @@ function buildBenitoRound(
 
         answer,
 
+        acceptedAnswers:
+            answer === "Sí"
+
+                ? [
+                    "si",
+                    "sí",
+                    "yes"
+                ]
+
+                : [
+                    "no"
+                ],
+
         choices:
             og
                 ? null
-                : ["Sí", "No"],
+
+                : [
+                    "Sí",
+                    "No"
+                ],
 
         input:
             og,
@@ -3335,16 +5405,21 @@ function buildBenitoRound(
         timer:
             og
                 ? 13
+
                 : difficulty === "hard"
                     ? 8
+
                     : 0,
 
         extra:
             [
+
                 name &&
                     `Canción: ${name}`,
+
                 artist &&
                     `Artista: ${artist}`
+
             ]
             .filter(Boolean)
             .join(" · "),
@@ -3352,113 +5427,1434 @@ function buildBenitoRound(
         ogPrompt:
             "¿Esta letra es de una canción de Benito?",
 
-        ogOptions: [
-            "si",
-            "no"
-        ]
+        ogOptions:
+            [
+                "si",
+                "no"
+            ],
+
+        strict:
+            true
+
     };
+
 }
 
 
 /* =========================================================
-   FEAT -> SONG
+   MODE 4
+   FEAT -> CANCIÓN
+
+   FIX A0.0.2:
+   SIEMPRE muestra las canciones.
+   Hard = menos tiempo.
+   No = input imposible con "Duki".
    ========================================================= */
 
 function buildFeatSongRound(
     difficulty
 ) {
+
     const bank =
         state.data.featSong;
 
-    if (!bank?.length) {
-        return null;
-    }
-
-    const item =
-        randomItem(bank);
-
-    const feat =
-        cleanText(
-            item.feat ??
-            item.Feat
-        );
-
-    const answer =
-        cleanText(
-            item.correcta ??
-            item.Correcta
-        );
-
-    const options =
-        unique([
-            answer,
-            cleanText(item.cancion),
-            cleanText(item.cancion2),
-            cleanText(item.cancion3)
-        ]);
 
     if (
-        !feat ||
-        !answer
+        !bank?.length
     ) {
-        return buildFeatSongRound(
-            difficulty
-        );
+
+        return null;
+
     }
 
+
+    for (
+        let attempt = 0;
+        attempt < 20;
+        attempt++
+    ) {
+
+        const item =
+            randomItem(
+                bank
+            );
+
+
+        const feat =
+            cleanText(
+
+                item.feat ??
+                item.Feat
+
+            );
+
+
+        const answer =
+            cleanText(
+
+                item.correcta ??
+                item.Correcta
+
+            );
+
+
+        const options =
+            unique([
+
+                answer,
+
+                cleanText(
+                    item.cancion
+                ),
+
+                cleanText(
+                    item.cancion2
+                ),
+
+                cleanText(
+                    item.cancion3
+                )
+
+            ]);
+
+
+        if (
+            !feat ||
+            !answer ||
+            options.length < 2
+        ) {
+            continue;
+        }
+
+
+        const og =
+            difficulty ===
+            "og";
+
+
+        const hard =
+            difficulty ===
+            "hard";
+
+
+        const shuffled =
+            shuffle(
+                options
+            );
+
+
+        return {
+
+            mode:
+                "featSong",
+
+            title:
+                "FEAT → CANCIÓN",
+
+            source:
+                "JSON / ADIVINARFEAT",
+
+            label:
+                `¿EN CUÁL APARECE ${feat.toUpperCase()}?`,
+
+            question:
+                feat,
+
+            quote:
+                false,
+
+            answer,
+
+            /*
+                Easy + Hard:
+                siempre enseñan opciones.
+
+                OG:
+                mantiene el feeling antiguo:
+                las opciones salen arriba,
+                pero escribes respuesta.
+            */
+
+            choices:
+                og
+                    ? null
+                    : shuffled,
+
+            input:
+                og,
+
+            timer:
+                og
+                    ? 13
+
+                    : hard
+                        ? 8
+
+                        : 0,
+
+            extra:
+                hard
+                    ? "Tienes las opciones, pero el reloj va en serio."
+                    : "Escoge la canción correcta.",
+
+            ogPrompt:
+                "Adivina la canción con el feat",
+
+            ogOptions:
+                shuffled,
+
+            strict:
+                false
+
+        };
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   NEW MODE
+   ========================================================= */
+
+
+/*
+    NEW MODE no es una sola pregunta.
+
+    En modo dedicado:
+
+        10 rounds
+        3 lives
+        bosses en 5 y 10
+        combo
+        multiplier
+        run score
+        life recovery
+        8 challenge types
+
+    En RANDOM:
+
+        puede aparecer un challenge del NEW MODE
+        como una ronda normal.
+*/
+
+
+const NEW_CHALLENGES = [
+
+    "SONG_TO_ALBUM",
+    "LYRIC_TO_ALBUM",
+    "ALBUM_TO_SONG",
+    "INTRUDER",
+    "SAME_ALBUM",
+    "THREE_ONE_ORIGIN",
+    "PAIR_MATCH",
+    "TITLE_LYRIC_MATCH"
+
+];
+
+
+const NEW_BOSS_CHALLENGES = [
+
+    "INTRUDER",
+    "THREE_ONE_ORIGIN",
+    "PAIR_MATCH",
+    "TITLE_LYRIC_MATCH"
+
+];
+
+
+/* =========================================================
+   PICK NEW CHALLENGE
+   ========================================================= */
+
+function pickNewChallengeType(
+    boss,
+    dedicated
+) {
+
+    let pool =
+        boss
+
+            ? NEW_BOSS_CHALLENGES
+
+            : NEW_CHALLENGES;
+
+
+    if (
+        dedicated &&
+        state.newRun?.lastChallenge
+    ) {
+
+        const filtered =
+            pool.filter(
+
+                challenge =>
+                    challenge !==
+                    state.newRun.lastChallenge
+
+            );
+
+
+        if (
+            filtered.length
+        ) {
+
+            pool =
+                filtered;
+
+        }
+
+    }
+
+
+    return randomItem(
+        pool
+    );
+
+}
+
+
+/* =========================================================
+   BUILD NEW CHALLENGE
+   ========================================================= */
+
+function buildNewChallenge(
+    difficulty,
+    options = {}
+) {
+
+    const {
+        boss = false,
+        dedicated = false
+    } = options;
+
+
+    if (
+        !state.data.lyrics?.length
+    ) {
+
+        return null;
+
+    }
+
+
+    const challengeType =
+        pickNewChallengeType(
+            boss,
+            dedicated
+        );
+
+
+    if (
+        dedicated &&
+        state.newRun
+    ) {
+
+        state.newRun.lastChallenge =
+            challengeType;
+
+    }
+
+
+    let round =
+        null;
+
+
+    switch (
+        challengeType
+    ) {
+
+        case "SONG_TO_ALBUM":
+
+            round =
+                newSongToAlbum(
+                    difficulty
+                );
+
+            break;
+
+
+        case "LYRIC_TO_ALBUM":
+
+            round =
+                newLyricToAlbum(
+                    difficulty
+                );
+
+            break;
+
+
+        case "ALBUM_TO_SONG":
+
+            round =
+                newAlbumToSong(
+                    difficulty
+                );
+
+            break;
+
+
+        case "INTRUDER":
+
+            round =
+                newIntruder(
+                    difficulty
+                );
+
+            break;
+
+
+        case "SAME_ALBUM":
+
+            round =
+                newSameAlbum(
+                    difficulty
+                );
+
+            break;
+
+
+        case "THREE_ONE_ORIGIN":
+
+            round =
+                newThreeOneOrigin(
+                    difficulty
+                );
+
+            break;
+
+
+        case "PAIR_MATCH":
+
+            round =
+                newPairMatch(
+                    difficulty
+                );
+
+            break;
+
+
+        case "TITLE_LYRIC_MATCH":
+
+            round =
+                newTitleLyricMatch(
+                    difficulty
+                );
+
+            break;
+
+    }
+
+
+    if (!round) {
+
+        return newSongToAlbum(
+            difficulty
+        );
+
+    }
+
+
+    round.mode =
+        "new";
+
+
+    round.title =
+        "NEW MODE";
+
+
+    round.source =
+        boss
+            ? "NEW / BOSS ROUND"
+
+            : "NEW / ALBUM LAB";
+
+
+    round.boss =
+        boss;
+
+
+    round.dedicatedNew =
+        dedicated;
+
+
+    if (boss) {
+
+        round.timer =
+            Math.max(
+
+                5,
+
+                Math.round(
+                    round.timer *
+                    .72
+                )
+
+            );
+
+    }
+
+
+    return round;
+
+}
+
+
+/* =========================================================
+   NEW 1
+   SONG -> ALBUM
+   ========================================================= */
+
+function newSongToAlbum(
+    difficulty
+) {
+
+    const bank =
+        state.data.lyrics;
+
+
+    const song =
+        randomItem(
+            bank
+        );
+
+
+    const answer =
+        prettyAlbum(
+            song.album
+        );
+
+
+    const albums =
+        getAlbumNames();
+
+
+    const distractors =
+        sample(
+
+            albums.filter(
+
+                album =>
+                    album !==
+                    song.album
+
+            ),
+
+            3
+
+        )
+        .map(
+            prettyAlbum
+        );
+
+
     const hard =
-        difficulty === "hard";
+        difficulty ===
+        "hard";
 
-    const og =
-        difficulty === "og";
-
-    const shuffled =
-        shuffle(options);
 
     return {
-        mode: "featSong",
 
-        title:
-            "FEAT → CANCIÓN",
-
-        source:
-            "JSON / ADIVINARFEAT",
+        challengeName:
+            "SONG → ALBUM",
 
         label:
-            "¿QUÉ CANCIÓN ES?",
+            "¿DE DÓNDE SALE?",
 
         question:
-            feat,
+            song.name,
 
         quote:
             false,
 
         answer,
 
+        acceptedAnswers: [
+
+            answer,
+            song.album
+
+        ],
+
         choices:
-            hard || og
+            hard
                 ? null
-                : shuffled,
+
+                : shuffle(
+
+                    unique([
+
+                        answer,
+                        ...distractors
+
+                    ])
+
+                ),
 
         input:
-            hard || og,
+            hard,
 
         timer:
-            og
-                ? 13
-                : hard
-                    ? 11
-                    : 0,
+            hard
+                ? 9
+
+                : 14,
 
         extra:
-            "Ese feat pertenece a una de estas canciones.",
+            "Nombre de álbum o colección.",
 
-        ogPrompt:
-            "Adivina la canción con el feat",
+        strict:
+            false
 
-        ogOptions:
-            shuffled
     };
+
+}
+
+
+/* =========================================================
+   NEW 2
+   LYRIC -> ALBUM
+   ========================================================= */
+
+function newLyricToAlbum(
+    difficulty
+) {
+
+    const bank =
+        state.data.lyrics;
+
+
+    const song =
+        randomItem(
+            bank
+        );
+
+
+    const answer =
+        prettyAlbum(
+            song.album
+        );
+
+
+    const distractors =
+        sample(
+
+            getAlbumNames()
+                .filter(
+
+                    album =>
+                        album !==
+                        song.album
+
+                ),
+
+            3
+
+        )
+        .map(
+            prettyAlbum
+        );
+
+
+    const hard =
+        difficulty ===
+        "hard";
+
+
+    return {
+
+        challengeName:
+            "LYRIC → ALBUM",
+
+        label:
+            "¿DE QUÉ ÁLBUM / COLECCIÓN VIENE ESTA LETRA?",
+
+        question:
+            song.letra,
+
+        quote:
+            true,
+
+        answer,
+
+        acceptedAnswers: [
+
+            answer,
+            song.album
+
+        ],
+
+        choices:
+            hard
+                ? null
+
+                : shuffle(
+
+                    unique([
+
+                        answer,
+                        ...distractors
+
+                    ])
+
+                ),
+
+        input:
+            hard,
+
+        timer:
+            hard
+                ? 10
+
+                : 15,
+
+        extra:
+            `La canción era "${song.name}".`,
+
+        strict:
+            false
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 3
+   ALBUM -> SONG
+   ========================================================= */
+
+function newAlbumToSong(
+    difficulty
+) {
+
+    const albums =
+        getAlbumEntries(
+            2
+        );
+
+
+    const [
+        album,
+        songs
+    ] =
+        randomItem(
+            albums
+        );
+
+
+    const correct =
+        randomItem(
+            songs
+        );
+
+
+    const otherSongs =
+        state.data.lyrics
+
+            .filter(
+
+                song =>
+                    song.album !==
+                    album
+
+            );
+
+
+    const distractors =
+        sample(
+            otherSongs,
+            3
+        )
+        .map(
+            song =>
+                song.name
+        );
+
+
+    return {
+
+        challengeName:
+            "ALBUM → SONG",
+
+        label:
+            "¿CUÁL SÍ PERTENECE AQUÍ?",
+
+        question:
+            prettyAlbum(
+                album
+            ),
+
+        quote:
+            false,
+
+        answer:
+            correct.name,
+
+        choices:
+            shuffle(
+
+                unique([
+
+                    correct.name,
+                    ...distractors
+
+                ])
+
+            ),
+
+        input:
+            false,
+
+        timer:
+            difficulty === "hard"
+                ? 7
+
+                : 12,
+
+        extra:
+            "Solo una de las canciones pertenece a esa colección.",
+
+        strict:
+            false
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 4
+   INTRUDER
+   ========================================================= */
+
+function newIntruder(
+    difficulty
+) {
+
+    const albums =
+        getAlbumEntries(
+            3
+        );
+
+
+    const [
+        album,
+        songs
+    ] =
+        randomItem(
+            albums
+        );
+
+
+    const sameAlbum =
+        sample(
+            songs,
+            3
+        );
+
+
+    const outsiders =
+        state.data.lyrics
+
+            .filter(
+
+                song =>
+                    song.album !==
+                    album
+
+            );
+
+
+    const intruder =
+        randomItem(
+            outsiders
+        );
+
+
+    return {
+
+        challengeName:
+            "THE INTRUDER",
+
+        label:
+            `¿CUÁL NO PERTENECE A ${prettyAlbum(album)}?`,
+
+        question:
+            "Encuentra al intruso.",
+
+        quote:
+            false,
+
+        answer:
+            intruder.name,
+
+        choices:
+            shuffle([
+
+                ...sameAlbum.map(
+                    song =>
+                        song.name
+                ),
+
+                intruder.name
+
+            ]),
+
+        input:
+            false,
+
+        timer:
+            difficulty === "hard"
+                ? 7
+
+                : 11,
+
+        extra:
+            `Tres son de ${prettyAlbum(album)}. Una no.`,
+
+        strict:
+            false
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 5
+   SAME ALBUM?
+   ========================================================= */
+
+function newSameAlbum(
+    difficulty
+) {
+
+    const groups =
+        getAlbumEntries(
+            2
+        );
+
+
+    const shouldMatch =
+        Math.random() <
+        .5;
+
+
+    let first;
+    let second;
+
+
+    if (
+        shouldMatch
+    ) {
+
+        const [
+            ,
+            songs
+        ] =
+            randomItem(
+                groups
+            );
+
+
+        [
+            first,
+            second
+        ] =
+            sample(
+                songs,
+                2
+            );
+
+    }
+
+    else {
+
+        const [
+            groupA,
+            groupB
+        ] =
+            sample(
+                groups,
+                2
+            );
+
+
+        first =
+            randomItem(
+                groupA[1]
+            );
+
+
+        second =
+            randomItem(
+                groupB[1]
+            );
+
+    }
+
+
+    const answer =
+        first.album ===
+        second.album
+
+            ? "Sí"
+
+            : "No";
+
+
+    return {
+
+        challengeName:
+            "SAME OR NOT",
+
+        label:
+            "¿SON DE LA MISMA COLECCIÓN?",
+
+        question:
+            `${first.name}\n+\n${second.name}`,
+
+        quote:
+            false,
+
+        answer,
+
+        acceptedAnswers:
+            answer === "Sí"
+
+                ? [
+                    "sí",
+                    "si",
+                    "yes"
+                ]
+
+                : [
+                    "no"
+                ],
+
+        choices: [
+            "Sí",
+            "No"
+        ],
+
+        input:
+            false,
+
+        timer:
+            difficulty === "hard"
+                ? 5
+
+                : 8,
+
+        extra:
+            first.album ===
+            second.album
+
+                ? `Las dos son de ${prettyAlbum(first.album)}.`
+
+                : `${first.name}: ${prettyAlbum(first.album)} · ${second.name}: ${prettyAlbum(second.album)}`,
+
+        strict:
+            true
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 6
+   THREE SONGS, ONE ORIGIN
+   ========================================================= */
+
+function newThreeOneOrigin(
+    difficulty
+) {
+
+    const groups =
+        getAlbumEntries(
+            3
+        );
+
+
+    const [
+        album,
+        songs
+    ] =
+        randomItem(
+            groups
+        );
+
+
+    const selected =
+        sample(
+            songs,
+            3
+        );
+
+
+    const answer =
+        prettyAlbum(
+            album
+        );
+
+
+    const distractors =
+        sample(
+
+            getAlbumNames()
+                .filter(
+
+                    value =>
+                        value !==
+                        album
+
+                ),
+
+            3
+
+        )
+        .map(
+            prettyAlbum
+        );
+
+
+    const hard =
+        difficulty ===
+        "hard";
+
+
+    return {
+
+        challengeName:
+            "3 SONGS / 1 ORIGIN",
+
+        label:
+            "TRES CANCIONES. UN SOLO ORIGEN.",
+
+        question:
+            selected
+
+                .map(
+                    song =>
+                        song.name
+                )
+
+                .join(
+                    "\n/\n"
+                ),
+
+        quote:
+            false,
+
+        answer,
+
+        acceptedAnswers: [
+
+            answer,
+            album
+
+        ],
+
+        choices:
+            hard
+                ? null
+
+                : shuffle(
+
+                    unique([
+
+                        answer,
+                        ...distractors
+
+                    ])
+
+                ),
+
+        input:
+            hard,
+
+        timer:
+            hard
+                ? 8
+
+                : 12,
+
+        extra:
+            "Identifica el álbum o colección que comparten.",
+
+        strict:
+            false
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 7
+   PAIR MATCH
+   ========================================================= */
+
+function newPairMatch(
+    difficulty
+) {
+
+    const groups =
+        getAlbumEntries(
+            2
+        );
+
+
+    const [
+        correctAlbum,
+        correctSongs
+    ] =
+        randomItem(
+            groups
+        );
+
+
+    const samePairSongs =
+        sample(
+            correctSongs,
+            2
+        );
+
+
+    const correctPair =
+        `${samePairSongs[0].name} + ${samePairSongs[1].name}`;
+
+
+    const wrongPairs =
+        [];
+
+
+    let safety =
+        0;
+
+
+    while (
+        wrongPairs.length < 3 &&
+        safety < 100
+    ) {
+
+        safety++;
+
+
+        const [
+            groupA,
+            groupB
+        ] =
+            sample(
+                groups,
+                2
+            );
+
+
+        if (
+            groupA[0] ===
+            groupB[0]
+        ) {
+            continue;
+        }
+
+
+        const songA =
+            randomItem(
+                groupA[1]
+            );
+
+
+        const songB =
+            randomItem(
+                groupB[1]
+            );
+
+
+        const pair =
+            `${songA.name} + ${songB.name}`;
+
+
+        if (
+            !wrongPairs.includes(
+                pair
+            )
+        ) {
+
+            wrongPairs.push(
+                pair
+            );
+
+        }
+
+    }
+
+
+    return {
+
+        challengeName:
+            "PAIR MATCH",
+
+        label:
+            "¿QUÉ PAREJA COMPARTE ÁLBUM / COLECCIÓN?",
+
+        question:
+            "Solo una pareja viene del mismo lugar.",
+
+        quote:
+            false,
+
+        answer:
+            correctPair,
+
+        choices:
+            shuffle([
+
+                correctPair,
+                ...wrongPairs
+
+            ]),
+
+        input:
+            false,
+
+        timer:
+            difficulty === "hard"
+                ? 6
+
+                : 10,
+
+        extra:
+            `La pareja correcta comparte ${prettyAlbum(correctAlbum)}.`,
+
+        strict:
+            true
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW 8
+   TITLE + LYRIC MATCH
+   ========================================================= */
+
+function newTitleLyricMatch(
+    difficulty
+) {
+
+    const bank =
+        state.data.lyrics;
+
+
+    const titleSong =
+        randomItem(
+            bank
+        );
+
+
+    const shouldMatch =
+        Math.random() <
+        .5;
+
+
+    let lyricSong;
+
+
+    if (
+        shouldMatch
+    ) {
+
+        lyricSong =
+            titleSong;
+
+    }
+
+    else {
+
+        lyricSong =
+            randomItem(
+
+                bank.filter(
+
+                    song =>
+                        song.name !==
+                        titleSong.name
+
+                )
+
+            );
+
+    }
+
+
+    const answer =
+        shouldMatch
+            ? "Sí"
+            : "No";
+
+
+    return {
+
+        challengeName:
+            "TITLE / LYRIC CHECK",
+
+        label:
+            "¿ESA LETRA PERTENECE A ESA CANCIÓN?",
+
+        question:
+            `"${titleSong.name}"\n\n${lyricSong.letra}`,
+
+        quote:
+            true,
+
+        answer,
+
+        acceptedAnswers:
+            answer === "Sí"
+
+                ? [
+                    "si",
+                    "sí",
+                    "yes"
+                ]
+
+                : [
+                    "no"
+                ],
+
+        choices: [
+            "Sí",
+            "No"
+        ],
+
+        input:
+            false,
+
+        timer:
+            difficulty === "hard"
+                ? 6
+
+                : 9,
+
+        extra:
+            shouldMatch
+
+                ? `Sí. La letra pertenece a "${titleSong.name}".`
+
+                : `No. La letra era de "${lyricSong.name}".`,
+
+        strict:
+            true
+
+    };
+
 }
 
 
@@ -3470,36 +6866,68 @@ function renderRound(
     round,
     isOG
 ) {
+
+    const isNew =
+        round.mode ===
+        "new";
+
+
+    document.body
+        .classList
+        .toggle(
+            "new-mode-active",
+            isNew &&
+            !isOG
+        );
+
+
     $("#gameModeTitle")
         .textContent =
+
             isOG
+
                 ? `OG MODE / ${round.title}`
-                : (
-                    state.sessionMode ===
+
+                : state.sessionMode ===
                     "random"
-                        ? `RANDOM / ${round.title}`
-                        : round.title
-                );
+
+                    ? `RANDOM / ${round.title}`
+
+                    : round.title;
+
 
     $("#roundNumber")
         .textContent =
-            pad(state.round);
+            pad(
+                state.round
+            );
+
 
     $("#bigQuestionNumber")
         .textContent =
-            pad(state.round);
+            pad(
+                state.round
+            );
+
 
     $("#roundDifficulty")
         .textContent =
+
             isOG
+
                 ? "OG MODE"
-                : state.difficulty.toUpperCase();
+
+                : state.difficulty
+                    .toUpperCase();
+
 
     $("#roundSource")
         .textContent =
             round.source;
 
+
     updateStatsUI();
+
 
     $("#standardQuestion")
         .classList
@@ -3508,6 +6936,7 @@ function renderRound(
             isOG
         );
 
+
     $("#ogQuestion")
         .classList
         .toggle(
@@ -3515,68 +6944,204 @@ function renderRound(
             !isOG
         );
 
-    if (isOG) {
-        renderOGRound(round);
+
+    const dedicatedNew =
+        state.sessionMode ===
+        "new";
+
+
+    $("#newModeHud")
+        .classList
+        .toggle(
+            "hidden",
+            !dedicatedNew
+        );
+
+
+    if (
+        dedicatedNew
+    ) {
+
+        updateNewHUD(
+            round
+        );
+
+    }
+
+
+    if (
+        isOG
+    ) {
+
+        renderOGRound(
+            round
+        );
+
     }
 
     else {
+
         renderStandardRound(
             round
         );
+
     }
+
 }
 
 
 /* =========================================================
-   STANDARD ROUND RENDER
+   NEW HUD
    ========================================================= */
 
-function renderStandardRound(
-    round
-) {
+function updateNewHUD(round) {
+
+    const run =
+        state.newRun;
+
+
+    if (!run) {
+        return;
+    }
+
+
+    $("#newChallengeName")
+        .innerHTML =
+
+            `${escapeHTML(round.challengeName)}
+            ${
+                round.boss
+
+                    ? '<span class="boss-tag">BOSS</span>'
+
+                    : ""
+            }`;
+
+
+    $("#newRunProgress")
+        .textContent =
+            `${run.round} / ${run.maxRounds}`;
+
+
+    $("#newMultiplier")
+        .textContent =
+            `x${run.multiplier.toFixed(2)}`;
+
+
+    const lives =
+        $("#newLives");
+
+
+    lives.innerHTML =
+        "";
+
+
+    for (
+        let i = 0;
+        i < run.maxLives;
+        i++
+    ) {
+
+        const life =
+            document.createElement(
+                "span"
+            );
+
+
+        life.className =
+            `life ${
+                i < run.lives
+                    ? "on"
+                    : ""
+            }`;
+
+
+        lives.appendChild(
+            life
+        );
+
+    }
+
+
+    const progress =
+        (
+            run.round /
+            run.maxRounds
+        ) * 100;
+
+
+    $("#newProgressBar")
+        .style.width =
+            `${progress}%`;
+
+}
+
+
+/* =========================================================
+   STANDARD RENDER
+   ========================================================= */
+
+function renderStandardRound(round) {
+
     const text =
         $("#questionText");
+
 
     text.textContent =
         round.question;
 
+
     text.className =
+
         round.quote
+
             ? "question quote pop"
+
             : "question pop";
+
 
     $("#questionLabel")
         .textContent =
             round.label;
 
+
     $("#questionSubtitle")
         .textContent =
-            round.extra || "";
+            round.extra ||
+            "";
+
 
     const result =
         $("#resultBox");
 
+
     result.className =
         "result hidden";
+
 
     result.innerHTML =
         "";
 
+
     renderAnswerZone(
+
         $("#answerZone"),
+
         round,
+
         false
+
     );
+
 }
 
 
 /* =========================================================
-   OG ROUND RENDER
+   OG RENDER
    ========================================================= */
 
-function renderOGRound(
-    round
-) {
+function renderOGRound(round) {
+
     $("#ogContent")
         .innerHTML =
             `
@@ -3590,51 +7155,73 @@ function renderOGRound(
                 ${escapeHTML(round.question)}
             `;
 
+
     const options =
         $("#ogOptions");
+
 
     if (
         round.ogOptions?.length
     ) {
+
         options.classList
             .remove("hidden");
 
+
         options.innerHTML =
+
             round.ogOptions
-            .map(
-                (option, index) =>
-                    `${index + 1}. ${escapeHTML(option)}`
-            )
-            .join("<br>");
+
+                .map(
+
+                    (option, index) =>
+                        `${index + 1}. ${escapeHTML(option)}`
+
+                )
+
+                .join("<br>");
+
     }
 
     else {
+
         options.classList
             .add("hidden");
 
+
         options.innerHTML =
             "";
+
     }
+
 
     const result =
         $("#ogResultBox");
 
+
     result.className =
         "result hidden";
+
 
     result.innerHTML =
         "";
 
+
     renderAnswerZone(
+
         $("#ogAnswerZone"),
+
         round,
+
         true
+
     );
+
 }
 
 
 /* =========================================================
-   ANSWER UI
+   ANSWER ZONE
    ========================================================= */
 
 function renderAnswerZone(
@@ -3642,37 +7229,47 @@ function renderAnswerZone(
     round,
     isOG
 ) {
+
     container.innerHTML =
         "";
+
 
     if (
         round.choices &&
         round.choices.length
     ) {
+
         const choices =
             document.createElement(
                 "div"
             );
 
+
         choices.className =
             "choices pop";
 
+
         round.choices
             .forEach(
+
                 (
                     option,
                     index
                 ) => {
+
                     const button =
                         document.createElement(
                             "button"
                         );
 
+
                     button.className =
                         "choice";
 
+
                     button.dataset.answer =
                         option;
+
 
                     button.innerHTML =
                         `
@@ -3685,26 +7282,39 @@ function renderAnswerZone(
                             </span>
                         `;
 
+
                     button.addEventListener(
+
                         "click",
+
                         () =>
+
                             submitAnswer(
+
                                 option,
                                 false
+
                             )
+
                     );
+
 
                     choices.appendChild(
                         button
                     );
+
                 }
+
             );
+
 
         container.appendChild(
             choices
         );
 
+
         return;
+
     }
 
 
@@ -3713,251 +7323,645 @@ function renderAnswerZone(
             "form"
         );
 
+
     form.className =
         "text-answer pop";
+
 
     const input =
         document.createElement(
             "input"
         );
 
+
     input.className =
         "answer-input";
+
 
     input.type =
         "text";
 
+
     input.autocomplete =
         "off";
+
 
     input.spellcheck =
         false;
 
+
     input.placeholder =
+
         round.mode === "benito"
+
             ? "si / no"
-            : (
-                isOG
-                    ? "escribe tu respuesta..."
-                    : "tu respuesta..."
-            );
+
+            : isOG
+
+                ? "escribe tu respuesta..."
+
+                : "tu respuesta...";
+
 
     const submit =
         document.createElement(
             "button"
         );
 
+
     submit.type =
         "submit";
+
 
     submit.className =
         "submit-answer";
 
+
     submit.textContent =
         "RESPONDER ↗";
+
 
     form.append(
         input,
         submit
     );
 
+
     form.addEventListener(
+
         "submit",
+
         event => {
+
             event.preventDefault();
 
+
             submitAnswer(
+
                 input.value,
                 false
+
             );
+
         }
+
     );
+
 
     container.appendChild(
         form
     );
 
+
     setTimeout(
-        () => input.focus(),
+
+        () =>
+            input.focus(),
+
         80
+
     );
+
 }
 
 
 /* =========================================================
-   SUBMIT ANSWER
+   SUBMIT
    ========================================================= */
 
 function submitAnswer(
     value,
     timedOut = false
 ) {
-    if (state.answered) {
+
+    if (
+        state.answered
+    ) {
         return;
     }
+
 
     state.answered =
         true;
 
+
     stopTimer();
+
 
     const round =
         state.currentRound;
 
-    let correct =
-        false;
 
-    if (!timedOut) {
-        if (round.mode === "benito") {
-            correct =
-                normalizeAnswer(value) ===
-                normalizeAnswer(
-                    round.answer
-                );
-        }
+    const correct =
 
-        else {
-            correct =
-                isTextAnswerCorrect(
-                    value,
-                    round.answer
-                );
-        }
-    }
+        timedOut
+
+            ? false
+
+            : isRoundAnswerCorrect(
+
+                value,
+                round
+
+            );
+
 
     markChoiceButtons(
+
         value,
-        round.answer
+        round
+
     );
 
-    const points =
+
+    const resultInfo =
         applyResult(
+
             correct,
             timedOut
+
         );
 
+
     renderResult(
+
         correct,
         timedOut,
-        points
+        resultInfo
+
     );
 
+
     updateStatsUI();
+
+
+    if (
+        state.sessionMode ===
+        "new"
+    ) {
+
+        updateNewHUD(
+            round
+        );
+
+    }
+
 }
 
 
 /* =========================================================
-   CHOICE STATES
+   MARK CHOICES
    ========================================================= */
 
 function markChoiceButtons(
     selected,
-    answer
+    round
 ) {
+
     $$(".choice")
-        .forEach(button => {
+        .forEach(
 
-            button.disabled =
-                true;
+            button => {
 
-            const value =
-                button.dataset.answer;
+                button.disabled =
+                    true;
 
-            if (
-                normalizeAnswer(value) ===
-                normalizeAnswer(answer)
-            ) {
-                button.classList
-                    .add("correct");
+
+                const value =
+                    button.dataset.answer;
+
+
+                const isCorrect =
+                    isRoundAnswerCorrect(
+                        value,
+                        round
+                    );
+
+
+                const isSelected =
+
+                    normalizeAnswer(value) ===
+                    normalizeAnswer(selected);
+
+
+                if (
+                    isCorrect
+                ) {
+
+                    button.classList
+                        .add(
+                            "correct"
+                        );
+
+                }
+
+
+                else if (
+                    isSelected
+                ) {
+
+                    button.classList
+                        .add(
+                            "wrong"
+                        );
+
+                }
+
             }
 
-            else if (
-                normalizeAnswer(value) ===
-                normalizeAnswer(selected)
-            ) {
-                button.classList
-                    .add("wrong");
-            }
+        );
 
-        });
 }
 
 
 /* =========================================================
-   SCORE
+   SCORE ROUTER
    ========================================================= */
 
 function applyResult(
     correct,
     timedOut
 ) {
-    let points = 0;
 
-    if (correct) {
+    if (
+        state.sessionMode ===
+        "new"
+    ) {
+
+        return applyNewRunResult(
+
+            correct,
+            timedOut
+
+        );
+
+    }
+
+
+    return applyStandardResult(
+
+        correct,
+        timedOut
+
+    );
+
+}
+
+
+/* =========================================================
+   STANDARD SCORE
+   ========================================================= */
+
+function applyStandardResult(
+    correct,
+    timedOut
+) {
+
+    let points =
+        0;
+
+
+    if (
+        correct
+    ) {
+
         state.stats.wins++;
+
+
         state.stats.streak++;
+
 
         state.stats.bestStreak =
             Math.max(
+
                 state.stats.bestStreak,
+
                 state.stats.streak
+
             );
 
-        const isHard =
-            state.difficulty === "hard" &&
-            state.sessionMode !== "og";
 
-        const base =
-            state.sessionMode === "og"
+        const isHard =
+            state.difficulty ===
+                "hard" &&
+            state.sessionMode !==
+                "og";
+
+
+        let base =
+            state.sessionMode ===
+                "og"
+
                 ? 175
+
                 : isHard
                     ? 200
                     : 100;
 
-        const streakBonus =
-            Math.min(
-                state.stats.streak * 15,
-                300
-            );
 
-        let timeBonus = 0;
+        /*
+            Un challenge NEW dentro de Random
+            vale un poco más.
+        */
 
         if (
-            state.timerDuration > 0 &&
-            state.timerDeadline
+            state.currentRound.mode ===
+            "new"
         ) {
-            const secondsLeft =
-                Math.max(
-                    0,
-                    (
-                        state.timerDeadline -
-                        Date.now()
-                    ) / 1000
-                );
 
-            timeBonus =
-                Math.round(
-                    secondsLeft * 8
-                );
+            base +=
+                50;
+
         }
+
+
+        const streakBonus =
+            Math.min(
+
+                state.stats.streak *
+                15,
+
+                300
+
+            );
+
+
+        const timeBonus =
+            getTimeBonus();
+
 
         points =
             base +
             streakBonus +
             timeBonus;
 
+
         state.stats.score +=
             points;
+
     }
 
     else {
+
         state.stats.losses++;
-        state.stats.streak = 0;
+
+
+        state.stats.streak =
+            0;
+
     }
+
 
     saveStats();
 
-    return points;
+
+    return {
+
+        points,
+
+        lifeRecovered:
+            false,
+
+        multiplier:
+            1,
+
+        boss:
+            false,
+
+        runScore:
+            null
+
+    };
+
+}
+
+
+/* =========================================================
+   NEW MODE SCORE
+   ========================================================= */
+
+function applyNewRunResult(
+    correct,
+    timedOut
+) {
+
+    const run =
+        state.newRun;
+
+
+    const round =
+        state.currentRound;
+
+
+    let points =
+        0;
+
+
+    let lifeRecovered =
+        false;
+
+
+    if (
+        correct
+    ) {
+
+        state.stats.wins++;
+
+
+        state.stats.streak++;
+
+
+        state.stats.bestStreak =
+            Math.max(
+
+                state.stats.bestStreak,
+
+                state.stats.streak
+
+            );
+
+
+        run.correct++;
+
+
+        run.combo++;
+
+
+        /*
+            Cada 2 aciertos seguidos:
+            +0.25 multiplier.
+
+            Máximo:
+            x2.50
+        */
+
+        run.multiplier =
+            Math.min(
+
+                2.5,
+
+                1 +
+                Math.floor(
+                    run.combo / 2
+                ) * .25
+
+            );
+
+
+        /*
+            Cada 4 correctas seguidas:
+            recupera vida,
+            si no estás ya full.
+        */
+
+        if (
+            run.combo > 0 &&
+            run.combo % 4 === 0 &&
+            run.lives <
+                run.maxLives
+        ) {
+
+            run.lives++;
+
+
+            lifeRecovered =
+                true;
+
+        }
+
+
+        let base =
+            state.difficulty ===
+            "hard"
+
+                ? 260
+
+                : 175;
+
+
+        if (
+            round.boss
+        ) {
+
+            base *=
+                2;
+
+
+            run.bossWins++;
+
+        }
+
+
+        const timeBonus =
+            getTimeBonus();
+
+
+        points =
+            Math.round(
+
+                (
+                    base +
+                    timeBonus
+                ) *
+                run.multiplier
+
+            );
+
+
+        run.score +=
+            points;
+
+
+        state.stats.score +=
+            points;
+
+    }
+
+    else {
+
+        state.stats.losses++;
+
+
+        state.stats.streak =
+            0;
+
+
+        run.wrong++;
+
+
+        run.combo =
+            0;
+
+
+        run.multiplier =
+            1;
+
+
+        run.lives =
+            Math.max(
+                0,
+                run.lives - 1
+            );
+
+    }
+
+
+    saveStats();
+
+
+    return {
+
+        points,
+
+        lifeRecovered,
+
+        multiplier:
+            run.multiplier,
+
+        boss:
+            round.boss,
+
+        runScore:
+            run.score
+
+    };
+
+}
+
+
+/* =========================================================
+   TIME BONUS
+   ========================================================= */
+
+function getTimeBonus() {
+
+    if (
+        state.timerDuration <= 0 ||
+        !state.timerDeadline
+    ) {
+
+        return 0;
+
+    }
+
+
+    const secondsLeft =
+        Math.max(
+
+            0,
+
+            (
+                state.timerDeadline -
+                Date.now()
+            ) / 1000
+
+        );
+
+
+    return Math.round(
+        secondsLeft * 8
+    );
+
 }
 
 
@@ -3968,15 +7972,21 @@ function applyResult(
 function renderResult(
     correct,
     timedOut,
-    points
+    info
 ) {
+
     const isOG =
-        state.sessionMode === "og";
+        state.sessionMode ===
+        "og";
+
 
     const box =
         isOG
+
             ? $("#ogResultBox")
+
             : $("#resultBox");
+
 
     box.className =
         `result ${
@@ -3985,43 +7995,142 @@ function renderResult(
                 : "bad"
         } pop`;
 
+
     let kicker;
 
-    if (correct) {
+
+    if (
+        correct
+    ) {
+
         kicker =
             "CORRECTO";
+
     }
 
-    else if (timedOut) {
+    else if (
+        timedOut
+    ) {
+
         kicker =
             "SE ACABÓ EL TIEMPO";
+
     }
 
     else {
+
         kicker =
             "NO ERA ESA";
+
     }
 
-    const title =
-        correct
-            ? getWinMessage()
-            : `Era “${state.currentRound.answer}”.`;
-
-    let extra =
-        state.currentRound.extra || "";
 
     if (
-        state.currentRound.mode ===
-        "benito"
+        state.sessionMode ===
+            "new" &&
+        state.currentRound.boss
     ) {
-        extra =
-            state.currentRound.extra;
+
+        kicker =
+            correct
+
+                ? "BOSS CLEAR"
+
+                : "BOSS MISSED";
+
     }
+
+
+    const title =
+
+        correct
+
+            ? getWinMessage()
+
+            : `Era “${state.currentRound.answer}”.`;
+
+
+    const extra =
+        state.currentRound.extra ||
+        "";
+
+
+    const chips =
+        [];
+
+
+    if (
+        state.sessionMode ===
+        "new"
+    ) {
+
+        chips.push(
+
+            `run ${state.newRun.round}/${state.newRun.maxRounds}`
+
+        );
+
+
+        chips.push(
+
+            `vidas ${state.newRun.lives}/${state.newRun.maxLives}`
+
+        );
+
+
+        chips.push(
+
+            `combo ${state.newRun.combo}`
+
+        );
+
+
+        chips.push(
+
+            `x${state.newRun.multiplier.toFixed(2)}`
+
+        );
+
+
+        if (
+            info.lifeRecovered
+        ) {
+
+            chips.push(
+                "vida recuperada"
+            );
+
+        }
+
+
+        if (
+            state.currentRound.boss &&
+            correct
+        ) {
+
+            chips.push(
+                "boss x2"
+            );
+
+        }
+
+    }
+
+
+    const terminal =
+        state.sessionMode ===
+            "new" &&
+        (
+            state.newRun.lives <= 0 ||
+            state.newRun.round >=
+                state.newRun.maxRounds
+        );
+
 
     box.innerHTML =
         `
             <div class="result-kicker">
-                ${kicker}
+                ${escapeHTML(kicker)}
             </div>
 
             <h2 class="result-title">
@@ -4030,11 +8139,49 @@ function renderResult(
 
             ${
                 extra
+
                     ? `
                         <div class="result-extra">
                             ${escapeHTML(extra)}
                         </div>
                     `
+
+                    : ""
+            }
+
+            ${
+                chips.length
+
+                    ? `
+                        <div class="result-bonus">
+
+                            ${
+                                chips
+
+                                    .map(
+
+                                        chip =>
+
+                                            `
+                                                <span class="result-chip ${
+                                                    chip.includes("boss") ||
+                                                    chip.includes("vida") ||
+                                                    chip.startsWith("x")
+                                                        ? "hot"
+                                                        : ""
+                                                }">
+                                                    ${escapeHTML(chip)}
+                                                </span>
+                                            `
+
+                                    )
+
+                                    .join("")
+                            }
+
+                        </div>
+                    `
+
                     : ""
             }
 
@@ -4044,101 +8191,456 @@ function renderResult(
                     id="nextRoundBtn"
                     class="next-btn"
                 >
-                    SIGUIENTE ↗
+                    ${
+                        terminal
+                            ? "VER RESULTADOS ↗"
+                            : "SIGUIENTE ↗"
+                    }
                 </button>
 
                 <span class="result-score">
+
                     ${
                         correct
-                            ? `+${points} puntos · racha x${state.stats.streak}`
-                            : `racha perdida · score ${state.stats.score}`
+
+                            ? `+${info.points} puntos · racha x${state.stats.streak}`
+
+                            : state.sessionMode === "new"
+
+                                ? `vida perdida · run ${state.newRun.score}`
+
+                                : `racha perdida · score ${state.stats.score}`
                     }
+
                 </span>
 
             </div>
         `;
 
+
     $("#nextRoundBtn")
         .addEventListener(
+
             "click",
-            nextRound
+
+            () => {
+
+                if (
+                    terminal
+                ) {
+
+                    finishNewRun();
+
+                }
+
+                else {
+
+                    nextRound();
+
+                }
+
+            }
+
         );
+
 }
 
 
+/* =========================================================
+   WIN COPY
+   ========================================================= */
+
 function getWinMessage() {
+
+    if (
+        state.sessionMode ===
+            "new" &&
+        state.currentRound.boss
+    ) {
+
+        return randomItem([
+
+            "BOSS BORRADO.",
+            "NO TE TEMBLÓ.",
+            "BOSS CLEAR.",
+            "ESA VALÍA DOBLE."
+
+        ]);
+
+    }
+
+
     const streak =
         state.stats.streak;
 
-    if (streak >= 10) {
+
+    if (
+        streak >= 12
+    ) {
+
+        return "BROTHER, YA BASTA.";
+
+    }
+
+
+    if (
+        streak >= 10
+    ) {
+
         return "NAH, ESTÁS ENFERMO.";
+
     }
 
-    if (streak >= 7) {
+
+    if (
+        streak >= 7
+    ) {
+
         return "NO ESTÁS FALLANDO.";
+
     }
 
-    if (streak >= 5) {
+
+    if (
+        streak >= 5
+    ) {
+
         return "YA HAY RACHA.";
+
     }
 
-    if (streak >= 3) {
+
+    if (
+        streak >= 3
+    ) {
+
         return "COGIÓ CALOR.";
+
     }
+
 
     return randomItem([
+
         "ESA ERA.",
         "CLARO QUE SÍ.",
         "CORRECTÍSIMO.",
         "BIEN JUGADO.",
-        "TE LA SABÍAS."
+        "TE LA SABÍAS.",
+        "LIMPIO.",
+        "FÁCIL."
+
     ]);
+
 }
+
+
+/* =========================================================
+   FINISH NEW RUN
+   ========================================================= */
+
+function finishNewRun() {
+
+    stopTimer();
+
+
+    const run =
+        state.newRun;
+
+
+    if (!run) {
+        return;
+    }
+
+
+    if (
+        !run.finished
+    ) {
+
+        run.finished =
+            true;
+
+
+        state.stats.newRuns++;
+
+
+        if (
+            run.correct ===
+            run.maxRounds
+        ) {
+
+            state.stats
+                .newPerfectRuns++;
+
+        }
+
+
+        state.stats.newBest =
+            Math.max(
+
+                state.stats.newBest,
+
+                run.score
+
+            );
+
+
+        saveStats();
+
+    }
+
+
+    const grade =
+        getRunGrade(
+            run
+        );
+
+
+    $("#newRunGrade")
+        .textContent =
+            grade;
+
+
+    $("#summaryRunScore")
+        .textContent =
+            run.score;
+
+
+    $("#summaryCorrect")
+        .textContent =
+            run.correct;
+
+
+    $("#summaryWrong")
+        .textContent =
+            run.wrong;
+
+
+    $("#summaryBest")
+        .textContent =
+            state.stats.newBest;
+
+
+    let title =
+        "RUN TERMINADA.";
+
+
+    let message =
+        "Sobreviviste al laboratorio.";
+
+
+    if (
+        run.correct ===
+        run.maxRounds
+    ) {
+
+        title =
+            "PERFECT RUN.";
+
+
+        message =
+            "10 de 10. No dejaste absolutamente nada vivo.";
+
+    }
+
+
+    else if (
+        run.lives <= 0
+    ) {
+
+        title =
+            "NO QUEDAN VIDAS.";
+
+
+        message =
+            `Llegaste hasta la ronda ${run.round}. La próxima run empieza desde cero.`;
+
+    }
+
+
+    else if (
+        grade === "S"
+    ) {
+
+        message =
+            "Eso fue una barbaridad.";
+
+    }
+
+
+    else if (
+        grade === "A"
+    ) {
+
+        message =
+            "Run muy seria. Casi perfecta.";
+
+    }
+
+
+    $("#newRunEndTitle")
+        .textContent =
+            title;
+
+
+    $("#newRunEndText")
+        .textContent =
+            message;
+
+
+    $("#newRunOverlay")
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    updateStatsUI();
+
+}
+
+
+/* =========================================================
+   RUN GRADE
+   ========================================================= */
+
+function getRunGrade(run) {
+
+    if (
+        run.correct >= 10
+    ) {
+        return "S+";
+    }
+
+
+    if (
+        run.correct >= 9
+    ) {
+        return "S";
+    }
+
+
+    if (
+        run.correct >= 8
+    ) {
+        return "A";
+    }
+
+
+    if (
+        run.correct >= 6
+    ) {
+        return "B";
+    }
+
+
+    if (
+        run.correct >= 4
+    ) {
+        return "C";
+    }
+
+
+    return "D";
+
+}
+
+
+/* =========================================================
+   NEW RUN OVERLAY BUTTONS
+   ========================================================= */
+
+$("#newRunAgainBtn")
+    .addEventListener(
+
+        "click",
+
+        () => {
+
+            $("#newRunOverlay")
+                .classList
+                .add(
+                    "hidden"
+                );
+
+
+            startNewRun();
+
+        }
+
+    );
+
+
+$("#newRunMenuBtn")
+    .addEventListener(
+
+        "click",
+
+        returnToMenu
+
+    );
 
 
 /* =========================================================
    TIMER
    ========================================================= */
 
-function startTimer(
-    seconds
-) {
+function startTimer(seconds) {
+
     stopTimer();
+
 
     const wrap =
         $("#timerWrap");
 
+
     const bar =
         $("#timerBar");
+
 
     const number =
         $("#timerNumber");
 
+
     wrap.classList
-        .remove("hidden");
+        .remove(
+            "hidden"
+        );
+
 
     number.classList
-        .remove("hidden");
+        .remove(
+            "hidden"
+        );
+
 
     state.timerDuration =
         seconds;
+
 
     state.timerDeadline =
         Date.now() +
         seconds * 1000;
 
+
     bar.style.transform =
         "scaleX(1)";
 
+
     state.timerId =
         setInterval(
+
             () => {
+
                 const remaining =
                     Math.max(
+
                         0,
+
                         state.timerDeadline -
-                        Date.now()
+                            Date.now()
+
                     );
+
 
                 const ratio =
                     remaining /
@@ -4147,49 +8649,82 @@ function startTimer(
                         1000
                     );
 
+
                 bar.style.transform =
                     `scaleX(${ratio})`;
+
 
                 number.textContent =
                     `${(remaining / 1000).toFixed(1)}s`;
 
+
                 if (
                     remaining <= 0
                 ) {
-                    stopTimer(false);
+
+                    stopTimer(
+                        false
+                    );
+
 
                     submitAnswer(
                         "",
                         true
                     );
+
                 }
+
             },
+
             50
+
         );
+
 }
 
+
+/* =========================================================
+   STOP TIMER
+   ========================================================= */
 
 function stopTimer(
     hide = true
 ) {
-    if (state.timerId) {
+
+    if (
+        state.timerId
+    ) {
+
         clearInterval(
             state.timerId
         );
 
+
         state.timerId =
             null;
+
     }
 
-    if (hide) {
+
+    if (
+        hide
+    ) {
+
         $("#timerWrap")
             .classList
-            .add("hidden");
+            .add(
+                "hidden"
+            );
+
 
         $("#timerNumber")
             .classList
-            .add("hidden");
+            .add(
+                "hidden"
+            );
+
     }
+
 }
 
 
@@ -4200,111 +8735,217 @@ function stopTimer(
 function showDataError(
     sourceKey = null
 ) {
+
     let detail =
         "No pude cargar los bancos del juego.";
+
 
     if (
         sourceKey &&
         state.errors[sourceKey]
     ) {
+
         detail =
             state.errors[sourceKey];
+
     }
+
 
     $("#overlayTitle")
         .textContent =
             "No pude leer el JSON.";
 
+
     $("#overlayText")
         .textContent =
             `${detail}
 
-Si estás abriendo este archivo directamente con doble clic, el navegador puede bloquear peticiones externas por CORS. Prueba con Live Server, GitHub Pages, Netlify o cualquier servidor estático.`;
+Si estás abriendo el archivo directamente con doble clic, el navegador podría bloquear peticiones externas por CORS.
+
+Prueba usando Live Server, GitHub Pages, Netlify o cualquier servidor estático.`;
+
 
     $("#overlay")
         .classList
-        .remove("hidden");
+        .remove(
+            "hidden"
+        );
+
 }
 
 
+/* =========================================================
+   RETRY
+   ========================================================= */
+
 $("#retryBtn")
     .addEventListener(
+
         "click",
+
         async () => {
+
             $("#overlay")
                 .classList
-                .add("hidden");
+                .add(
+                    "hidden"
+                );
+
 
             await loadAllSources();
-        }
-    );
 
-
-$("#closeOverlayBtn")
-    .addEventListener(
-        "click",
-        () => {
-            $("#overlay")
-                .classList
-                .add("hidden");
         }
+
     );
 
 
 /* =========================================================
-   KEYBOARD SHORTCUTS
+   CLOSE ERROR
+   ========================================================= */
+
+$("#closeOverlayBtn")
+    .addEventListener(
+
+        "click",
+
+        () => {
+
+            $("#overlay")
+                .classList
+                .add(
+                    "hidden"
+                );
+
+        }
+
+    );
+
+
+/* =========================================================
+   KEYBOARD
    ========================================================= */
 
 document.addEventListener(
+
     "keydown",
+
     event => {
+
         if (
             !gameScreen
                 .classList
-                .contains("active")
+                .contains(
+                    "active"
+                )
         ) {
             return;
         }
 
-        if (state.answered) {
-            if (
-                event.key === "Enter" ||
-                event.key.toLowerCase() === "n"
-            ) {
-                nextRound();
-            }
 
+        if (
+            !$("#newRunOverlay")
+                .classList
+                .contains(
+                    "hidden"
+                )
+        ) {
             return;
         }
+
+
+        /*
+            Después de responder:
+
+            Enter / N =
+            siguiente.
+        */
+
+        if (
+            state.answered
+        ) {
+
+            if (
+                event.key ===
+                    "Enter" ||
+                event.key
+                    .toLowerCase() ===
+                    "n"
+            ) {
+
+                const next =
+                    $("#nextRoundBtn");
+
+
+                next?.click();
+
+            }
+
+
+            return;
+
+        }
+
+
+        /*
+            Multiple choice:
+
+            1
+            2
+            3
+            4
+        */
 
         const choices =
             $$(".choice:not(:disabled)");
 
+
         if (
             choices.length &&
-            ["1", "2", "3", "4"]
-                .includes(event.key)
+            [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+            .includes(
+                event.key
+            )
         ) {
+
             const index =
-                Number(event.key) - 1;
+                Number(
+                    event.key
+                ) - 1;
+
 
             choices[index]
                 ?.click();
+
         }
+
     }
+
 );
 
 
 /* =========================================================
-   PREVENT DOUBLE-TAP WEIRDNESS ON MOBILE
+   MOBILE TOUCH
    ========================================================= */
 
 document
-    .querySelectorAll("button")
-    .forEach(button => {
-        button.style.touchAction =
-            "manipulation";
-    });
+    .querySelectorAll(
+        "button"
+    )
+    .forEach(
+
+        button => {
+
+            button.style.touchAction =
+                "manipulation";
+
+        }
+
+    );
 
 
 /* =========================================================
@@ -4312,6 +8953,7 @@ document
    ========================================================= */
 
 updateStatsUI();
+
 loadAllSources();
 
 </script>

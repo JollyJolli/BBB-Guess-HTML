@@ -1,0 +1,4320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0b">
+
+<title>Music Quiz — A0.0.1 Alpha</title>
+
+<style>
+/* =========================================================
+   MUSIC QUIZ
+   A0.0.1 — ALPHA
+
+   Sin frameworks.
+   Sin imágenes.
+   Sin fuentes externas.
+   Sin 47 cards redondeadas.
+   ========================================================= */
+
+:root {
+    --bg: #0b0b0b;
+    --panel: #121212;
+    --panel-2: #181818;
+
+    --paper: #f2eee5;
+    --muted: #99978f;
+    --line: #343434;
+
+    --acid: #d7ff3f;
+    --orange: #ff6238;
+    --blue: #70dcff;
+    --red: #ff4d4d;
+
+    --black: #050505;
+
+    --max: 1180px;
+    --border: 1px solid var(--line);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: var(--bg);
+    color: var(--paper);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--acid);
+    outline-offset: 3px;
+}
+
+::selection {
+    background: var(--acid);
+    color: var(--black);
+}
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.app {
+    min-height: 100vh;
+}
+
+.shell {
+    width: min(var(--max), calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+.mono {
+    font-family:
+        "Courier New",
+        Courier,
+        monospace;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.acid {
+    color: var(--acid);
+}
+
+.orange {
+    color: var(--orange);
+}
+
+.blue {
+    color: var(--blue);
+}
+
+.upper {
+    text-transform: uppercase;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.site-header {
+    border-bottom: var(--border);
+}
+
+.site-header-inner {
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+.brand-mark {
+    width: 14px;
+    height: 14px;
+
+    background: var(--acid);
+}
+
+.version {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+    background: #777;
+}
+
+.status-dot.loading {
+    background: var(--orange);
+}
+
+.status-dot.ready {
+    background: var(--acid);
+}
+
+.status-dot.partial {
+    background: #ffd166;
+}
+
+.status-dot.error {
+    background: var(--red);
+}
+
+
+/* =========================================================
+   TICKER
+   ========================================================= */
+
+.ticker {
+    overflow: hidden;
+
+    border-bottom: var(--border);
+    background: var(--acid);
+    color: var(--black);
+
+    white-space: nowrap;
+}
+
+.ticker-track {
+    display: inline-flex;
+    min-width: 200%;
+
+    animation: ticker 24s linear infinite;
+}
+
+.ticker-text {
+    padding: 8px 0;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+@keyframes ticker {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.menu {
+    padding: 72px 0 60px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, .5fr);
+
+    gap: 50px;
+
+    padding-bottom: 68px;
+    border-bottom: var(--border);
+}
+
+.eyebrow {
+    margin: 0 0 18px;
+
+    color: var(--acid);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin: 0;
+
+    max-width: 850px;
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size: clamp(64px, 10vw, 150px);
+    font-weight: 900;
+
+    line-height: .78;
+    letter-spacing: -.035em;
+    text-transform: uppercase;
+}
+
+.hero h1 span {
+    color: var(--acid);
+}
+
+.hero-copy {
+    align-self: end;
+}
+
+.hero-copy p {
+    margin: 0;
+
+    color: #bbb8b0;
+
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.hero-copy strong {
+    color: var(--paper);
+}
+
+.hero-copy .alpha-note {
+    margin-top: 24px;
+
+    border-left: 2px solid var(--acid);
+    padding-left: 14px;
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    border-bottom: var(--border);
+}
+
+.stat {
+    padding: 22px 18px;
+
+    border-right: var(--border);
+}
+
+.stat:last-child {
+    border-right: 0;
+}
+
+.stat-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    display: block;
+
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+}
+
+
+/* =========================================================
+   DIFFICULTY
+   ========================================================= */
+
+.config-area {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+
+    gap: 34px;
+
+    padding: 46px 0 30px;
+}
+
+.section-index {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+}
+
+.config-content h2 {
+    margin: 0 0 22px;
+
+    font-size: 29px;
+    letter-spacing: -.03em;
+}
+
+.difficulty-switch {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    max-width: 620px;
+
+    border: 1px solid #474747;
+}
+
+.difficulty-btn {
+    min-height: 82px;
+
+    padding: 16px 20px;
+
+    background: transparent;
+    border: 0;
+    border-right: 1px solid #474747;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        background .15s ease,
+        color .15s ease;
+}
+
+.difficulty-btn:last-child {
+    border-right: 0;
+}
+
+.difficulty-btn strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 17px;
+}
+
+.difficulty-btn small {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+}
+
+.difficulty-btn.active {
+    background: var(--paper);
+    color: var(--black);
+}
+
+.difficulty-btn.active small {
+    color: #555;
+}
+
+
+/* =========================================================
+   MODE LIST
+   ========================================================= */
+
+.mode-section {
+    padding-top: 26px;
+}
+
+.mode-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+    gap: 20px;
+
+    margin-bottom: 18px;
+}
+
+.mode-heading h2 {
+    margin: 0;
+
+    font-size: 32px;
+    letter-spacing: -.04em;
+}
+
+.mode-heading p {
+    margin: 0;
+
+    max-width: 480px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.mode-list {
+    border-top: 1px solid #414141;
+}
+
+.mode {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr) 190px 34px;
+
+    gap: 22px;
+    align-items: center;
+
+    padding: 25px 18px;
+
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #414141;
+
+    color: var(--paper);
+
+    cursor: pointer;
+    text-align: left;
+
+    transition:
+        background .12s ease,
+        color .12s ease,
+        padding-left .12s ease;
+}
+
+.mode:hover {
+    padding-left: 27px;
+
+    background: var(--paper);
+    color: var(--black);
+}
+
+.mode-number {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 12px;
+}
+
+.mode:hover .mode-number,
+.mode:hover .mode-meta {
+    color: #555;
+}
+
+.mode-name {
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size: clamp(28px, 4vw, 52px);
+
+    letter-spacing: -.015em;
+    text-transform: uppercase;
+}
+
+.mode-meta {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.mode-arrow {
+    font-size: 23px;
+    text-align: right;
+}
+
+.mode.random .mode-name {
+    color: var(--acid);
+}
+
+.mode.random:hover .mode-name {
+    color: var(--black);
+}
+
+.mode.og {
+    background: #101010;
+}
+
+.mode.og .mode-name {
+    color: var(--blue);
+}
+
+.mode.og:hover {
+    background: var(--blue);
+}
+
+.mode.og:hover .mode-name {
+    color: var(--black);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.site-footer {
+    margin-top: 70px;
+
+    padding: 24px 0;
+
+    border-top: var(--border);
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+
+/* =========================================================
+   GAME SCREEN
+   ========================================================= */
+
+.game-screen {
+    min-height: calc(100vh - 65px);
+}
+
+.game-header {
+    border-bottom: var(--border);
+}
+
+.game-header-inner {
+    min-height: 78px;
+
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+.back-btn {
+    padding: 10px 0;
+
+    background: transparent;
+    border: 0;
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    text-transform: uppercase;
+}
+
+.back-btn:hover {
+    color: var(--paper);
+}
+
+.game-mode-title {
+    overflow: hidden;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+
+.game-live-stats {
+    display: flex;
+    gap: 22px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+}
+
+.game-live-stats strong {
+    color: var(--acid);
+}
+
+.timer-wrap {
+    height: 3px;
+
+    background: #292929;
+
+    overflow: hidden;
+}
+
+.timer-bar {
+    width: 100%;
+    height: 100%;
+
+    background: var(--acid);
+
+    transform-origin: left center;
+}
+
+.game-main {
+    padding: 64px 0 80px;
+}
+
+.round-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 42px;
+
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+}
+
+.round-meta-left {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px 18px;
+}
+
+.timer-number {
+    color: var(--paper);
+
+    font-weight: 700;
+}
+
+.question-layout {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+
+    gap: 40px;
+}
+
+.question-number {
+    color: #4f4f4f;
+
+    font-family:
+        Impact,
+        Haettenschweiler,
+        "Arial Narrow Bold",
+        sans-serif;
+
+    font-size: 80px;
+
+    line-height: .8;
+}
+
+.question-label {
+    margin-bottom: 14px;
+
+    color: var(--acid);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.question {
+    margin: 0;
+
+    max-width: 900px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(31px, 5vw, 67px);
+
+    font-weight: 400;
+    line-height: 1.03;
+    letter-spacing: -.035em;
+}
+
+.question.quote {
+    font-size: clamp(26px, 4vw, 54px);
+}
+
+.question-subtitle {
+    margin-top: 24px;
+
+    max-width: 670px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CHOICES
+   ========================================================= */
+
+.answer-zone {
+    margin-top: 54px;
+}
+
+.choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 1px;
+
+    background: #444;
+    border: 1px solid #444;
+}
+
+.choice {
+    min-height: 88px;
+
+    display: grid;
+    grid-template-columns: 34px 1fr;
+
+    gap: 12px;
+    align-items: center;
+
+    padding: 18px;
+
+    background: var(--bg);
+    border: 0;
+
+    color: var(--paper);
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        background .12s ease,
+        color .12s ease;
+}
+
+.choice:hover:not(:disabled) {
+    background: var(--paper);
+    color: var(--black);
+}
+
+.choice-index {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+}
+
+.choice-text {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.choice.correct {
+    background: var(--acid);
+    color: var(--black);
+}
+
+.choice.wrong {
+    background: var(--red);
+    color: var(--black);
+}
+
+.choice:disabled {
+    cursor: default;
+}
+
+
+/* =========================================================
+   TEXT ANSWER
+   ========================================================= */
+
+.text-answer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    border-bottom: 2px solid var(--paper);
+}
+
+.answer-input {
+    width: 100%;
+
+    padding: 20px 0;
+
+    background: transparent;
+    border: 0;
+    outline: 0;
+
+    color: var(--paper);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(24px, 4vw, 42px);
+}
+
+.answer-input::placeholder {
+    color: #4e4e4e;
+}
+
+.submit-answer {
+    padding: 12px 4px 12px 28px;
+
+    background: transparent;
+    border: 0;
+
+    color: var(--acid);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   RESULT
+   ========================================================= */
+
+.result {
+    margin-top: 48px;
+
+    border-top: 1px solid #3b3b3b;
+    border-bottom: 1px solid #3b3b3b;
+
+    padding: 27px 0;
+}
+
+.result.good {
+    border-top-color: var(--acid);
+}
+
+.result.bad {
+    border-top-color: var(--red);
+}
+
+.result-kicker {
+    margin-bottom: 8px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+.result.good .result-kicker {
+    color: var(--acid);
+}
+
+.result.bad .result-kicker {
+    color: var(--red);
+}
+
+.result-title {
+    margin: 0;
+
+    font-size: clamp(32px, 6vw, 69px);
+
+    letter-spacing: -.05em;
+    line-height: .95;
+}
+
+.result-extra {
+    margin-top: 14px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.result-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+
+    margin-top: 28px;
+}
+
+.next-btn {
+    padding: 15px 20px;
+
+    background: var(--acid);
+    border: 1px solid var(--acid);
+
+    color: var(--black);
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.next-btn:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+}
+
+.result-score {
+    color: var(--muted);
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   OG MODE
+   ========================================================= */
+
+body.og-active {
+    background: #101217;
+}
+
+body.og-active .game-header {
+    background: #181b20;
+    border-color: #292c33;
+}
+
+body.og-active .game-main {
+    max-width: 920px;
+}
+
+.og-box {
+    padding: 25px;
+
+    background: #1e2128;
+    border-left: 4px solid #5865f2;
+
+    font-family:
+        Arial,
+        sans-serif;
+}
+
+.og-bot {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 19px;
+}
+
+.og-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #5865f2;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.og-user {
+    font-weight: 700;
+}
+
+.og-tag {
+    margin-left: 5px;
+
+    padding: 2px 5px;
+
+    border-radius: 3px;
+
+    background: #5865f2;
+
+    color: #fff;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.og-content {
+    color: #dbdee1;
+
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.og-content strong {
+    color: #fff;
+}
+
+.og-options {
+    margin-top: 18px;
+
+    padding: 15px;
+
+    background: #17191e;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   ERROR / LOADER
+   ========================================================= */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: grid;
+    place-items: center;
+
+    padding: 24px;
+
+    background: rgba(0, 0, 0, .86);
+}
+
+.overlay-box {
+    width: min(560px, 100%);
+
+    padding: 32px;
+
+    background: var(--paper);
+    color: var(--black);
+
+    border: 2px solid var(--black);
+    box-shadow: 10px 10px 0 var(--acid);
+}
+
+.overlay-box h2 {
+    margin: 0 0 14px;
+
+    font-size: 34px;
+    letter-spacing: -.04em;
+}
+
+.overlay-box p {
+    margin: 0;
+
+    color: #454545;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.overlay-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.overlay-actions button {
+    padding: 12px 16px;
+
+    border: 1px solid var(--black);
+
+    background: var(--black);
+    color: white;
+
+    cursor: pointer;
+}
+
+.overlay-actions button.secondary {
+    background: transparent;
+    color: var(--black);
+}
+
+
+/* =========================================================
+   MICRO ANIMATIONS
+   ========================================================= */
+
+.pop {
+    animation: pop .22s ease-out;
+}
+
+@keyframes pop {
+    from {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.shake {
+    animation: shake .28s linear;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+    .shell {
+        width: min(100% - 32px, var(--max));
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+
+        padding-bottom: 45px;
+    }
+
+    .hero-copy {
+        max-width: 600px;
+    }
+
+    .stats-strip {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat:nth-child(3) {
+        border-right: 0;
+    }
+
+    .stat:nth-child(n + 4) {
+        border-top: var(--border);
+    }
+
+    .config-area {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .mode {
+        grid-template-columns: 45px minmax(0, 1fr) 26px;
+    }
+
+    .mode-meta {
+        display: none;
+    }
+
+    .question-layout {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .question-number {
+        font-size: 42px;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .shell {
+        width: min(100% - 24px, var(--max));
+    }
+
+    .site-header-inner {
+        min-height: 58px;
+    }
+
+    .header-status span:last-child {
+        display: none;
+    }
+
+    .menu {
+        padding-top: 44px;
+    }
+
+    .hero {
+        padding-bottom: 38px;
+    }
+
+    .hero h1 {
+        font-size: clamp(60px, 22vw, 92px);
+    }
+
+    .stats-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat {
+        border-bottom: var(--border);
+    }
+
+    .stat:nth-child(2n) {
+        border-right: 0;
+    }
+
+    .stat:nth-child(3) {
+        border-right: var(--border);
+    }
+
+    .stat:last-child {
+        grid-column: 1 / -1;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .difficulty-switch {
+        grid-template-columns: 1fr;
+    }
+
+    .difficulty-btn {
+        border-right: 0;
+        border-bottom: 1px solid #474747;
+    }
+
+    .difficulty-btn:last-child {
+        border-bottom: 0;
+    }
+
+    .mode-heading {
+        display: block;
+    }
+
+    .mode-heading p {
+        margin-top: 12px;
+    }
+
+    .mode {
+        grid-template-columns: 35px minmax(0, 1fr) 20px;
+
+        gap: 10px;
+
+        padding: 21px 8px;
+    }
+
+    .mode:hover {
+        padding-left: 12px;
+    }
+
+    .mode-name {
+        font-size: 32px;
+    }
+
+    .site-footer {
+        display: block;
+    }
+
+    .site-footer span:last-child {
+        display: block;
+        margin-top: 8px;
+    }
+
+    .game-header-inner {
+        grid-template-columns: auto 1fr;
+        min-height: 66px;
+    }
+
+    .game-live-stats {
+        grid-column: 1 / -1;
+
+        justify-content: space-between;
+
+        padding-bottom: 12px;
+    }
+
+    .game-main {
+        padding-top: 38px;
+    }
+
+    .round-meta {
+        margin-bottom: 27px;
+    }
+
+    .question {
+        font-size: 38px;
+    }
+
+    .question.quote {
+        font-size: 32px;
+    }
+
+    .answer-zone {
+        margin-top: 38px;
+    }
+
+    .choices {
+        grid-template-columns: 1fr;
+    }
+
+    .choice {
+        min-height: 69px;
+    }
+
+    .text-answer {
+        grid-template-columns: 1fr;
+    }
+
+    .submit-answer {
+        padding: 14px 0;
+
+        border-top: 1px solid #333;
+
+        text-align: left;
+    }
+
+    .result-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .next-btn {
+        width: 100%;
+    }
+
+    .og-box {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         GLOBAL HEADER
+         ===================================================== -->
+
+    <header class="site-header">
+        <div class="shell site-header-inner">
+
+            <div class="brand">
+                <span class="brand-mark"></span>
+                MUSIC QUIZ
+                <span class="version">A0.0.1-ALPHA</span>
+            </div>
+
+            <div class="header-status">
+                <span id="statusDot" class="status-dot loading"></span>
+                <span id="statusText">conectando bancos...</span>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- =====================================================
+         MENU SCREEN
+         ===================================================== -->
+
+    <main id="menuScreen" class="screen active">
+
+        <div class="ticker">
+            <div class="ticker-track">
+                <span class="ticker-text">
+                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                </span>
+
+                <span class="ticker-text">
+                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                    MUSIC QUIZ /// LETRAS /// FEATS /// BENITO O NO /// RACHA /// HARD MODE /// OG MODE /// A0.0.1 ///
+                </span>
+            </div>
+        </div>
+
+        <div class="shell menu">
+
+            <section class="hero">
+
+                <div>
+                    <p class="eyebrow">
+                        el juegazo volvió
+                    </p>
+
+                    <h1>
+                        MUSIC<br>
+                        <span>QUIZ.</span>
+                    </h1>
+                </div>
+
+                <div class="hero-copy">
+                    <p>
+                        Cuatro juegos originales.
+                        Un modo aleatorio.
+                        Un modo hecho para recordar
+                        <strong>cómo empezó todo.</strong>
+                    </p>
+
+                    <p class="alpha-note">
+                        BUILD A0.0.1<br>
+                        SIN FOTOS · SIN AUDIO · PURO JUEGO
+                    </p>
+                </div>
+
+            </section>
+
+
+            <section class="stats-strip">
+
+                <div class="stat">
+                    <span class="stat-label">correctas</span>
+                    <span id="menuWins" class="stat-value">0</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">incorrectas</span>
+                    <span id="menuLosses" class="stat-value">0</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">racha</span>
+                    <span id="menuStreak" class="stat-value acid">x0</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">mejor racha</span>
+                    <span id="menuBest" class="stat-value">x0</span>
+                </div>
+
+                <div class="stat">
+                    <span class="stat-label">score</span>
+                    <span id="menuScore" class="stat-value">0</span>
+                </div>
+
+            </section>
+
+
+            <section class="config-area">
+
+                <div class="section-index">
+                    01 / DIFICULTAD
+                </div>
+
+                <div class="config-content">
+
+                    <h2>¿Cómo quieres sufrir?</h2>
+
+                    <div class="difficulty-switch">
+
+                        <button
+                            class="difficulty-btn active"
+                            data-difficulty="easy"
+                        >
+                            <strong>FÁCIL</strong>
+                            <small>
+                                OPCIONES · SIN PRESIÓN · BUENA VIDA
+                            </small>
+                        </button>
+
+                        <button
+                            class="difficulty-btn"
+                            data-difficulty="hard"
+                        >
+                            <strong>DIFÍCIL</strong>
+                            <small>
+                                ESCRIBIR RESPUESTAS · TIMER · + PUNTOS
+                            </small>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="mode-section">
+
+                <div class="mode-heading">
+
+                    <h2>Escoge modo.</h2>
+
+                    <p>
+                        En Random cada ronda puede cambiar de juego.
+                        OG ignora tu dificultad y sigue sus propias reglas.
+                    </p>
+
+                </div>
+
+
+                <div class="mode-list">
+
+                    <button class="mode" data-mode="lyrics">
+
+                        <span class="mode-number">01</span>
+
+                        <span class="mode-name">
+                            LETRA → CANCIÓN
+                        </span>
+
+                        <span class="mode-meta">
+                            letra del banco original<br>
+                            adivina el título
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+
+                    <button class="mode" data-mode="feat">
+
+                        <span class="mode-number">02</span>
+
+                        <span class="mode-name">
+                            ADIVINA EL FEAT
+                        </span>
+
+                        <span class="mode-meta">
+                            una canción<br>
+                            cuatro posibles feats
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+
+                    <button class="mode" data-mode="benito">
+
+                        <span class="mode-number">03</span>
+
+                        <span class="mode-name">
+                            ¿BENITO O NO?
+                        </span>
+
+                        <span class="mode-meta">
+                            una letra<br>
+                            sí o no
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+
+                    <button class="mode" data-mode="featSong">
+
+                        <span class="mode-number">04</span>
+
+                        <span class="mode-name">
+                            FEAT → CANCIÓN
+                        </span>
+
+                        <span class="mode-meta">
+                            descubre qué canción<br>
+                            corresponde al feat
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+
+                    <button class="mode random" data-mode="random">
+
+                        <span class="mode-number">05</span>
+
+                        <span class="mode-name">
+                            RANDOM
+                        </span>
+
+                        <span class="mode-meta">
+                            cambia de modalidad<br>
+                            en cada ronda
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+
+                    <button class="mode og" data-mode="og">
+
+                        <span class="mode-number">06</span>
+
+                        <span class="mode-name">
+                            OG MODE
+                        </span>
+
+                        <span class="mode-meta">
+                            10–13 segundos<br>
+                            sabor a bot de discord
+                        </span>
+
+                        <span class="mode-arrow">↗</span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <footer class="site-footer">
+
+                <span>
+                    MUSICQUIZ / REBUILT FROM THE OLD BOT
+                </span>
+
+                <span>
+                    A0.0.1-ALPHA
+                </span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         GAME SCREEN
+         ===================================================== -->
+
+    <main id="gameScreen" class="screen game-screen">
+
+        <header class="game-header">
+
+            <div class="shell game-header-inner">
+
+                <button id="backBtn" class="back-btn">
+                    ← menú
+                </button>
+
+                <div id="gameModeTitle" class="game-mode-title">
+                    LETRA → CANCIÓN
+                </div>
+
+                <div class="game-live-stats">
+
+                    <span>
+                        RACHA
+                        <strong id="liveStreak">x0</strong>
+                    </span>
+
+                    <span>
+                        SCORE
+                        <strong id="liveScore">0</strong>
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div id="timerWrap" class="timer-wrap hidden">
+                <div id="timerBar" class="timer-bar"></div>
+            </div>
+
+        </header>
+
+
+        <div class="shell game-main">
+
+            <div class="round-meta">
+
+                <div class="round-meta-left">
+
+                    <span id="roundDifficulty">
+                        EASY
+                    </span>
+
+                    <span>
+                        ROUND
+                        <strong id="roundNumber">01</strong>
+                    </span>
+
+                    <span id="roundSource">
+                        JSON / LETRAS
+                    </span>
+
+                </div>
+
+                <span
+                    id="timerNumber"
+                    class="timer-number hidden"
+                >
+                    10.0s
+                </span>
+
+            </div>
+
+
+            <div id="standardQuestion">
+
+                <div class="question-layout">
+
+                    <div
+                        id="bigQuestionNumber"
+                        class="question-number"
+                    >
+                        01
+                    </div>
+
+                    <div>
+
+                        <div
+                            id="questionLabel"
+                            class="question-label"
+                        >
+                            ADIVINA LA CANCIÓN
+                        </div>
+
+                        <h1
+                            id="questionText"
+                            class="question"
+                        >
+                            Cargando...
+                        </h1>
+
+                        <div
+                            id="questionSubtitle"
+                            class="question-subtitle"
+                        ></div>
+
+                        <div
+                            id="answerZone"
+                            class="answer-zone"
+                        ></div>
+
+                        <div
+                            id="resultBox"
+                            class="result hidden"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="ogQuestion" class="hidden">
+
+                <div class="og-box">
+
+                    <div class="og-bot">
+
+                        <div class="og-avatar">
+                            MQ
+                        </div>
+
+                        <div>
+                            <span class="og-user">
+                                MusicQuiz
+                            </span>
+
+                            <span class="og-tag">
+                                BOT
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="ogContent"
+                        class="og-content"
+                    ></div>
+
+                    <div
+                        id="ogOptions"
+                        class="og-options hidden"
+                    ></div>
+
+                </div>
+
+                <div
+                    id="ogAnswerZone"
+                    class="answer-zone"
+                ></div>
+
+                <div
+                    id="ogResultBox"
+                    class="result hidden"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     ERROR / INFO OVERLAY
+     ========================================================= -->
+
+<div id="overlay" class="overlay hidden">
+
+    <div class="overlay-box">
+
+        <h2 id="overlayTitle">
+            Algo explotó.
+        </h2>
+
+        <p id="overlayText">
+            No pude cargar uno de los JSON.
+        </p>
+
+        <div class="overlay-actions">
+
+            <button id="retryBtn">
+                REINTENTAR
+            </button>
+
+            <button
+                id="closeOverlayBtn"
+                class="secondary"
+            >
+                CERRAR
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   MUSIC QUIZ
+   A0.0.1-ALPHA
+
+   JS puro.
+
+   IMPORTANTE:
+   La apiKey está en cliente porque esta alpha es un único
+   archivo HTML. Eso significa que cualquiera puede verla.
+   Para una versión pública seria, conviene mover las
+   peticiones a un backend/proxy.
+   ========================================================= */
+
+
+/* =========================================================
+   DATA SOURCES
+   ========================================================= */
+
+const SOURCES = {
+    lyrics: {
+        name: "Letras",
+        root: "Letras",
+        url:
+            "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/0a52e232-5186-4185-973d-7c131a540395?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+    },
+
+    feat: {
+        name: "FEAT",
+        root: "FEAT",
+        url:
+            "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/027a039c-998f-496c-9311-3ee565cbed71?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+    },
+
+    benito: {
+        name: "benoOno",
+        root: "benoOno",
+        url:
+            "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/dfa489d2-7e55-482f-93e2-c82b93b8103b?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+    },
+
+    featSong: {
+        name: "ADIVINARFEAT",
+        root: "ADIVINARFEAT",
+        url:
+            "https://api.jsonstorage.net/v1/json/4c6ba042-3b80-490c-99ef-fa590b19537f/35c8da25-3cca-4d1f-b913-2a506c32ea48?apiKey=e2161a50-71d9-4dcb-a53e-282f4945b77c"
+    }
+};
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+const state = {
+    difficulty: "easy",
+
+    sessionMode: null,
+    currentMode: null,
+
+    round: 0,
+    answered: false,
+
+    timerId: null,
+    timerDeadline: null,
+    timerDuration: 0,
+
+    data: {
+        lyrics: null,
+        feat: null,
+        benito: null,
+        featSong: null
+    },
+
+    errors: {},
+
+    stats: loadStats()
+};
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+const $$ = selector =>
+    [...document.querySelectorAll(selector)];
+
+
+const menuScreen =
+    $("#menuScreen");
+
+const gameScreen =
+    $("#gameScreen");
+
+const statusDot =
+    $("#statusDot");
+
+const statusText =
+    $("#statusText");
+
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+function loadStats() {
+    const defaults = {
+        wins: 0,
+        losses: 0,
+        streak: 0,
+        bestStreak: 0,
+        score: 0
+    };
+
+    try {
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    "musicquiz-alpha-stats"
+                )
+            );
+
+        return {
+            ...defaults,
+            ...(saved || {})
+        };
+    }
+
+    catch {
+        return defaults;
+    }
+}
+
+
+function saveStats() {
+    localStorage.setItem(
+        "musicquiz-alpha-stats",
+        JSON.stringify(state.stats)
+    );
+}
+
+
+/* =========================================================
+   BASIC HELPERS
+   ========================================================= */
+
+function randomItem(array) {
+    return array[
+        Math.floor(
+            Math.random() * array.length
+        )
+    ];
+}
+
+
+function shuffle(array) {
+    const copy = [...array];
+
+    for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+    ) {
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [
+            copy[i],
+            copy[j]
+        ] = [
+            copy[j],
+            copy[i]
+        ];
+    }
+
+    return copy;
+}
+
+
+function unique(array) {
+    return [
+        ...new Set(
+            array.filter(Boolean)
+        )
+    ];
+}
+
+
+function escapeHTML(value = "") {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+function pad(number) {
+    return String(number).padStart(2, "0");
+}
+
+
+function cleanText(value) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value).trim();
+}
+
+
+/* =========================================================
+   ANSWER NORMALIZATION
+   ========================================================= */
+
+function normalizeAnswer(value) {
+    return cleanText(value)
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .toLowerCase()
+        .replace(/&/g, " y ")
+        .replace(
+            /[^a-z0-9\s]/g,
+            " "
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+}
+
+
+function levenshtein(a, b) {
+    if (!a.length) return b.length;
+    if (!b.length) return a.length;
+
+    const matrix =
+        Array.from(
+            {
+                length:
+                    b.length + 1
+            },
+            () =>
+                Array(
+                    a.length + 1
+                ).fill(0)
+        );
+
+    for (
+        let i = 0;
+        i <= b.length;
+        i++
+    ) {
+        matrix[i][0] = i;
+    }
+
+    for (
+        let j = 0;
+        j <= a.length;
+        j++
+    ) {
+        matrix[0][j] = j;
+    }
+
+    for (
+        let i = 1;
+        i <= b.length;
+        i++
+    ) {
+        for (
+            let j = 1;
+            j <= a.length;
+            j++
+        ) {
+            const cost =
+                b[i - 1] ===
+                a[j - 1]
+                    ? 0
+                    : 1;
+
+            matrix[i][j] =
+                Math.min(
+                    matrix[i - 1][j] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j - 1] +
+                        cost
+                );
+        }
+    }
+
+    return matrix[
+        b.length
+    ][
+        a.length
+    ];
+}
+
+
+function isTextAnswerCorrect(
+    input,
+    expected
+) {
+    const user =
+        normalizeAnswer(input);
+
+    const answer =
+        normalizeAnswer(expected);
+
+    if (!user || !answer) {
+        return false;
+    }
+
+    if (user === answer) {
+        return true;
+    }
+
+    /*
+       Heredado espiritualmente del bot:
+       si escribes algo tipo
+       "creo que es dakiti"
+       también puede contar.
+    */
+
+    if (
+        answer.length >= 4 &&
+        user.includes(answer)
+    ) {
+        return true;
+    }
+
+    /*
+       Una tolerancia mínima para typo.
+       No queremos que "Dákiti" pierda
+       porque alguien escribió "Dakitti".
+    */
+
+    if (
+        answer.length >= 7 &&
+        Math.abs(
+            answer.length -
+            user.length
+        ) <= 2
+    ) {
+        return (
+            levenshtein(
+                user,
+                answer
+            ) <= 2
+        );
+    }
+
+    return false;
+}
+
+
+/* =========================================================
+   DEEP JSON HELPERS
+   ========================================================= */
+
+function maybeParseJSON(value) {
+    if (
+        typeof value !== "string"
+    ) {
+        return value;
+    }
+
+    try {
+        return JSON.parse(value);
+    }
+
+    catch {
+        return value;
+    }
+}
+
+
+function deepFindKey(
+    node,
+    wanted,
+    depth = 0
+) {
+    if (
+        !node ||
+        typeof node !== "object" ||
+        depth > 8
+    ) {
+        return null;
+    }
+
+    if (
+        Object.prototype.hasOwnProperty.call(
+            node,
+            wanted
+        )
+    ) {
+        return node[wanted];
+    }
+
+    for (
+        const value
+        of Object.values(node)
+    ) {
+        if (
+            value &&
+            typeof value === "object"
+        ) {
+            const result =
+                deepFindKey(
+                    value,
+                    wanted,
+                    depth + 1
+                );
+
+            if (
+                result !== null
+            ) {
+                return result;
+            }
+        }
+    }
+
+    return null;
+}
+
+
+function objectToArray(value) {
+    if (Array.isArray(value)) {
+        return value.filter(Boolean);
+    }
+
+    if (
+        value &&
+        typeof value === "object"
+    ) {
+        return Object.values(value)
+            .filter(
+                item =>
+                    item &&
+                    typeof item ===
+                        "object"
+            );
+    }
+
+    return [];
+}
+
+
+/* =========================================================
+   FETCH JSON
+   ========================================================= */
+
+async function fetchJSON(source) {
+    const response =
+        await fetch(
+            source.url,
+            {
+                cache: "no-store"
+            }
+        );
+
+    if (!response.ok) {
+        throw new Error(
+            `${response.status} ${response.statusText}`
+        );
+    }
+
+    const rawText =
+        await response.text();
+
+    const parsed =
+        maybeParseJSON(rawText);
+
+    if (
+        typeof parsed === "string"
+    ) {
+        throw new Error(
+            "La API no devolvió JSON válido."
+        );
+    }
+
+    return parsed;
+}
+
+
+async function loadSource(key) {
+    const source =
+        SOURCES[key];
+
+    try {
+        const raw =
+            await fetchJSON(source);
+
+        const root =
+            deepFindKey(
+                raw,
+                source.root
+            );
+
+        if (
+            root === null ||
+            root === undefined
+        ) {
+            throw new Error(
+                `No encontré "${source.root}" en el JSON.`
+            );
+        }
+
+        state.data[key] =
+            normalizeSource(
+                key,
+                root
+            );
+
+        if (
+            !state.data[key] ||
+            !state.data[key].length
+        ) {
+            throw new Error(
+                `El banco "${source.root}" está vacío o cambió de estructura.`
+            );
+        }
+
+        delete state.errors[key];
+
+        return true;
+    }
+
+    catch (error) {
+        console.error(
+            `[MusicQuiz] ${key}:`,
+            error
+        );
+
+        state.errors[key] =
+            error.message;
+
+        state.data[key] =
+            null;
+
+        return false;
+    }
+}
+
+
+async function loadAllSources() {
+    setConnectionStatus(
+        "loading"
+    );
+
+    await Promise.all(
+        Object.keys(SOURCES)
+            .map(loadSource)
+    );
+
+    updateConnectionStatus();
+}
+
+
+/* =========================================================
+   NORMALIZE SOURCES
+   ========================================================= */
+
+function normalizeSource(
+    key,
+    root
+) {
+    if (key === "lyrics") {
+        return normalizeLyrics(root);
+    }
+
+    return objectToArray(root)
+        .filter(
+            item =>
+                item &&
+                typeof item === "object"
+        );
+}
+
+
+function normalizeLyrics(root) {
+    /*
+       El bot antiguo accedía a:
+
+       Letras[0].X100PRE[index]
+       Letras[0].OASIS[index]
+       ...
+
+       Esto soporta esa estructura y también
+       una versión sin el [0].
+    */
+
+    let albumContainer = root;
+
+    if (
+        Array.isArray(root) &&
+        root.length
+    ) {
+        albumContainer =
+            root[0];
+    }
+
+    if (
+        !albumContainer ||
+        typeof albumContainer !==
+            "object"
+    ) {
+        return [];
+    }
+
+    const songs = [];
+
+    for (
+        const [
+            album,
+            entries
+        ]
+        of Object.entries(
+            albumContainer
+        )
+    ) {
+        const list =
+            objectToArray(entries);
+
+        for (
+            const entry
+            of list
+        ) {
+            const name =
+                cleanText(
+                    entry.name ??
+                    entry.Nombre
+                );
+
+            const lyric =
+                cleanText(
+                    entry.letra ??
+                    entry.Letra
+                );
+
+            if (
+                name &&
+                lyric
+            ) {
+                songs.push({
+                    ...entry,
+                    name,
+                    letra: lyric,
+                    album
+                });
+            }
+        }
+    }
+
+    return songs;
+}
+
+
+/* =========================================================
+   CONNECTION STATUS
+   ========================================================= */
+
+function setConnectionStatus(type) {
+    statusDot.className =
+        `status-dot ${type}`;
+
+    if (type === "loading") {
+        statusText.textContent =
+            "conectando bancos...";
+    }
+}
+
+
+function updateConnectionStatus() {
+    const loaded =
+        Object.values(
+            state.data
+        )
+        .filter(Boolean)
+        .length;
+
+    if (loaded === 4) {
+        statusDot.className =
+            "status-dot ready";
+
+        statusText.textContent =
+            "4/4 bancos online";
+    }
+
+    else if (loaded > 0) {
+        statusDot.className =
+            "status-dot partial";
+
+        statusText.textContent =
+            `${loaded}/4 bancos online`;
+    }
+
+    else {
+        statusDot.className =
+            "status-dot error";
+
+        statusText.textContent =
+            "sin conexión";
+    }
+}
+
+
+/* =========================================================
+   STATS UI
+   ========================================================= */
+
+function updateStatsUI() {
+    $("#menuWins").textContent =
+        state.stats.wins;
+
+    $("#menuLosses").textContent =
+        state.stats.losses;
+
+    $("#menuStreak").textContent =
+        `x${state.stats.streak}`;
+
+    $("#menuBest").textContent =
+        `x${state.stats.bestStreak}`;
+
+    $("#menuScore").textContent =
+        state.stats.score;
+
+    $("#liveStreak").textContent =
+        `x${state.stats.streak}`;
+
+    $("#liveScore").textContent =
+        state.stats.score;
+}
+
+
+/* =========================================================
+   DIFFICULTY
+   ========================================================= */
+
+$$(".difficulty-btn")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+                state.difficulty =
+                    button.dataset.difficulty;
+
+                $$(".difficulty-btn")
+                    .forEach(btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   MENU / GAME NAVIGATION
+   ========================================================= */
+
+$$(".mode")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+                startSession(
+                    button.dataset.mode
+                );
+            }
+        );
+
+    });
+
+
+$("#backBtn")
+    .addEventListener(
+        "click",
+        returnToMenu
+    );
+
+
+function returnToMenu() {
+    stopTimer();
+
+    state.sessionMode = null;
+    state.currentMode = null;
+    state.answered = false;
+
+    document.body
+        .classList
+        .remove(
+            "og-active"
+        );
+
+    gameScreen.classList
+        .remove("active");
+
+    menuScreen.classList
+        .add("active");
+
+    updateStatsUI();
+}
+
+
+/* =========================================================
+   SOURCE REQUIREMENTS
+   ========================================================= */
+
+function modeSource(mode) {
+    const map = {
+        lyrics: "lyrics",
+        feat: "feat",
+        benito: "benito",
+        featSong: "featSong"
+    };
+
+    return map[mode] || null;
+}
+
+
+function availableModes() {
+    return [
+        "lyrics",
+        "feat",
+        "benito",
+        "featSong"
+    ].filter(
+        mode =>
+            state.data[
+                modeSource(mode)
+            ]
+    );
+}
+
+
+/* =========================================================
+   START SESSION
+   ========================================================= */
+
+async function startSession(mode) {
+    const required =
+        modeSource(mode);
+
+    if (
+        required &&
+        !state.data[required]
+    ) {
+        await loadSource(
+            required
+        );
+
+        updateConnectionStatus();
+    }
+
+    if (
+        (mode === "random" ||
+         mode === "og") &&
+        !availableModes().length
+    ) {
+        await loadAllSources();
+    }
+
+    if (
+        required &&
+        !state.data[required]
+    ) {
+        showDataError(required);
+        return;
+    }
+
+    if (
+        (
+            mode === "random" ||
+            mode === "og"
+        ) &&
+        !availableModes().length
+    ) {
+        showDataError();
+        return;
+    }
+
+    state.sessionMode =
+        mode;
+
+    state.round =
+        0;
+
+    menuScreen.classList
+        .remove("active");
+
+    gameScreen.classList
+        .add("active");
+
+    document.body
+        .classList
+        .toggle(
+            "og-active",
+            mode === "og"
+        );
+
+    nextRound();
+}
+
+
+/* =========================================================
+   NEW ROUND
+   ========================================================= */
+
+function nextRound() {
+    stopTimer();
+
+    state.answered =
+        false;
+
+    state.round++;
+
+    let mode =
+        state.sessionMode;
+
+    if (
+        mode === "random" ||
+        mode === "og"
+    ) {
+        mode =
+            randomItem(
+                availableModes()
+            );
+    }
+
+    state.currentMode =
+        mode;
+
+    const isOG =
+        state.sessionMode === "og";
+
+    const difficulty =
+        isOG
+            ? "og"
+            : state.difficulty;
+
+    const round =
+        buildRound(
+            mode,
+            difficulty
+        );
+
+    if (!round) {
+        showDataError(
+            modeSource(mode)
+        );
+        return;
+    }
+
+    state.currentRound =
+        round;
+
+    renderRound(
+        round,
+        isOG
+    );
+
+    if (
+        round.timer > 0
+    ) {
+        startTimer(
+            round.timer
+        );
+    }
+}
+
+
+/* =========================================================
+   BUILD ROUND
+   ========================================================= */
+
+function buildRound(
+    mode,
+    difficulty
+) {
+    switch (mode) {
+        case "lyrics":
+            return buildLyricsRound(
+                difficulty
+            );
+
+        case "feat":
+            return buildFeatRound(
+                difficulty
+            );
+
+        case "benito":
+            return buildBenitoRound(
+                difficulty
+            );
+
+        case "featSong":
+            return buildFeatSongRound(
+                difficulty
+            );
+
+        default:
+            return null;
+    }
+}
+
+
+/* =========================================================
+   LYRICS ROUND
+   ========================================================= */
+
+function buildLyricsRound(
+    difficulty
+) {
+    const bank =
+        state.data.lyrics;
+
+    if (!bank?.length) {
+        return null;
+    }
+
+    const song =
+        randomItem(bank);
+
+    const hard =
+        difficulty === "hard";
+
+    const og =
+        difficulty === "og";
+
+    let choices = null;
+
+    if (!hard && !og) {
+        const distractors =
+            shuffle(
+                bank
+                    .filter(
+                        item =>
+                            item.name !==
+                            song.name
+                    )
+                    .map(
+                        item =>
+                            item.name
+                    )
+            )
+            .slice(0, 3);
+
+        choices =
+            shuffle(
+                unique([
+                    song.name,
+                    ...distractors
+                ])
+            );
+    }
+
+    return {
+        mode: "lyrics",
+
+        title:
+            "LETRA → CANCIÓN",
+
+        source:
+            `LETRAS / ${song.album}`,
+
+        label:
+            "ADIVINA LA CANCIÓN",
+
+        question:
+            song.letra,
+
+        quote:
+            true,
+
+        answer:
+            song.name,
+
+        choices,
+
+        input:
+            hard || og,
+
+        timer:
+            og
+                ? 10
+                : hard
+                    ? 12
+                    : 0,
+
+        extra:
+            `Álbum / categoría: ${song.album}`,
+
+        ogPrompt:
+            "Adivina la canción",
+
+        ogOptions:
+            []
+    };
+}
+
+
+/* =========================================================
+   GUESS FEAT ROUND
+   ========================================================= */
+
+function buildFeatRound(
+    difficulty
+) {
+    const bank =
+        state.data.feat;
+
+    if (!bank?.length) {
+        return null;
+    }
+
+    const item =
+        randomItem(bank);
+
+    const name =
+        cleanText(
+            item.Nombre ??
+            item.nombre ??
+            item.name
+        );
+
+    const answer =
+        cleanText(
+            item.Correcta ??
+            item.correcta
+        );
+
+    const options =
+        unique([
+            answer,
+            cleanText(item.feat1),
+            cleanText(item.feat2),
+            cleanText(item.feat3)
+        ]);
+
+    if (
+        !name ||
+        !answer
+    ) {
+        return buildFeatRound(
+            difficulty
+        );
+    }
+
+    const hard =
+        difficulty === "hard";
+
+    const og =
+        difficulty === "og";
+
+    const shuffled =
+        shuffle(options);
+
+    return {
+        mode: "feat",
+
+        title:
+            "ADIVINA EL FEAT",
+
+        source:
+            "JSON / FEAT",
+
+        label:
+            "¿QUIÉN ES EL FEAT?",
+
+        question:
+            name,
+
+        quote:
+            false,
+
+        answer,
+
+        choices:
+            hard || og
+                ? null
+                : shuffled,
+
+        input:
+            hard || og,
+
+        timer:
+            og
+                ? 13
+                : hard
+                    ? 11
+                    : 0,
+
+        extra:
+            "Una sola es la respuesta correcta.",
+
+        ogPrompt:
+            "Adivina el feat",
+
+        ogOptions:
+            shuffled
+    };
+}
+
+
+/* =========================================================
+   BENITO OR NOT
+   ========================================================= */
+
+function buildBenitoRound(
+    difficulty
+) {
+    const bank =
+        state.data.benito;
+
+    if (!bank?.length) {
+        return null;
+    }
+
+    const item =
+        randomItem(bank);
+
+    const lyric =
+        cleanText(
+            item.letra ??
+            item.Letra
+        );
+
+    const rawAnswer =
+        cleanText(
+            item.beno ??
+            item.Beno
+        );
+
+    const normalized =
+        normalizeAnswer(
+            rawAnswer
+        );
+
+    const answer =
+        [
+            "si",
+            "sí",
+            "yes",
+            "true",
+            "1"
+        ]
+        .some(
+            value =>
+                normalized ===
+                normalizeAnswer(value)
+        )
+            ? "Sí"
+            : "No";
+
+    const name =
+        cleanText(
+            item.name ??
+            item.Nombre
+        );
+
+    const artist =
+        cleanText(
+            item.artista ??
+            item.Artista
+        );
+
+    const og =
+        difficulty === "og";
+
+    return {
+        mode: "benito",
+
+        title:
+            "¿BENITO O NO?",
+
+        source:
+            "JSON / benoOno",
+
+        label:
+            "¿ESTA LETRA ES DE BENITO?",
+
+        question:
+            lyric,
+
+        quote:
+            true,
+
+        answer,
+
+        choices:
+            og
+                ? null
+                : ["Sí", "No"],
+
+        input:
+            og,
+
+        timer:
+            og
+                ? 13
+                : difficulty === "hard"
+                    ? 8
+                    : 0,
+
+        extra:
+            [
+                name &&
+                    `Canción: ${name}`,
+                artist &&
+                    `Artista: ${artist}`
+            ]
+            .filter(Boolean)
+            .join(" · "),
+
+        ogPrompt:
+            "¿Esta letra es de una canción de Benito?",
+
+        ogOptions: [
+            "si",
+            "no"
+        ]
+    };
+}
+
+
+/* =========================================================
+   FEAT -> SONG
+   ========================================================= */
+
+function buildFeatSongRound(
+    difficulty
+) {
+    const bank =
+        state.data.featSong;
+
+    if (!bank?.length) {
+        return null;
+    }
+
+    const item =
+        randomItem(bank);
+
+    const feat =
+        cleanText(
+            item.feat ??
+            item.Feat
+        );
+
+    const answer =
+        cleanText(
+            item.correcta ??
+            item.Correcta
+        );
+
+    const options =
+        unique([
+            answer,
+            cleanText(item.cancion),
+            cleanText(item.cancion2),
+            cleanText(item.cancion3)
+        ]);
+
+    if (
+        !feat ||
+        !answer
+    ) {
+        return buildFeatSongRound(
+            difficulty
+        );
+    }
+
+    const hard =
+        difficulty === "hard";
+
+    const og =
+        difficulty === "og";
+
+    const shuffled =
+        shuffle(options);
+
+    return {
+        mode: "featSong",
+
+        title:
+            "FEAT → CANCIÓN",
+
+        source:
+            "JSON / ADIVINARFEAT",
+
+        label:
+            "¿QUÉ CANCIÓN ES?",
+
+        question:
+            feat,
+
+        quote:
+            false,
+
+        answer,
+
+        choices:
+            hard || og
+                ? null
+                : shuffled,
+
+        input:
+            hard || og,
+
+        timer:
+            og
+                ? 13
+                : hard
+                    ? 11
+                    : 0,
+
+        extra:
+            "Ese feat pertenece a una de estas canciones.",
+
+        ogPrompt:
+            "Adivina la canción con el feat",
+
+        ogOptions:
+            shuffled
+    };
+}
+
+
+/* =========================================================
+   RENDER ROUND
+   ========================================================= */
+
+function renderRound(
+    round,
+    isOG
+) {
+    $("#gameModeTitle")
+        .textContent =
+            isOG
+                ? `OG MODE / ${round.title}`
+                : (
+                    state.sessionMode ===
+                    "random"
+                        ? `RANDOM / ${round.title}`
+                        : round.title
+                );
+
+    $("#roundNumber")
+        .textContent =
+            pad(state.round);
+
+    $("#bigQuestionNumber")
+        .textContent =
+            pad(state.round);
+
+    $("#roundDifficulty")
+        .textContent =
+            isOG
+                ? "OG MODE"
+                : state.difficulty.toUpperCase();
+
+    $("#roundSource")
+        .textContent =
+            round.source;
+
+    updateStatsUI();
+
+    $("#standardQuestion")
+        .classList
+        .toggle(
+            "hidden",
+            isOG
+        );
+
+    $("#ogQuestion")
+        .classList
+        .toggle(
+            "hidden",
+            !isOG
+        );
+
+    if (isOG) {
+        renderOGRound(round);
+    }
+
+    else {
+        renderStandardRound(
+            round
+        );
+    }
+}
+
+
+/* =========================================================
+   STANDARD ROUND RENDER
+   ========================================================= */
+
+function renderStandardRound(
+    round
+) {
+    const text =
+        $("#questionText");
+
+    text.textContent =
+        round.question;
+
+    text.className =
+        round.quote
+            ? "question quote pop"
+            : "question pop";
+
+    $("#questionLabel")
+        .textContent =
+            round.label;
+
+    $("#questionSubtitle")
+        .textContent =
+            round.extra || "";
+
+    const result =
+        $("#resultBox");
+
+    result.className =
+        "result hidden";
+
+    result.innerHTML =
+        "";
+
+    renderAnswerZone(
+        $("#answerZone"),
+        round,
+        false
+    );
+}
+
+
+/* =========================================================
+   OG ROUND RENDER
+   ========================================================= */
+
+function renderOGRound(
+    round
+) {
+    $("#ogContent")
+        .innerHTML =
+            `
+                <strong>
+                    ${escapeHTML(round.ogPrompt)}
+                </strong>
+
+                <br><br>
+
+                &gt;
+                ${escapeHTML(round.question)}
+            `;
+
+    const options =
+        $("#ogOptions");
+
+    if (
+        round.ogOptions?.length
+    ) {
+        options.classList
+            .remove("hidden");
+
+        options.innerHTML =
+            round.ogOptions
+            .map(
+                (option, index) =>
+                    `${index + 1}. ${escapeHTML(option)}`
+            )
+            .join("<br>");
+    }
+
+    else {
+        options.classList
+            .add("hidden");
+
+        options.innerHTML =
+            "";
+    }
+
+    const result =
+        $("#ogResultBox");
+
+    result.className =
+        "result hidden";
+
+    result.innerHTML =
+        "";
+
+    renderAnswerZone(
+        $("#ogAnswerZone"),
+        round,
+        true
+    );
+}
+
+
+/* =========================================================
+   ANSWER UI
+   ========================================================= */
+
+function renderAnswerZone(
+    container,
+    round,
+    isOG
+) {
+    container.innerHTML =
+        "";
+
+    if (
+        round.choices &&
+        round.choices.length
+    ) {
+        const choices =
+            document.createElement(
+                "div"
+            );
+
+        choices.className =
+            "choices pop";
+
+        round.choices
+            .forEach(
+                (
+                    option,
+                    index
+                ) => {
+                    const button =
+                        document.createElement(
+                            "button"
+                        );
+
+                    button.className =
+                        "choice";
+
+                    button.dataset.answer =
+                        option;
+
+                    button.innerHTML =
+                        `
+                            <span class="choice-index">
+                                ${String.fromCharCode(65 + index)}
+                            </span>
+
+                            <span class="choice-text">
+                                ${escapeHTML(option)}
+                            </span>
+                        `;
+
+                    button.addEventListener(
+                        "click",
+                        () =>
+                            submitAnswer(
+                                option,
+                                false
+                            )
+                    );
+
+                    choices.appendChild(
+                        button
+                    );
+                }
+            );
+
+        container.appendChild(
+            choices
+        );
+
+        return;
+    }
+
+
+    const form =
+        document.createElement(
+            "form"
+        );
+
+    form.className =
+        "text-answer pop";
+
+    const input =
+        document.createElement(
+            "input"
+        );
+
+    input.className =
+        "answer-input";
+
+    input.type =
+        "text";
+
+    input.autocomplete =
+        "off";
+
+    input.spellcheck =
+        false;
+
+    input.placeholder =
+        round.mode === "benito"
+            ? "si / no"
+            : (
+                isOG
+                    ? "escribe tu respuesta..."
+                    : "tu respuesta..."
+            );
+
+    const submit =
+        document.createElement(
+            "button"
+        );
+
+    submit.type =
+        "submit";
+
+    submit.className =
+        "submit-answer";
+
+    submit.textContent =
+        "RESPONDER ↗";
+
+    form.append(
+        input,
+        submit
+    );
+
+    form.addEventListener(
+        "submit",
+        event => {
+            event.preventDefault();
+
+            submitAnswer(
+                input.value,
+                false
+            );
+        }
+    );
+
+    container.appendChild(
+        form
+    );
+
+    setTimeout(
+        () => input.focus(),
+        80
+    );
+}
+
+
+/* =========================================================
+   SUBMIT ANSWER
+   ========================================================= */
+
+function submitAnswer(
+    value,
+    timedOut = false
+) {
+    if (state.answered) {
+        return;
+    }
+
+    state.answered =
+        true;
+
+    stopTimer();
+
+    const round =
+        state.currentRound;
+
+    let correct =
+        false;
+
+    if (!timedOut) {
+        if (round.mode === "benito") {
+            correct =
+                normalizeAnswer(value) ===
+                normalizeAnswer(
+                    round.answer
+                );
+        }
+
+        else {
+            correct =
+                isTextAnswerCorrect(
+                    value,
+                    round.answer
+                );
+        }
+    }
+
+    markChoiceButtons(
+        value,
+        round.answer
+    );
+
+    const points =
+        applyResult(
+            correct,
+            timedOut
+        );
+
+    renderResult(
+        correct,
+        timedOut,
+        points
+    );
+
+    updateStatsUI();
+}
+
+
+/* =========================================================
+   CHOICE STATES
+   ========================================================= */
+
+function markChoiceButtons(
+    selected,
+    answer
+) {
+    $$(".choice")
+        .forEach(button => {
+
+            button.disabled =
+                true;
+
+            const value =
+                button.dataset.answer;
+
+            if (
+                normalizeAnswer(value) ===
+                normalizeAnswer(answer)
+            ) {
+                button.classList
+                    .add("correct");
+            }
+
+            else if (
+                normalizeAnswer(value) ===
+                normalizeAnswer(selected)
+            ) {
+                button.classList
+                    .add("wrong");
+            }
+
+        });
+}
+
+
+/* =========================================================
+   SCORE
+   ========================================================= */
+
+function applyResult(
+    correct,
+    timedOut
+) {
+    let points = 0;
+
+    if (correct) {
+        state.stats.wins++;
+        state.stats.streak++;
+
+        state.stats.bestStreak =
+            Math.max(
+                state.stats.bestStreak,
+                state.stats.streak
+            );
+
+        const isHard =
+            state.difficulty === "hard" &&
+            state.sessionMode !== "og";
+
+        const base =
+            state.sessionMode === "og"
+                ? 175
+                : isHard
+                    ? 200
+                    : 100;
+
+        const streakBonus =
+            Math.min(
+                state.stats.streak * 15,
+                300
+            );
+
+        let timeBonus = 0;
+
+        if (
+            state.timerDuration > 0 &&
+            state.timerDeadline
+        ) {
+            const secondsLeft =
+                Math.max(
+                    0,
+                    (
+                        state.timerDeadline -
+                        Date.now()
+                    ) / 1000
+                );
+
+            timeBonus =
+                Math.round(
+                    secondsLeft * 8
+                );
+        }
+
+        points =
+            base +
+            streakBonus +
+            timeBonus;
+
+        state.stats.score +=
+            points;
+    }
+
+    else {
+        state.stats.losses++;
+        state.stats.streak = 0;
+    }
+
+    saveStats();
+
+    return points;
+}
+
+
+/* =========================================================
+   RESULT RENDER
+   ========================================================= */
+
+function renderResult(
+    correct,
+    timedOut,
+    points
+) {
+    const isOG =
+        state.sessionMode === "og";
+
+    const box =
+        isOG
+            ? $("#ogResultBox")
+            : $("#resultBox");
+
+    box.className =
+        `result ${
+            correct
+                ? "good"
+                : "bad"
+        } pop`;
+
+    let kicker;
+
+    if (correct) {
+        kicker =
+            "CORRECTO";
+    }
+
+    else if (timedOut) {
+        kicker =
+            "SE ACABÓ EL TIEMPO";
+    }
+
+    else {
+        kicker =
+            "NO ERA ESA";
+    }
+
+    const title =
+        correct
+            ? getWinMessage()
+            : `Era “${state.currentRound.answer}”.`;
+
+    let extra =
+        state.currentRound.extra || "";
+
+    if (
+        state.currentRound.mode ===
+        "benito"
+    ) {
+        extra =
+            state.currentRound.extra;
+    }
+
+    box.innerHTML =
+        `
+            <div class="result-kicker">
+                ${kicker}
+            </div>
+
+            <h2 class="result-title">
+                ${escapeHTML(title)}
+            </h2>
+
+            ${
+                extra
+                    ? `
+                        <div class="result-extra">
+                            ${escapeHTML(extra)}
+                        </div>
+                    `
+                    : ""
+            }
+
+            <div class="result-actions">
+
+                <button
+                    id="nextRoundBtn"
+                    class="next-btn"
+                >
+                    SIGUIENTE ↗
+                </button>
+
+                <span class="result-score">
+                    ${
+                        correct
+                            ? `+${points} puntos · racha x${state.stats.streak}`
+                            : `racha perdida · score ${state.stats.score}`
+                    }
+                </span>
+
+            </div>
+        `;
+
+    $("#nextRoundBtn")
+        .addEventListener(
+            "click",
+            nextRound
+        );
+}
+
+
+function getWinMessage() {
+    const streak =
+        state.stats.streak;
+
+    if (streak >= 10) {
+        return "NAH, ESTÁS ENFERMO.";
+    }
+
+    if (streak >= 7) {
+        return "NO ESTÁS FALLANDO.";
+    }
+
+    if (streak >= 5) {
+        return "YA HAY RACHA.";
+    }
+
+    if (streak >= 3) {
+        return "COGIÓ CALOR.";
+    }
+
+    return randomItem([
+        "ESA ERA.",
+        "CLARO QUE SÍ.",
+        "CORRECTÍSIMO.",
+        "BIEN JUGADO.",
+        "TE LA SABÍAS."
+    ]);
+}
+
+
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+function startTimer(
+    seconds
+) {
+    stopTimer();
+
+    const wrap =
+        $("#timerWrap");
+
+    const bar =
+        $("#timerBar");
+
+    const number =
+        $("#timerNumber");
+
+    wrap.classList
+        .remove("hidden");
+
+    number.classList
+        .remove("hidden");
+
+    state.timerDuration =
+        seconds;
+
+    state.timerDeadline =
+        Date.now() +
+        seconds * 1000;
+
+    bar.style.transform =
+        "scaleX(1)";
+
+    state.timerId =
+        setInterval(
+            () => {
+                const remaining =
+                    Math.max(
+                        0,
+                        state.timerDeadline -
+                        Date.now()
+                    );
+
+                const ratio =
+                    remaining /
+                    (
+                        state.timerDuration *
+                        1000
+                    );
+
+                bar.style.transform =
+                    `scaleX(${ratio})`;
+
+                number.textContent =
+                    `${(remaining / 1000).toFixed(1)}s`;
+
+                if (
+                    remaining <= 0
+                ) {
+                    stopTimer(false);
+
+                    submitAnswer(
+                        "",
+                        true
+                    );
+                }
+            },
+            50
+        );
+}
+
+
+function stopTimer(
+    hide = true
+) {
+    if (state.timerId) {
+        clearInterval(
+            state.timerId
+        );
+
+        state.timerId =
+            null;
+    }
+
+    if (hide) {
+        $("#timerWrap")
+            .classList
+            .add("hidden");
+
+        $("#timerNumber")
+            .classList
+            .add("hidden");
+    }
+}
+
+
+/* =========================================================
+   ERROR UI
+   ========================================================= */
+
+function showDataError(
+    sourceKey = null
+) {
+    let detail =
+        "No pude cargar los bancos del juego.";
+
+    if (
+        sourceKey &&
+        state.errors[sourceKey]
+    ) {
+        detail =
+            state.errors[sourceKey];
+    }
+
+    $("#overlayTitle")
+        .textContent =
+            "No pude leer el JSON.";
+
+    $("#overlayText")
+        .textContent =
+            `${detail}
+
+Si estás abriendo este archivo directamente con doble clic, el navegador puede bloquear peticiones externas por CORS. Prueba con Live Server, GitHub Pages, Netlify o cualquier servidor estático.`;
+
+    $("#overlay")
+        .classList
+        .remove("hidden");
+}
+
+
+$("#retryBtn")
+    .addEventListener(
+        "click",
+        async () => {
+            $("#overlay")
+                .classList
+                .add("hidden");
+
+            await loadAllSources();
+        }
+    );
+
+
+$("#closeOverlayBtn")
+    .addEventListener(
+        "click",
+        () => {
+            $("#overlay")
+                .classList
+                .add("hidden");
+        }
+    );
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+        if (
+            !gameScreen
+                .classList
+                .contains("active")
+        ) {
+            return;
+        }
+
+        if (state.answered) {
+            if (
+                event.key === "Enter" ||
+                event.key.toLowerCase() === "n"
+            ) {
+                nextRound();
+            }
+
+            return;
+        }
+
+        const choices =
+            $$(".choice:not(:disabled)");
+
+        if (
+            choices.length &&
+            ["1", "2", "3", "4"]
+                .includes(event.key)
+        ) {
+            const index =
+                Number(event.key) - 1;
+
+            choices[index]
+                ?.click();
+        }
+    }
+);
+
+
+/* =========================================================
+   PREVENT DOUBLE-TAP WEIRDNESS ON MOBILE
+   ========================================================= */
+
+document
+    .querySelectorAll("button")
+    .forEach(button => {
+        button.style.touchAction =
+            "manipulation";
+    });
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+updateStatsUI();
+loadAllSources();
+
+</script>
+
+</body>
+</html>

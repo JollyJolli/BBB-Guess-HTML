@@ -1,58 +1,62 @@
 # BUNNY QUIZ
 
-> **A0.0.5-Alpha**
-> Un quiz musical nacido del MusicQuiz original de Discord.
+> **A.0.1-B**
+> Una revista musical convertida en arcade, con la historia de MusicQuiz archivada detrás.
 
-BUNNY QUIZ es un juego web de letras, canciones, feats y álbumes de Bad Bunny. Está construido con HTML, CSS y JavaScript vanilla, sin frameworks ni librerías visuales.
+BUNNY QUIZ es un juego web de letras, canciones, feats y álbumes de Bad Bunny. Está construido con HTML, CSS y JavaScript vanilla, sin frameworks ni proceso de build.
 
-## Esta versión
+## Dirección visual
 
-A0.0.5 añade:
+Esta versión reconstruye la interfaz alrededor de tres lenguajes que comparten un mismo sistema:
 
-- sesiones de diez preguntas y pantalla completa de resultados;
-- PNG de resultado diseñado para descargar o compartir;
-- estadísticas globales y por modo;
-- mastery por álbum basado en precisión, exposición y consistencia;
-- eventos sorpresa y milestones de combo en NEW MODE;
-- configuración, scoring, tracking y storage versionado;
-- migración automática desde `musicquiz-alpha-stats`;
-- changelog dentro del juego;
-- **THE ARCHIVE**, un museo secreto construido a partir de las dos versiones históricas reales de MusicQuiz.
+- revista musical para la tipografía, las fotografías y la composición;
+- arcade para las preguntas, el score y las respuestas;
+- archivo para OG Mode, el museo y la historia real del proyecto.
+
+El sistema visual usa bordes secos, escala tipográfica extrema, líneas, metadata y color con significado. Las eras de álbum intervienen acentos, timer y detalles sin reemplazar la identidad base de Bunny Quiz.
 
 ## Modos
 
 ```text
-01  LETRA → CANCIÓN
-02  ADIVINA EL FEAT
-03  ¿BENITO O NO?
-04  FEAT → CANCIÓN
-05  NEW MODE
-06  RANDOM
-07  OG MODE
+01  LETRA → CANCIÓN                10 SEC
+02  ADIVINA EL FEAT                FEAT
+03  ¿BENITO O NO?                  YES / NO
+04  FEAT → CANCIÓN                 4 CHOICES
+05  NEW MODE                       RUN
+06  RANDOM                         ∞
+07  OG MODE                        LEGACY
 ```
 
-NEW MODE es una run de diez rondas con tres vidas, ocho tipos de challenge, bosses, combo, multiplicadores y eventos. OG MODE conserva las cuatro modalidades originales y una interfaz inspirada en el antiguo bot.
+NEW MODE es una run de diez rondas con tres vidas, challenges, bosses, combo, multiplicadores y eventos. OG MODE conserva las cuatro modalidades originales como una pieza jugable del archivo.
 
 ## Estructura
 
 ```text
 index.html
 │
+├── assets/images/
+│   ├── editorial/
+│   ├── eras/
+│   └── archive/
+│
 ├── css/
 │   ├── styles.css
-│   ├── a005.css
-│   ├── a005-responsive.css
-│   └── museum.css
+│   ├── records.css
+│   ├── museum.css
+│   └── responsive.css
 │
 ├── js/
 │   ├── app.js
 │   ├── config.js
-│   ├── versions.js
+│   ├── themes.js
+│   ├── photos.js
+│   ├── cursor.js
+│   ├── sharing.js
 │   ├── storage.js
 │   ├── scoring.js
 │   ├── stats.js
 │   ├── mastery.js
-│   ├── sharing.js
+│   ├── versions.js
 │   ├── data/changelog.js
 │   ├── new-mode/events.js
 │   └── museum/
@@ -60,26 +64,28 @@ index.html
 │       └── museum.js
 │
 └── CODIGO-ANTIGUO-og/
-    ├── musicquiz-full-og.js
-    └── musicquiz-antiguo-pero-no-og.js
 ```
 
-`config.js` es la fuente única para versión, URLs, timers, scoring, mastery, eventos y feature flags. `app.js` conserva el flujo principal del juego; los sistemas que necesitan reglas propias viven en módulos separados.
+`config.js` es la fuente única para versión, fuentes de datos, reglas y temas de álbum. `themes.js` resuelve álbumes conocidos y desconocidos hacia custom properties compartidas. `app.js` conserva el flujo principal del juego.
+
+## Fotografía
+
+La interfaz incluye slots editoriales, pero no descarga ni enlaza fotografías externas. Los assets locales se organizan en `assets/images/` y se activan desde `CONFIG.assets.photos`. Si un archivo no existe, el fallback tipográfico conserva la composición sin mostrar una imagen rota.
 
 ## Datos y persistencia
 
-Los cuatro bancos históricos siguen cargándose desde JSONStorage. Las estadísticas se guardan únicamente en el navegador mediante `localStorage`.
+Los cuatro bancos siguen cargándose desde JSONStorage. Las estadísticas se guardan únicamente en el navegador mediante `localStorage`.
 
 ```text
 storage actual:  bunny-quiz-profile-v2
 storage legado:  musicquiz-alpha-stats
 ```
 
-El perfil incluye stats globales, stats por modo, mastery por álbum, records de NEW MODE y metadata de versión. No hay cuentas, backend ni sincronización entre dispositivos.
+El perfil incluye estadísticas globales, estadísticas por modo, mastery por álbum, records de NEW MODE y metadata de versión. No hay cuentas, backend ni sincronización entre dispositivos.
 
 ## Desarrollo
 
-Sirve la carpeta mediante HTTP para que `fetch()` y los módulos ES funcionen correctamente. No requiere proceso de build.
+Sirve esta carpeta mediante HTTP para que `fetch()` y los módulos ES funcionen correctamente. No requiere instalación ni compilación.
 
 ```text
 HTML + CSS + JavaScript
@@ -87,8 +93,6 @@ frameworks: ninguno
 build: ninguno
 ```
 
-## Historia
-
-Antes de Bunny Quiz existía `musicquiz`: un comando de Discord hecho con aoi.js, `awaitedCommand`, botones y cuatro JSON especializados. Las fuentes originales se conservan intactas en `CODIGO-ANTIGUO-og/` y alimentan el museo del proyecto.
+THE ARCHIVE es una entrada pública de la interfaz y se construye con las fuentes históricas conservadas en `CODIGO-ANTIGUO-og/`. Su cronología comienza ahora con **ORIGIN / ERA 0**, el snapshot de 2021 del bot comunitario completo que existió antes de MusicQuiz, y continúa con las dos etapas del quiz de Discord hasta Bunny Quiz.
 
 > THE OLD BOT GREW UP.

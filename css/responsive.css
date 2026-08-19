@@ -1,0 +1,895 @@
+/* RESPONSIVE COMPOSITION / designed at each breakpoint */
+
+@media (max-width: 1120px) {
+    .hero {
+        min-height: 760px;
+    }
+
+    .hero h1 {
+        font-size: clamp(126px, 19vw, 230px);
+    }
+
+    .editorial-photo--hero {
+        width: 360px;
+    }
+
+    .photo-surface {
+        min-height: 430px;
+    }
+
+    .mode {
+        grid-template-columns: 70px minmax(220px, 1fr) 160px 90px;
+    }
+
+    .final-result-main {
+        grid-template-columns: minmax(0, 1fr) 230px 150px;
+    }
+
+    .final-grade-block strong {
+        font-size: 140px;
+    }
+
+    .final-result-photo .photo-surface {
+        min-height: 310px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --gutter: 28px;
+    }
+
+    .hero {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    .hero-main {
+        grid-column: 1 / 8;
+    }
+
+    .editorial-photo--hero {
+        grid-column: 5 / 9;
+        width: 100%;
+    }
+
+    .hero-copy {
+        grid-column: 5 / 9;
+    }
+
+    .stats-strip {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-score {
+        grid-column: span 2;
+    }
+
+    .stat:nth-child(2),
+    .stat:nth-child(5) {
+        border-right: 0;
+    }
+
+    .stat:nth-child(n + 3) {
+        border-top: var(--rule);
+    }
+
+    .play-config,
+    .record-ledger,
+    .mastery-ledger,
+    .museum-evolution {
+        grid-template-columns: 1fr;
+        gap: 56px;
+    }
+
+    .config-content {
+        max-width: 720px;
+    }
+
+    .mode-heading {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .mode-heading > p {
+        max-width: 520px;
+    }
+
+    .mode {
+        grid-template-columns: 58px minmax(0, 1fr) 145px 80px;
+    }
+
+    .archive-entry {
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 34px 46px;
+    }
+
+    .archive-entry h2 {
+        font-size: clamp(100px, 17vw, 170px);
+    }
+
+    .question-layout > div:last-child {
+        grid-column: 4 / 13;
+    }
+
+    .question-number {
+        font-size: clamp(115px, 18vw, 180px);
+    }
+
+    .new-hud-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .new-hud-cell:nth-child(2) {
+        border-right: 0;
+    }
+
+    .new-hud-cell:nth-child(n + 3) {
+        border-top: 1px solid color-mix(in srgb, var(--era-signal) 30%, var(--bunny-line));
+    }
+
+    .records-hero,
+    .release-hero,
+    .museum-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 52px;
+        padding-top: 140px;
+    }
+
+    .records-lead,
+    .release-hero > p:last-child,
+    .museum-hero > div {
+        max-width: 520px;
+    }
+
+    .museum-era-rail {
+        grid-template-columns: 1fr;
+    }
+
+    .origin-heading,
+    .origin-ledger {
+        grid-template-columns: 1fr;
+    }
+
+    .origin-heading {
+        gap: 46px;
+    }
+
+    .origin-intro {
+        max-width: 560px;
+    }
+
+    .origin-tree {
+        border-right: 0;
+        border-bottom: 1px solid #5a574d;
+    }
+
+    .museum-era {
+        min-height: 110px;
+        border-right: 0;
+        border-bottom: 1px solid #5a574d;
+    }
+
+    .archive-table-heading {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .museum-artifacts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 70px 24px;
+    }
+
+    .archive-item,
+    .archive-item--wide,
+    .archive-item--hero,
+    .archive-item--monument {
+        grid-column: span 1;
+    }
+
+    .archive-item--monument {
+        grid-column: 1 / -1;
+    }
+
+    .final-result-main {
+        grid-template-columns: minmax(0, 1fr) 210px 130px;
+        gap: 22px;
+    }
+
+    .final-result-photo .photo-surface {
+        min-height: 270px;
+    }
+
+    .final-result-photo .photo-surface strong {
+        font-size: 135px;
+    }
+
+    .final-grade-block strong {
+        font-size: 112px;
+    }
+
+    .final-metrics {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    :root {
+        --gutter: 18px;
+    }
+
+    .site-header-inner {
+        min-height: 56px;
+        gap: 10px;
+    }
+
+    .brand {
+        gap: 7px;
+    }
+
+    .brand-mark {
+        width: 11px;
+        height: 11px;
+    }
+
+    .version {
+        font-size: 7px;
+    }
+
+    .header-utility {
+        gap: 11px;
+    }
+
+    .record-nav {
+        gap: 10px;
+    }
+
+    .text-nav {
+        font-size: 8px;
+    }
+
+    .archive-nav {
+        font-size: 8px;
+    }
+
+    .header-status {
+        font-size: 8px;
+    }
+
+    .ticker-text {
+        font-size: 8px;
+    }
+
+    .whats-new {
+        grid-template-columns: 1fr auto;
+        padding-inline: var(--gutter);
+    }
+
+    .whats-new strong {
+        display: none;
+    }
+
+    .hero {
+        min-height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 34px;
+        padding: 58px 0 48px;
+    }
+
+    .hero-main,
+    .editorial-photo--hero,
+    .hero-copy {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .hero-main {
+        z-index: 2;
+    }
+
+    .hero h1 {
+        font-size: clamp(104px, 33vw, 190px);
+        line-height: .67;
+    }
+
+    .hero-line-shift {
+        margin-left: 0;
+    }
+
+    .hero-deck {
+        max-width: 86%;
+        margin: 28px 0 0 10%;
+        font-size: clamp(23px, 8vw, 38px);
+    }
+
+    .editorial-photo--hero {
+        width: 72%;
+        justify-self: end;
+        transform: translateX(var(--gutter));
+    }
+
+    .photo-surface {
+        min-height: 330px;
+    }
+
+    .photo-surface strong {
+        font-size: 190px;
+    }
+
+    .hero-copy {
+        width: 92%;
+    }
+
+    .hero-intro {
+        font-size: 19px;
+    }
+
+    .release-note {
+        grid-template-columns: 90px 1fr;
+    }
+
+    .stats-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-score {
+        grid-column: 1 / -1;
+    }
+
+    .stat {
+        min-height: 112px;
+        padding: 15px 12px;
+    }
+
+    .stat:nth-child(2),
+    .stat:nth-child(4) {
+        border-right: var(--rule);
+    }
+
+    .stat:nth-child(3),
+    .stat:nth-child(5) {
+        border-right: 0;
+    }
+
+    .stat:nth-child(n + 2) {
+        border-top: var(--rule);
+    }
+
+    .play-config {
+        padding: 82px 0;
+    }
+
+    .config-intro h2,
+    .mode-heading h2 {
+        font-size: clamp(48px, 15vw, 72px);
+    }
+
+    .difficulty-btn {
+        min-height: 82px;
+    }
+
+    .mode-section {
+        padding: 90px 0 100px;
+    }
+
+    .mode-heading {
+        margin-bottom: 48px;
+    }
+
+    .mode {
+        min-height: 88px;
+        grid-template-columns: 40px minmax(0, 1fr) 62px;
+        gap: 10px;
+        padding-inline: 3px;
+    }
+
+    .mode:hover,
+    .mode:focus-visible {
+        padding-left: 8px;
+    }
+
+    .mode-meta,
+    .mode-badge {
+        display: none;
+    }
+
+    .mode-name {
+        font-size: clamp(30px, 10vw, 44px);
+    }
+
+    .mode-action {
+        font-size: 7px;
+    }
+
+    .archive-entry {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 38px;
+        padding: 34px 0 48px;
+    }
+
+    .archive-entry-meta {
+        font-size: 7px;
+    }
+
+    .archive-entry h2 {
+        font-size: clamp(98px, 31vw, 160px);
+    }
+
+    .archive-entry-copy {
+        padding-left: 0;
+        padding-top: 18px;
+        border-top: 1px solid var(--bunny-black);
+        border-left: 0;
+    }
+
+    .site-footer {
+        grid-template-columns: 1fr auto;
+        gap: 15px;
+    }
+
+    .site-footer > span {
+        display: none;
+    }
+
+    .game-header-inner {
+        min-height: 96px;
+        grid-template-columns: 72px minmax(0, 1fr);
+        grid-template-rows: 52px 44px;
+        gap: 0 12px;
+    }
+
+    .game-mode-title {
+        font-size: 22px;
+        text-align: right;
+    }
+
+    .game-live-stats {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-top: 1px solid color-mix(in srgb, var(--era-primary) 24%, var(--bunny-line));
+    }
+
+    .game-live-stats > span {
+        min-width: 0;
+        padding-top: 8px;
+        text-align: center;
+    }
+
+    .game-live-stats strong {
+        display: inline;
+        margin: 0 0 0 5px;
+        font-size: 18px;
+    }
+
+    .live-combo small {
+        display: none;
+    }
+
+    .game-main {
+        padding: 30px 0 64px;
+    }
+
+    .round-meta {
+        align-items: flex-start;
+        margin-bottom: 34px;
+        font-size: 8px;
+    }
+
+    .round-meta-left {
+        max-width: 78%;
+        gap: 10px 14px;
+    }
+
+    .question-layout {
+        display: block;
+        position: relative;
+    }
+
+    .question-layout > div:last-child {
+        position: relative;
+        z-index: 2;
+    }
+
+    .question-number {
+        position: absolute;
+        right: 0;
+        top: -10px;
+        z-index: 1;
+        font-size: 100px;
+        opacity: .48;
+    }
+
+    .question-label {
+        max-width: calc(100% - 90px);
+        min-height: 20px;
+    }
+
+    .question,
+    .question.quote {
+        font-size: clamp(39px, 12.5vw, 61px);
+        line-height: .98;
+    }
+
+    .question-subtitle {
+        font-size: 14px;
+    }
+
+    .new-hud {
+        margin-bottom: 34px;
+    }
+
+    .new-hud-cell {
+        padding: 11px 10px;
+    }
+
+    .event-announcement {
+        top: 56px;
+        grid-template-columns: 1fr;
+        gap: 7px;
+        padding: 16px var(--gutter);
+    }
+
+    .event-announcement strong {
+        font-size: 42px;
+    }
+
+    .event-announcement p {
+        display: none;
+    }
+
+    .answer-zone {
+        margin-top: 46px;
+    }
+
+    .choice {
+        min-height: 70px;
+        grid-template-columns: 34px minmax(0, 1fr) 20px;
+        gap: 10px;
+    }
+
+    .choice-text {
+        font-size: 17px;
+    }
+
+    .text-answer {
+        grid-template-columns: minmax(0, 1fr) 76px;
+    }
+
+    .answer-input {
+        font-size: 28px;
+    }
+
+    .submit-answer {
+        padding-left: 12px;
+        font-size: 8px;
+    }
+
+    .result-title {
+        font-size: clamp(48px, 16vw, 78px);
+    }
+
+    .result-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .next-btn {
+        width: 100%;
+    }
+
+    .og-legacy-meta {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .og-box {
+        padding: 22px 18px;
+        box-shadow: 6px 6px 0 #090a08;
+    }
+
+    .og-box::after {
+        display: none;
+    }
+
+    .internal-page,
+    .museum-page {
+        padding-bottom: 60px;
+    }
+
+    .internal-header > span {
+        max-width: 170px;
+        text-align: right;
+        line-height: 1.4;
+    }
+
+    .records-hero,
+    .release-hero,
+    .museum-hero {
+        gap: 42px;
+        padding-top: 110px;
+    }
+
+    .records-hero h1,
+    .release-hero h1,
+    .museum-hero h1 {
+        font-size: clamp(88px, 28vw, 150px);
+    }
+
+    .records-lead span {
+        font-size: 70px;
+    }
+
+    .record-ledger,
+    .mastery-ledger,
+    .museum-evolution {
+        padding-block: 82px;
+    }
+
+    .mode-record {
+        grid-template-columns: 34px minmax(0, 1fr) 70px;
+    }
+
+    .mode-record-meta {
+        display: none;
+    }
+
+    .record-bar {
+        grid-column: 2 / -1;
+    }
+
+    .mastery-record {
+        grid-template-columns: 32px minmax(0, 1fr) 60px;
+    }
+
+    .mastery-record-level {
+        display: none;
+    }
+
+    .mastery-bar {
+        grid-column: 2 / -1;
+    }
+
+    .release-entry {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .final-result {
+        width: calc(100% - (var(--gutter) * 2));
+    }
+
+    .final-result-main {
+        grid-template-columns: minmax(0, 1fr) 105px;
+        gap: 20px;
+    }
+
+    .final-score-block {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .final-score-block strong {
+        font-size: clamp(90px, 28vw, 150px);
+    }
+
+    .final-grade-block {
+        grid-column: 2;
+        grid-row: 1;
+        padding-left: 14px;
+    }
+
+    .final-grade-block strong {
+        font-size: 92px;
+    }
+
+    .final-result-photo {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 58%;
+        margin-left: auto;
+    }
+
+    .final-result-photo .photo-surface {
+        min-height: 260px;
+    }
+
+    .final-result-copy {
+        margin-bottom: 44px;
+    }
+
+    .final-metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .result-timeline {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .final-share-actions,
+    .final-exit-actions {
+        align-items: stretch;
+        flex-direction: column;
+        border-bottom: 1px solid var(--era-paper);
+    }
+
+    .final-share-actions button,
+    .final-exit-actions button {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid color-mix(in srgb, var(--era-paper) 30%, transparent);
+        text-align: left;
+    }
+
+    .final-share-actions span {
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    .museum-artifacts {
+        display: flex;
+        flex-direction: column;
+        gap: 68px;
+    }
+
+    .museum-origin {
+        padding: 84px 0 100px;
+    }
+
+    .origin-stats {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 58px;
+    }
+
+    .origin-stats div {
+        min-height: 120px;
+        padding: 14px;
+    }
+
+    .origin-stats dd {
+        font-size: clamp(42px, 14vw, 62px);
+    }
+
+    .origin-stats div:nth-child(2) {
+        border-right: 0;
+    }
+
+    .origin-stats div:nth-child(n + 3) {
+        border-top: 1px solid #5a574d;
+    }
+
+    .origin-system {
+        grid-template-columns: 120px minmax(0, 1fr) 30px;
+    }
+
+    .archive-item,
+    .archive-item--wide,
+    .archive-item--hero,
+    .archive-item--monument {
+        width: 100%;
+        transform: none;
+    }
+
+    .archive-photo {
+        padding: 12px 12px 42px;
+        box-shadow: 4px 6px 0 rgba(0, 0, 0, .38);
+    }
+
+    .archive-photo::before {
+        inset: 11px 11px 41px;
+    }
+
+    .archive-photo pre,
+    .archive-item--monument .archive-photo pre {
+        min-height: 250px;
+        max-height: 350px;
+        display: block;
+        overflow-x: auto;
+        padding: 22px 18px;
+        font-size: 11px;
+    }
+
+    .evolution-list p {
+        grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+        gap: 8px;
+        font-size: 9px;
+    }
+
+    .museum-artifact-overlay {
+        padding: 10px;
+    }
+
+    .museum-artifact-document {
+        padding: 18px;
+        box-shadow: 5px 7px 0 rgba(0, 0, 0, .5);
+    }
+
+    .museum-code-enlarged {
+        padding: 12px;
+    }
+
+    .museum-code-enlarged pre {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 390px) {
+    :root {
+        --gutter: 14px;
+    }
+
+    .brand .version {
+        display: none;
+    }
+
+    .archive-nav::before,
+    .archive-nav::after {
+        content: "";
+    }
+
+    .hero h1 {
+        font-size: clamp(96px, 32vw, 125px);
+    }
+
+    .editorial-photo--hero {
+        width: 78%;
+    }
+
+    .photo-surface {
+        min-height: 300px;
+    }
+
+    .mode-name {
+        font-size: 29px;
+    }
+
+    .mode-action b {
+        display: none;
+    }
+
+    .archive-entry h2 {
+        font-size: 94px;
+    }
+
+    .round-meta-left {
+        max-width: 74%;
+    }
+
+    .question,
+    .question.quote {
+        font-size: 39px;
+    }
+
+    .final-metrics div {
+        min-height: 82px;
+        padding: 11px;
+    }
+
+    .museum-hero > div p {
+        font-size: 22px;
+    }
+
+    .archive-table {
+        padding-block: 84px 110px;
+    }
+}
+
+@media (min-width: 1600px) {
+    :root {
+        --max: 1460px;
+    }
+
+    .hero h1 {
+        font-size: min(19vw, 360px);
+    }
+
+    .editorial-photo--hero {
+        width: 470px;
+    }
+}

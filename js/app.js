@@ -1,6 +1,6 @@
 ﻿/* =========================================================
    MUSIC QUIZ
-   A0.0.5-ALPHA
+   A.0.1-B
    ========================================================= */
 
 
@@ -31,6 +31,13 @@ import { applyEventToRound, selectNewModeEvent } from "./new-mode/events.js";
 import { downloadResult, shareResult } from "./sharing.js";
 import { applyAppInfo } from "./versions.js";
 import { initMuseum } from "./museum/museum.js";
+import {
+    getAlbumTheme,
+    getSessionTheme,
+    setAlbumTheme
+} from "./themes.js";
+import { initEditorialCursor } from "./cursor.js";
+import { initEditorialPhotos } from "./photos.js";
 
 /* =========================================================
    DATA SOURCES
@@ -1165,7 +1172,7 @@ function setConnectionStatus(type) {
     ) {
 
         statusText.textContent =
-            "conectando bancos...";
+            "DATA 0/4";
 
     }
 
@@ -1191,7 +1198,7 @@ function updateConnectionStatus() {
 
 
         statusText.textContent =
-            "4/4 bancos online";
+            "DATA 4/4";
 
     }
 
@@ -1205,7 +1212,7 @@ function updateConnectionStatus() {
 
 
         statusText.textContent =
-            `${loaded}/4 bancos online`;
+            `DATA ${loaded}/4`;
 
     }
 
@@ -1217,7 +1224,7 @@ function updateConnectionStatus() {
 
 
         statusText.textContent =
-            "sin conexión";
+            "DATA 0/4";
 
     }
 
@@ -1318,7 +1325,6 @@ function updateComboUI() {
    ========================================================= */
 
 let museumInitialized = false;
-let archiveTapCount = 0;
 
 
 function renderRecords() {
@@ -1359,20 +1365,28 @@ function renderRecords() {
 
     $("#masteryList").innerHTML = masteryRows.length
         ? masteryRows
-            .map((row, index) => `
-                <article class="mastery-record" data-level="${escapeHTML(row.level)}">
-                    <span class="mastery-record-index">${pad(index + 1)}</span>
-                    <strong class="mastery-record-name">${escapeHTML(row.album)}</strong>
-                    <span class="mastery-record-score">${row.score}</span>
-                    <span class="mastery-record-level">
-                        ${escapeHTML(row.level)}<br>
-                        <small>${row.correct}/${row.seen} · ${row.accuracy}%</small>
-                    </span>
-                    <span class="mastery-bar" aria-hidden="true">
-                        <span style="width:${row.score}%"></span>
-                    </span>
-                </article>
-            `)
+            .map((row, index) => {
+                const theme = getAlbumTheme(row.album);
+                return `
+                    <article
+                        class="mastery-record"
+                        data-level="${escapeHTML(row.level)}"
+                        data-era="${escapeHTML(theme.id)}"
+                        style="--row-accent:${theme.colors.primary};--row-signal:${theme.colors.signal}"
+                    >
+                        <span class="mastery-record-index">${pad(index + 1)}</span>
+                        <strong class="mastery-record-name">${escapeHTML(row.album)}</strong>
+                        <span class="mastery-record-score">${row.score}</span>
+                        <span class="mastery-record-level">
+                            ${escapeHTML(row.level)}<br>
+                            <small>${row.correct}/${row.seen} · ${row.accuracy}%</small>
+                        </span>
+                        <span class="mastery-bar" aria-hidden="true">
+                            <span style="width:${row.score}%"></span>
+                        </span>
+                    </article>
+                `;
+            })
             .join("")
         : `
             <p class="empty-record">
@@ -1406,6 +1420,7 @@ function renderChangelog() {
 
 
 function showRecords() {
+    setAlbumTheme(null);
     renderRecords();
     showScreen("statsScreen");
 }
@@ -1413,6 +1428,7 @@ function showRecords() {
 
 function showChangelog() {
 
+    setAlbumTheme(null);
     renderChangelog();
     markVersionSeen(state.profile);
     $("#whatsNewNotice").classList.add("hidden");
@@ -1425,7 +1441,7 @@ function revealArchiveAccess() {
 
     $("#archiveNavButton").classList.remove("hidden");
     $("#footerArchiveTrigger").textContent =
-        "ARCHIVE UNLOCKED / ENTER →";
+        "ENTER THE ARCHIVE →";
 
 }
 
@@ -1433,7 +1449,7 @@ function revealArchiveAccess() {
 function showMuseum() {
 
     if (!state.profile.meta.museumUnlocked) {
-        return;
+        unlockMuseum(state.profile);
     }
 
     if (!museumInitialized) {
@@ -1441,27 +1457,8 @@ function showMuseum() {
         museumInitialized = true;
     }
 
+    setAlbumTheme(null);
     showScreen("museumScreen");
-
-}
-
-
-function registerArchiveTap() {
-
-    if (state.profile.meta.museumUnlocked) {
-        showMuseum();
-        return;
-    }
-
-    archiveTapCount++;
-
-    if (archiveTapCount < 5) {
-        return;
-    }
-
-    unlockMuseum(state.profile);
-    revealArchiveAccess();
-    showMuseum();
 
 }
 
@@ -1530,6 +1527,32 @@ $$(".difficulty-btn")
    MODE BUTTONS
    ========================================================= */
 
+function previewMode(button) {
+
+    const photo =
+        $("#heroEditorialPhoto");
+
+    if (!photo) {
+        return;
+    }
+
+    const info =
+        MODE_INFO[button.dataset.mode];
+
+    photo.dataset.modePreview =
+        button.dataset.mode;
+
+    $("#heroPhotoFile").textContent =
+        `BQ / MODE FILE ${info?.index || "00"}`;
+
+    $("#heroPhotoCaption").textContent =
+        button.dataset.photoCaption ||
+        info?.label ||
+        "EDITORIAL PORTRAIT SLOT";
+
+}
+
+
 $$(".mode")
     .forEach(
 
@@ -1546,6 +1569,24 @@ $$(".mode")
                     );
 
                 }
+
+            );
+
+
+            button.addEventListener(
+
+                "pointerenter",
+
+                () => previewMode(button)
+
+            );
+
+
+            button.addEventListener(
+
+                "focus",
+
+                () => previewMode(button)
 
             );
 
@@ -1641,20 +1682,33 @@ $("#archiveNavButton")
 $("#versionTrigger")
     .addEventListener(
         "click",
-        registerArchiveTap
+        showChangelog
     );
 
 
 $("#footerArchiveTrigger")
     .addEventListener(
         "click",
-        registerArchiveTap
+        showMuseum
+    );
+
+
+$("#archiveEntryButton")
+    .addEventListener(
+
+        "click",
+
+        showMuseum
+
     );
 
 
 function returnToMenu() {
 
     stopTimer();
+
+
+    setAlbumTheme(null);
 
 
     state.sessionMode =
@@ -4336,6 +4390,15 @@ function renderRound(
         "new";
 
 
+    const activeTheme = setAlbumTheme(
+        isOG
+            ? null
+            : round.album
+    );
+
+    $("#gameScreen").dataset.era = activeTheme.label;
+
+
     document.body
         .classList
         .toggle(
@@ -4733,6 +4796,10 @@ function renderAnswerZone(
 
                     button.type =
                         "button";
+
+
+                    button.dataset.cursor =
+                        "SELECT";
 
 
                     button.dataset.answer =
@@ -5547,6 +5614,7 @@ function renderResult(
                 state.currentRound.event.label.toLowerCase()
             );
 
+
         }
 
 
@@ -5652,6 +5720,7 @@ function renderResult(
                     type="button"
                     id="nextRoundBtn"
                     class="next-btn"
+                    data-cursor="NEXT"
                 >
                     ${
                         terminal
@@ -5859,12 +5928,32 @@ function finishSession() {
     const grade =
         gradeSession(session);
 
+    const sessionTheme =
+        getSessionTheme(session);
+
     const modeLabel =
         MODE_INFO[session.mode]?.label ||
         session.mode.toUpperCase();
 
     $("#finalResultMode").textContent =
         `${modeLabel} / FINAL SCORE`;
+
+    $("#finalEraLabel").textContent =
+        sessionTheme.label;
+
+    const finalPhoto =
+        $(".final-result-photo");
+
+    finalPhoto.dataset.era =
+        sessionTheme.id;
+    finalPhoto.style.setProperty(
+        "--photo-accent",
+        sessionTheme.colors.primary
+    );
+    finalPhoto.style.setProperty(
+        "--photo-signal",
+        sessionTheme.colors.signal
+    );
 
     $("#newRunGrade").textContent =
         grade;
@@ -6455,6 +6544,10 @@ document
 
 applyAppInfo();
 
+setAlbumTheme(null);
+
+initEditorialPhotos(CONFIG.assets.photos);
+
 renderRecords();
 
 renderChangelog();
@@ -6467,9 +6560,9 @@ else if (!state.profile.meta.lastSeenVersion) {
     markVersionSeen(state.profile);
 }
 
-if (state.profile.meta.museumUnlocked) {
-    revealArchiveAccess();
-}
+revealArchiveAccess();
+
+initEditorialCursor();
 
 updateStatsUI();
 

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#10100f">
+    <meta name="theme-color" content="#080808">
     <meta name="description" content="Bunny Quiz: demuestra cuánto sabes de las canciones, letras, feats y eras de Bad Bunny.">
     <title>Bunny Quiz</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/a005.css">
+    <link rel="stylesheet" href="css/records.css">
     <link rel="stylesheet" href="css/museum.css">
-    <link rel="stylesheet" href="css/a005-responsive.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <script type="module" src="js/app.js"></script>
 </head>
 
@@ -19,21 +19,21 @@
 <div class="app">
     <header class="site-header">
         <div class="shell site-header-inner">
-            <button type="button" id="brandHome" class="brand" aria-label="Volver al inicio de Bunny Quiz">
+            <button type="button" id="brandHome" class="brand" data-cursor="BACK" aria-label="Volver al inicio de Bunny Quiz">
                 <span class="brand-mark" aria-hidden="true"><i></i></span>
-                <span class="brand-name">BUNNY QUIZ</span>
+                <span class="brand-name">BQ</span>
                 <span class="version" data-app-version>—</span>
             </button>
 
             <div class="header-utility">
                 <nav class="record-nav" aria-label="Registros del juego">
-                    <button type="button" id="statsNavButton" class="text-nav">STATS</button>
-                    <button type="button" id="changelogNavButton" class="text-nav">LOG</button>
-                    <button type="button" id="archiveNavButton" class="text-nav hidden">ARCHIVE</button>
+                    <button type="button" id="statsNavButton" class="text-nav" data-cursor="OPEN">RECORDS</button>
+                    <button type="button" id="changelogNavButton" class="text-nav" data-cursor="OPEN">LOG</button>
+                    <button type="button" id="archiveNavButton" class="text-nav archive-nav" data-cursor="OPEN">THE ARCHIVE</button>
                 </nav>
                 <div class="header-status" role="status" aria-live="polite">
                     <span id="statusDot" class="status-dot loading" aria-hidden="true"></span>
-                    <span id="statusText">conectando archivo…</span>
+                    <span id="statusText">DATA 0/4</span>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <button type="button" id="whatsNewNotice" class="whats-new hidden">
+        <button type="button" id="whatsNewNotice" class="whats-new hidden" data-cursor="OPEN">
             <span>WHAT'S NEW</span>
             <strong><span data-app-version>—</span> ya está aquí.</strong>
             <span aria-hidden="true">VER LOG ↗</span>
@@ -56,20 +56,32 @@
         <div class="shell menu">
             <section class="hero" aria-labelledby="heroTitle">
                 <div class="hero-main">
-                    <p class="eyebrow"><span>001</span> EL ARCHIVO DE BENITO</p>
+                    <p class="eyebrow"><span>FILE 001</span> MUSIC KNOWLEDGE / ARCADE</p>
                     <h1 id="heroTitle">
                         <span class="hero-line">BUNNY</span>
-                        <span class="hero-line hero-line-shift">QUIZ<span class="hero-stop">.</span></span>
+                        <span class="hero-line hero-line-shift">QUIZ<span class="hero-stop">*</span></span>
                     </h1>
                     <p class="hero-deck">No basta con saberse el coro.</p>
                 </div>
 
+                <figure id="heroEditorialPhoto" class="editorial-photo editorial-photo--hero" data-photo-state="missing" data-mode-preview="core">
+                    <div class="photo-surface" aria-hidden="true">
+                        <span class="photo-registration">+</span>
+                        <strong>BQ</strong>
+                        <span class="photo-status">VISUAL FILE<br>ASSET PENDING</span>
+                    </div>
+                    <figcaption>
+                        <span id="heroPhotoFile">BQ / VISUAL FILE 001</span>
+                        <span id="heroPhotoCaption">EDITORIAL PORTRAIT SLOT</span>
+                    </figcaption>
+                </figure>
+
                 <div class="hero-copy">
                     <p class="hero-intro">Canciones, letras, feats y discos. Siete maneras de averiguar si de verdad prestabas atención.</p>
-                    <a class="hero-jump" href="#play">ESCOGER PARTIDA <span aria-hidden="true">↓</span></a>
+                    <a class="hero-jump" href="#play" data-cursor="PLAY">ESCOGER PARTIDA <span aria-hidden="true">↓</span></a>
                     <div class="release-note">
                         <span data-app-version>—</span>
-                        <p>Sin fotos. Sin audio. El catálogo y tu memoria hacen el resto.</p>
+                        <p>Music magazine × arcade × archive. El catálogo y tu memoria hacen el resto.</p>
                     </div>
                 </div>
             </section>
@@ -106,14 +118,14 @@
                 <div class="config-content">
                     <p class="config-prompt">Dificultad</p>
                     <div class="difficulty-switch" aria-label="Selecciona una dificultad">
-                        <button type="button" class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">
+                        <button type="button" class="difficulty-btn active" data-difficulty="easy" data-cursor="SELECT" aria-pressed="true">
                             <span class="difficulty-key">A</span>
                             <span>
                                 <strong>FÁCIL</strong>
                                 <small>Opciones, más tiempo, menos presión.</small>
                             </span>
                         </button>
-                        <button type="button" class="difficulty-btn" data-difficulty="hard" aria-pressed="false">
+                        <button type="button" class="difficulty-btn" data-difficulty="hard" data-cursor="SELECT" aria-pressed="false">
                             <span class="difficulty-key">B</span>
                             <span>
                                 <strong>DIFÍCIL</strong>
@@ -134,35 +146,35 @@
                 </div>
 
                 <div class="mode-list">
-                    <button type="button" class="mode" data-mode="lyrics">
+                    <button type="button" class="mode" data-mode="lyrics" data-cursor="PLAY" data-photo-caption="LYRICS / TITLE">
                         <span class="mode-number">01</span>
                         <span class="mode-name">LETRA → CANCIÓN</span>
-                        <span class="mode-meta">Te damos el verso.<br>Tú pones el título.</span>
+                        <span class="mode-meta">LYRIC / TITLE<br>10 ROUNDS</span>
                         <span class="mode-action">JUGAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode" data-mode="feat">
+                    <button type="button" class="mode" data-mode="feat" data-cursor="PLAY" data-photo-caption="FEATURE FILE">
                         <span class="mode-number">02</span>
                         <span class="mode-name">ADIVINA EL FEAT</span>
-                        <span class="mode-meta">Canción + hueco.<br>¿Quién falta?</span>
+                        <span class="mode-meta">FEATURE<br>10 ROUNDS</span>
                         <span class="mode-action">JUGAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode" data-mode="benito">
+                    <button type="button" class="mode" data-mode="benito" data-cursor="PLAY" data-photo-caption="YES / NO">
                         <span class="mode-number">03</span>
                         <span class="mode-name">¿BENITO O NO?</span>
-                        <span class="mode-meta">Una letra dudosa.<br>Sí o no.</span>
+                        <span class="mode-meta">YES / NO<br>10 ROUNDS</span>
                         <span class="mode-action">JUGAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode" data-mode="featSong">
+                    <button type="button" class="mode" data-mode="featSong" data-cursor="PLAY" data-photo-caption="FEATURE / SONG">
                         <span class="mode-number">04</span>
                         <span class="mode-name">FEAT → CANCIÓN</span>
-                        <span class="mode-meta">Un invitado.<br>Cuatro canciones.</span>
+                        <span class="mode-meta">4 CHOICES<br>10 ROUNDS</span>
                         <span class="mode-action">JUGAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode new-mode" data-mode="new">
+                    <button type="button" class="mode new-mode" data-mode="new" data-cursor="PLAY" data-photo-caption="RUN / EVENTS / BOSSES">
                         <span class="mode-number">05 / RUN</span>
                         <span class="mode-name-wrap">
                             <span class="mode-name">NEW MODE</span>
@@ -172,26 +184,38 @@
                         <span class="mode-action">ENTRAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode random" data-mode="random">
+                    <button type="button" class="mode random" data-mode="random" data-cursor="PLAY" data-photo-caption="SHUFFLE / ALL FILES">
                         <span class="mode-number">06 / MIX</span>
                         <span class="mode-name">RANDOM</span>
                         <span class="mode-meta">La modalidad cambia<br>en cada ronda.</span>
                         <span class="mode-action">MEZCLAR <b aria-hidden="true">↗</b></span>
                     </button>
 
-                    <button type="button" class="mode og" data-mode="og">
-                        <span class="mode-number">07 / 2019</span>
+                    <button type="button" class="mode og" data-mode="og" data-cursor="PLAY" data-photo-caption="LEGACY / INTERACTIVE">
+                        <span class="mode-number">07 / LEGACY</span>
                         <span class="mode-name">OG MODE</span>
-                        <span class="mode-meta">10–13 segundos.<br>Discord bot energy.</span>
-                        <span class="mode-action">VOLVER <b aria-hidden="true">↗</b></span>
+                        <span class="mode-meta">AOI.JS / AWAITED<br>10–13 SEC</span>
+                        <span class="mode-action">ABRIR <b aria-hidden="true">↗</b></span>
                     </button>
                 </div>
             </section>
 
+            <section class="archive-entry" aria-labelledby="archiveEntryTitle">
+                <div class="archive-entry-meta">
+                    <span>ARCHIVE / INTERACTIVE</span>
+                    <span>ERA I — ERA III</span>
+                </div>
+                <h2 id="archiveEntryTitle">THE<br>ARCHIVE.</h2>
+                <div class="archive-entry-copy">
+                    <p>Antes de Bunny Quiz existió MusicQuiz. Y antes de MusicQuiz, un bot entero mantenía vivo un servidor de Discord.</p>
+                    <button type="button" id="archiveEntryButton" data-cursor="OPEN">ENTRAR AL ARCHIVO <span aria-hidden="true">→</span></button>
+                </div>
+            </section>
+
             <footer class="site-footer">
-                <button type="button" id="footerArchiveTrigger" class="footer-secret">BUNNY QUIZ / EL VIEJO BOT CRECIÓ</button>
+                <button type="button" id="footerArchiveTrigger" class="footer-secret" data-cursor="OPEN">ENTER THE ARCHIVE →</button>
                 <span>HECHO PARA JUGAR, NO PARA MIRAR</span>
-                <button type="button" id="versionTrigger" class="footer-version" aria-label="Versión actual. Hay algo escondido aquí.">
+                <button type="button" id="versionTrigger" class="footer-version" data-cursor="OPEN" aria-label="Abrir el registro de esta versión">
                     <span data-app-version>—</span>
                 </button>
             </footer>
@@ -201,7 +225,7 @@
     <main id="statsScreen" class="screen records-screen">
         <div class="shell internal-page">
             <header class="internal-header">
-                <button type="button" class="back-btn" data-return-menu>← MENÚ</button>
+                <button type="button" class="back-btn" data-return-menu data-cursor="BACK">← MENÚ</button>
                 <span>PLAYER RECORD / LOCAL DEVICE</span>
             </header>
 
@@ -236,7 +260,7 @@
     <main id="changelogScreen" class="screen release-screen">
         <div class="shell internal-page">
             <header class="internal-header">
-                <button type="button" class="back-btn" data-return-menu>← MENÚ</button>
+                <button type="button" class="back-btn" data-return-menu data-cursor="BACK">← MENÚ</button>
                 <span>RELEASE LOG / <span data-app-channel>alpha</span></span>
             </header>
 
@@ -253,34 +277,40 @@
     <main id="museumScreen" class="screen museum-screen">
         <div class="shell museum-page">
             <header class="internal-header museum-internal-header">
-                <button type="button" class="back-btn" data-return-menu>← SALIR DEL ARCHIVO</button>
-                <span>MUSICQUIZ / PRIVATE COLLECTION</span>
+                <button type="button" class="back-btn" data-return-menu data-cursor="BACK">← SALIR DEL ARCHIVO</button>
+                <span>BOT LINEAGE / PUBLIC COLLECTION</span>
             </header>
 
             <section class="museum-hero" aria-labelledby="museumTitle">
-                <p class="section-index">ACCESS GRANTED / DATE UNKNOWN</p>
+                <p class="section-index">ACCESS GRANTED / SOURCE RANGE 2021—NOW</p>
                 <h1 id="museumTitle">THE<br>ARCHIVE.</h1>
                 <div>
-                    <p>Before Bunny Quiz,<br>there was <em>musicquiz.</em></p>
-                    <span>ERA I — FULL OG<br>ERA II — THE REWRITE<br>ERA III — BUNNY QUIZ</span>
+                    <p>Before MusicQuiz,<br>there was <em>a whole bot.</em></p>
+                    <span>ORIGIN — SERVER BOT<br>ERA I — FULL OG<br>ERA II — THE REWRITE<br>ERA III — BUNNY QUIZ</span>
                 </div>
             </section>
 
-            <section id="museumEras" class="museum-era-rail" aria-label="Tres eras de MusicQuiz"></section>
+            <section id="museumEras" class="museum-era-rail" aria-label="Cuatro eras del proyecto"></section>
+
+            <section id="museumOriginProfile" class="museum-origin" aria-labelledby="museumOriginTitle"></section>
 
             <section class="archive-table" aria-labelledby="archiveTableTitle">
                 <div class="archive-table-heading">
-                    <p class="section-index">CONTACT SHEET / 01—15</p>
-                    <h2 id="archiveTableTitle">Restos de un bot<br>que sí funcionaba.</h2>
+                    <p class="section-index">CONTACT SHEET / <span id="museumArtifactRange">01—23</span></p>
+                    <h2 id="archiveTableTitle">Del servidor entero<br>al quiz que sobrevivió.</h2>
                     <p>Haz click en una pieza para leer el fragmento completo y su contexto.</p>
                 </div>
                 <div id="museumArtifacts" class="museum-artifacts"></div>
             </section>
 
             <section class="museum-evolution" aria-labelledby="evolutionTitle">
-                <p class="section-index">ERA III / TRANSLATION</p>
+                <p class="section-index">ORIGIN → ERA III / TRANSLATION</p>
                 <h2 id="evolutionTitle">El mismo impulso.<br>Otro cuerpo.</h2>
                 <div class="evolution-list">
+                    <p><span>guess → guess4</span><b>→</b><strong>quiz state machine</strong></p>
+                    <p><span>trivia + remote JSON</span><b>→</b><strong>question banks</strong></p>
+                    <p><span>Boletos</span><b>→</b><strong>score + rewards</strong></p>
+                    <p><span>Comandos/ tree</span><b>→</b><strong>JavaScript modules</strong></p>
                     <p><span>awaitedCommand</span><b>→</b><strong>game state</strong></p>
                     <p><span>MQwin / MQlose</span><b>→</b><strong>records + mastery</strong></p>
                     <p><span>MQlugar</span><b>→</b><strong>structured metadata</strong></p>
@@ -300,7 +330,7 @@
     <main id="gameScreen" class="screen game-screen">
         <header class="game-header">
             <div class="shell game-header-inner">
-                <button type="button" id="backBtn" class="back-btn">← MENÚ</button>
+                <button type="button" id="backBtn" class="back-btn" data-cursor="BACK">← MENÚ</button>
                 <div id="gameModeTitle" class="game-mode-title">BUNNY QUIZ</div>
                 <div class="game-live-stats" aria-label="Estadísticas de la partida">
                     <span>RACHA <strong id="liveStreak">x0</strong></span>
@@ -365,6 +395,12 @@
             </div>
 
             <div id="ogQuestion" class="hidden">
+                <div class="og-legacy-meta" aria-label="Metadata histórica de OG Mode">
+                    <span>ARCHIVE / INTERACTIVE</span>
+                    <span>COMMAND: MQ</span>
+                    <span>ENGINE: AOI.JS</span>
+                    <span>STATE: AWAITED</span>
+                </div>
                 <div class="og-box">
                     <div class="og-bot">
                         <div class="og-avatar" aria-hidden="true">MQ</div>
@@ -386,8 +422,8 @@
         <h2 id="overlayTitle">Algo explotó.</h2>
         <p id="overlayText">No pude cargar uno de los JSON.</p>
         <div class="overlay-actions">
-            <button type="button" id="retryBtn">REINTENTAR</button>
-            <button type="button" id="closeOverlayBtn" class="secondary">CERRAR</button>
+            <button type="button" id="retryBtn" data-cursor="RETRY">REINTENTAR</button>
+            <button type="button" id="closeOverlayBtn" class="secondary" data-cursor="BACK">CERRAR</button>
         </div>
     </div>
 </div>
@@ -405,6 +441,17 @@
                 <strong id="summaryRunScore">0</strong>
                 <span>PTS</span>
             </div>
+            <figure class="editorial-photo final-result-photo" data-photo-state="missing">
+                <div class="photo-surface" aria-hidden="true">
+                    <span class="photo-registration">+</span>
+                    <strong>BQ</strong>
+                    <span class="photo-status">RESULT FILE<br>NO PHOTO ASSET</span>
+                </div>
+                <figcaption>
+                    <span>FINAL / VISUAL FILE</span>
+                    <span id="finalEraLabel">BUNNY CORE</span>
+                </figcaption>
+            </figure>
             <div class="final-grade-block">
                 <span>GRADE</span>
                 <strong id="newRunGrade" aria-label="Nota de la sesión">A</strong>
@@ -434,23 +481,23 @@
         <div id="resultTimeline" class="result-timeline" aria-label="Recorrido de respuestas"></div>
 
         <div class="final-share-actions">
-            <button type="button" id="downloadResultBtn">DESCARGAR RESULTADO</button>
-            <button type="button" id="shareResultBtn">COMPARTIR</button>
+            <button type="button" id="downloadResultBtn" data-cursor="SAVE">DESCARGAR RESULTADO</button>
+            <button type="button" id="shareResultBtn" data-cursor="SHARE">COMPARTIR</button>
             <span id="shareStatus" role="status" aria-live="polite"></span>
         </div>
 
         <div class="final-exit-actions">
-            <button type="button" id="newRunAgainBtn">OTRA PARTIDA ↗</button>
-            <button type="button" id="newRunMenuBtn">VOLVER AL MENÚ</button>
+            <button type="button" id="newRunAgainBtn" data-cursor="PLAY">OTRA PARTIDA ↗</button>
+            <button type="button" id="newRunMenuBtn" data-cursor="BACK">VOLVER AL MENÚ</button>
         </div>
     </div>
 </div>
 
-<div id="museumArtifactOverlay" class="museum-artifact-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="museumArtifactTitle">
+<div id="museumArtifactOverlay" class="museum-artifact-overlay hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="museumArtifactTitle">
     <article class="museum-artifact-document">
         <header>
             <span id="museumArtifactIndex">ARCHIVE ITEM 001</span>
-            <button type="button" id="museumArtifactClose">CERRAR ×</button>
+            <button type="button" id="museumArtifactClose" data-cursor="BACK">CERRAR ×</button>
         </header>
         <h2 id="museumArtifactTitle">ARTIFACT</h2>
         <div class="museum-code-enlarged">
@@ -458,7 +505,13 @@
         </div>
         <p id="museumArtifactCaption" class="museum-overlay-caption"></p>
         <p id="museumArtifactDescription" class="museum-overlay-description"></p>
+        <p id="museumArtifactSource" class="museum-overlay-source"></p>
     </article>
+</div>
+
+<div id="editorialCursor" class="editorial-cursor" aria-hidden="true">
+    <i></i>
+    <span id="editorialCursorLabel"></span>
 </div>
 </body>
 </html>

@@ -1,12 +1,135 @@
 export const APP_INFO = Object.freeze({
     name: "BUNNY QUIZ",
-    version: "A0.0.5-Alpha",
-    channel: "alpha",
+    version: "A.0.1-B",
+    channel: "beta",
     releaseDate: "2026-08-19"
+});
+
+export const ALBUM_THEMES = Object.freeze({
+    core: {
+        id: "core",
+        label: "BUNNY CORE",
+        aliases: ["", "SINGLES", "SINGLES2", "SINGLE"],
+        colors: {
+            stage: "#080808",
+            deep: "#171717",
+            primary: "#D7FF3F",
+            secondary: "#F2EEE5",
+            signal: "#FF6A3D",
+            paper: "#F2EEE5",
+            ink: "#111111"
+        }
+    },
+    x100pre: {
+        id: "x100pre",
+        label: "X100PRE",
+        aliases: ["X100PRE", "X 100PRE"],
+        colors: {
+            stage: "#090909",
+            deep: "#171819",
+            primary: "#F2F2EC",
+            secondary: "#C9F4FA",
+            signal: "#A96E43",
+            paper: "#F2F2EC",
+            ink: "#111111"
+        }
+    },
+    oasis: {
+        id: "oasis",
+        label: "OASIS",
+        aliases: ["OASIS"],
+        colors: {
+            stage: "#050607",
+            deep: "#102329",
+            primary: "#58D9F7",
+            secondary: "#3DB76A",
+            signal: "#FF8A32",
+            paper: "#F2EEE5",
+            ink: "#050607"
+        }
+    },
+    yhlqmdlg: {
+        id: "yhlqmdlg",
+        label: "YHLQMDLG",
+        aliases: ["YHLQMDLG"],
+        colors: {
+            stage: "#071724",
+            deep: "#0D2636",
+            primary: "#75D4F2",
+            secondary: "#168DBB",
+            signal: "#F05A2A",
+            paper: "#F2EEE5",
+            ink: "#071724"
+        }
+    },
+    lqnias: {
+        id: "lqnias",
+        label: "LAS QUE NO IBAN A SALIR",
+        aliases: ["LQNIAS", "LAS QUE NO IBAN A SALIR"],
+        colors: {
+            stage: "#17160A",
+            deep: "#25220A",
+            primary: "#FFE500",
+            secondary: "#C9CDD2",
+            signal: "#D5A6CB",
+            paper: "#F2EEE5",
+            ink: "#111111"
+        }
+    },
+    eutdm: {
+        id: "eutdm",
+        label: "EL ÚLTIMO TOUR DEL MUNDO",
+        aliases: ["EUTDM", "EL ULTIMO TOUR DEL MUNDO", "EL ÚLTIMO TOUR DEL MUNDO"],
+        colors: {
+            stage: "#080B12",
+            deep: "#111A2B",
+            primary: "#AEB4BA",
+            secondary: "#FF9D35",
+            signal: "#C7432C",
+            paper: "#F2EEE5",
+            ink: "#080B12"
+        }
+    },
+    uvst: {
+        id: "uvst",
+        label: "UN VERANO SIN TI",
+        aliases: ["UVST", "UN VERANO SIN TI"],
+        colors: {
+            stage: "#24181B",
+            deep: "#39252A",
+            primary: "#F1A6B7",
+            secondary: "#83CDE9",
+            signal: "#E31C18",
+            paper: "#F5E9D7",
+            ink: "#171010"
+        }
+    },
+    tommy: {
+        id: "tommy",
+        label: "TOMMY / GUEST FILE",
+        aliases: ["TOMMY", "TOMMY TORRES"],
+        colors: {
+            stage: "#111111",
+            deep: "#211A1A",
+            primary: "#E8E0D3",
+            secondary: "#B89C8E",
+            signal: "#7D4141",
+            paper: "#E8E0D3",
+            ink: "#111111"
+        }
+    }
 });
 
 export const CONFIG = Object.freeze({
     app: APP_INFO,
+
+    assets: {
+        photos: {
+            hero: null,
+            result: null
+        },
+        root: "assets/images"
+    },
 
     data: {
         sources: {

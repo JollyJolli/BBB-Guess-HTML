@@ -14,7 +14,8 @@ export const CHANGELOG = Object.freeze([
             "OG MODE reconstruido como archivo interactivo de MusicQuiz.",
             "Resultados y PNG compartible rediseñados como póster editorial.",
             "Composición editorial sostenida por tipografía, color y ritmo visual.",
-            "Cursor contextual de escritorio y responsive rehecho desde móvil."
+            "Cursor contextual de escritorio y responsive rehecho desde móvil.",
+            "Nueva convención de releases: cada versión lleva el nombre de una canción de Benito."
         ]
     },
     {

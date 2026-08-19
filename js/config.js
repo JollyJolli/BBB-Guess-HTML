@@ -1,6 +1,6 @@
 export const APP_INFO = Object.freeze({
     name: "BUNNY QUIZ",
-    version: "A.0.1-B",
+    version: "A.0.2-APAGON",
     channel: "beta",
     releaseDate: "2026-08-19"
 });

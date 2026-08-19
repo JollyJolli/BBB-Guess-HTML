@@ -1,9 +1,11 @@
 # BUNNY QUIZ
 
-> **A.0.1-B**
+> **A.0.2-APAGON**
 > Una revista musical convertida en arcade, con la historia de MusicQuiz archivada detrás.
 
 BUNNY QUIZ es un juego web de letras, canciones, feats y álbumes de Bad Bunny. Está construido con HTML, CSS y JavaScript vanilla, sin frameworks ni proceso de build.
+
+Desde `A.0.2-APAGON`, cada versión lleva como codename el título de una canción de Benito.
 
 ## Dirección visual
 

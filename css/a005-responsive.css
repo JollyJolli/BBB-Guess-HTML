@@ -1,0 +1,302 @@
+/* =========================================================
+   A0.0.5 / RESPONSIVE RECOMPOSITION
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .record-nav {
+        display: none;
+    }
+
+    .records-hero,
+    .release-hero,
+    .museum-hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 50px;
+        padding-top: 110px;
+    }
+
+    .records-lead,
+    .release-hero > p:last-child,
+    .museum-hero > div {
+        max-width: 520px;
+    }
+
+    .record-ledger,
+    .mastery-ledger,
+    .museum-evolution {
+        grid-template-columns: 1fr;
+        gap: 55px;
+    }
+
+    .museum-era-rail {
+        grid-template-columns: 1fr;
+    }
+
+    .museum-era {
+        min-height: 115px;
+        border-right: 0;
+        border-bottom: 1px solid #5a574d;
+    }
+
+    .archive-table-heading {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .museum-artifacts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 70px 24px;
+    }
+
+    .archive-item,
+    .archive-item--wide,
+    .archive-item--hero,
+    .archive-item--monument {
+        grid-column: span 1;
+    }
+
+    .archive-item--monument {
+        grid-column: 1 / -1;
+    }
+
+    .final-metrics {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 680px) {
+    .header-utility {
+        gap: 10px;
+    }
+
+    .whats-new {
+        grid-template-columns: 1fr auto;
+        padding-inline: 18px;
+    }
+
+    .whats-new strong {
+        display: none;
+    }
+
+    .internal-page,
+    .museum-page {
+        padding-bottom: 60px;
+    }
+
+    .internal-header > span {
+        max-width: 160px;
+        text-align: right;
+        line-height: 1.35;
+    }
+
+    .records-hero h1,
+    .release-hero h1,
+    .museum-hero h1 {
+        font-size: clamp(76px, 25vw, 145px);
+    }
+
+    .records-lead span {
+        font-size: 66px;
+    }
+
+    .mode-record {
+        grid-template-columns: 36px minmax(0, 1fr) 70px;
+    }
+
+    .mode-record-meta {
+        display: none;
+    }
+
+    .record-bar {
+        grid-column: 2 / -1;
+    }
+
+    .mastery-record {
+        grid-template-columns: 34px minmax(0, 1fr) 62px;
+    }
+
+    .mastery-record-level {
+        display: none;
+    }
+
+    .mastery-bar {
+        grid-column: 2 / -1;
+    }
+
+    .release-entry {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .event-announcement {
+        top: 64px;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 18px;
+    }
+
+    .event-announcement p {
+        display: none;
+    }
+
+    .game-live-stats {
+        gap: 10px;
+    }
+
+    .live-combo {
+        min-width: 82px;
+    }
+
+    .final-result {
+        width: calc(100% - 28px);
+    }
+
+    .final-result-main {
+        grid-template-columns: minmax(0, 1fr) 115px;
+        gap: 18px;
+    }
+
+    .final-score-block strong {
+        font-size: clamp(88px, 28vw, 150px);
+    }
+
+    .final-grade-block {
+        padding-left: 16px;
+    }
+
+    .final-grade-block strong {
+        font-size: 95px;
+    }
+
+    .final-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .result-timeline {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .final-share-actions,
+    .final-exit-actions {
+        align-items: stretch;
+        flex-direction: column;
+        border-bottom: 1px solid var(--paper);
+    }
+
+    .final-share-actions button,
+    .final-exit-actions button {
+        width: 100%;
+        border-right: 0;
+        border-bottom: var(--border);
+        text-align: left;
+    }
+
+    .final-share-actions span {
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    .museum-artifacts {
+        display: flex;
+        flex-direction: column;
+        gap: 68px;
+    }
+
+    .archive-item,
+    .archive-item--wide,
+    .archive-item--hero,
+    .archive-item--monument {
+        width: 100%;
+        transform: none;
+    }
+
+    .archive-photo {
+        padding: 12px 12px 42px;
+        box-shadow: 4px 6px 0 rgba(0, 0, 0, .38);
+    }
+
+    .archive-photo::before {
+        inset: 11px 11px 41px;
+    }
+
+    .archive-photo pre,
+    .archive-item--monument .archive-photo pre {
+        min-height: 250px;
+        max-height: 350px;
+        display: block;
+        overflow-x: auto;
+        padding: 22px 18px;
+        font-size: 11px;
+    }
+
+    .museum-evolution {
+        padding-block: 80px;
+    }
+
+    .evolution-list p {
+        grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+        gap: 8px;
+        font-size: 9px;
+    }
+
+    .museum-artifact-overlay {
+        padding: 10px;
+    }
+
+    .museum-artifact-document {
+        padding: 18px;
+        box-shadow: 5px 7px 0 rgba(0, 0, 0, .5);
+    }
+
+    .museum-code-enlarged {
+        padding: 12px;
+    }
+
+    .museum-code-enlarged pre {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 390px) {
+    .header-status {
+        max-width: 112px;
+        font-size: 8px;
+    }
+
+    .records-hero,
+    .release-hero,
+    .museum-hero {
+        padding-top: 84px;
+    }
+
+    .mode-record-name,
+    .mastery-record-name {
+        font-size: 15px;
+    }
+
+    .final-metrics div {
+        min-height: 84px;
+        padding: 12px;
+    }
+
+    .museum-hero > div p {
+        font-size: 22px;
+    }
+
+    .archive-table {
+        padding-block: 85px 110px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .event-announcement {
+        animation: none;
+    }
+
+    .archive-item {
+        transform: none;
+    }
+}

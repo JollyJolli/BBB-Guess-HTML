@@ -1,4 +1,4 @@
-import { APP_INFO, CONFIG, MODE_INFO } from "./config.js";
+import { APP_INFO, MODE_INFO } from "./config.js";
 import { getSessionMetrics, gradeSession } from "./stats.js";
 import { getSessionTheme } from "./themes.js";
 
@@ -11,17 +11,6 @@ function waitForBlob(canvas) {
     });
 }
 
-function loadOptionalImage(source) {
-    if (!source || typeof Image === "undefined") return Promise.resolve(null);
-
-    return new Promise(resolve => {
-        const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = () => resolve(null);
-        image.src = source;
-    });
-}
-
 function drawText(ctx, text, x, y, size, color, options = {}) {
     ctx.fillStyle = color;
     ctx.font = `${options.weight || 700} ${size}px ${options.family || "Arial Narrow, Arial"}`;
@@ -29,24 +18,12 @@ function drawText(ctx, text, x, y, size, color, options = {}) {
     ctx.fillText(text, x, y);
 }
 
-function drawPhotoFile(ctx, image, colors) {
-    const x = 650;
-    const y = 160;
-    const width = 310;
-    const height = 410;
-
-    ctx.fillStyle = colors.deep;
-    ctx.fillRect(x, y, width, height);
-
-    if (image) {
-        ctx.drawImage(image, x, y, width, height);
-    } else {
-        ctx.strokeStyle = colors.secondary;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x + 18, y + 18, width - 36, height - 74);
-        drawText(ctx, "BQ", x + 38, y + 285, 170, colors.secondary, { weight: 900 });
-        drawText(ctx, "VISUAL FILE / NO ASSET", x + 24, y + height - 26, 17, colors.paper, { family: "monospace" });
-    }
+function drawResultMark(ctx, label, colors) {
+    drawText(ctx, "BQ*", 970, 410, 190, colors.deep, { align: "right", weight: 900 });
+    ctx.fillStyle = colors.primary;
+    ctx.fillRect(650, 485, 310, 7);
+    drawText(ctx, "ERA", 650, 535, 17, colors.secondary, { family: "monospace" });
+    drawText(ctx, label.toUpperCase(), 970, 535, 17, colors.paper, { align: "right", family: "monospace" });
 }
 
 export async function createResultFile(session) {
@@ -59,7 +36,6 @@ export async function createResultFile(session) {
     const mode = MODE_INFO[session.mode]?.label || session.mode.toUpperCase();
     const theme = getSessionTheme(session);
     const colors = theme.colors;
-    const optionalPhoto = await loadOptionalImage(CONFIG.assets.photos.result);
 
     ctx.fillStyle = colors.stage;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -76,7 +52,7 @@ export async function createResultFile(session) {
     drawText(ctx, APP_INFO.version.toUpperCase(), 970, 132, 20, colors.secondary, { align: "right", family: "monospace" });
     drawText(ctx, `FINAL SCORE / ${theme.label}`, 104, 205, 19, colors.primary, { family: "monospace" });
 
-    drawPhotoFile(ctx, optionalPhoto, colors);
+    drawResultMark(ctx, theme.label, colors);
 
     drawText(ctx, "GRADE", 104, 300, 18, colors.secondary, { family: "monospace" });
     drawText(ctx, grade, 104, 515, 245, colors.signal, { weight: 900 });

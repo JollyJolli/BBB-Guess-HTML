@@ -291,7 +291,7 @@
 
 .final-result-main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px 190px;
+    grid-template-columns: minmax(0, 1fr) 190px;
     gap: 34px;
     align-items: end;
     padding: 50px 0 36px;
@@ -318,21 +318,6 @@
 
 .final-score-block span {
     margin-left: 12px;
-}
-
-.final-result-photo {
-    --photo-accent: var(--era-primary);
-    --photo-signal: var(--era-signal);
-}
-
-.final-result-photo .photo-surface {
-    min-height: 350px;
-    border-color: color-mix(in srgb, var(--photo-accent) 35%, var(--bunny-line));
-    background: var(--era-deep);
-}
-
-.final-result-photo .photo-surface strong {
-    font-size: 180px;
 }
 
 .final-grade-block {

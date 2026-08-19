@@ -9,29 +9,18 @@
         font-size: clamp(126px, 19vw, 230px);
     }
 
-    .editorial-photo--hero {
-        width: 360px;
-    }
-
-    .photo-surface {
-        min-height: 430px;
-    }
-
     .mode {
         grid-template-columns: 70px minmax(220px, 1fr) 160px 90px;
     }
 
     .final-result-main {
-        grid-template-columns: minmax(0, 1fr) 230px 150px;
+        grid-template-columns: minmax(0, 1fr) 150px;
     }
 
     .final-grade-block strong {
         font-size: 140px;
     }
 
-    .final-result-photo .photo-surface {
-        min-height: 310px;
-    }
 }
 
 @media (max-width: 900px) {
@@ -44,12 +33,7 @@
     }
 
     .hero-main {
-        grid-column: 1 / 8;
-    }
-
-    .editorial-photo--hero {
-        grid-column: 5 / 9;
-        width: 100%;
+        grid-column: 1 / 9;
     }
 
     .hero-copy {
@@ -192,16 +176,8 @@
     }
 
     .final-result-main {
-        grid-template-columns: minmax(0, 1fr) 210px 130px;
+        grid-template-columns: minmax(0, 1fr) 130px;
         gap: 22px;
-    }
-
-    .final-result-photo .photo-surface {
-        min-height: 270px;
-    }
-
-    .final-result-photo .photo-surface strong {
-        font-size: 135px;
     }
 
     .final-grade-block strong {
@@ -273,13 +249,12 @@
         min-height: auto;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
+        grid-template-rows: auto auto;
         gap: 34px;
         padding: 58px 0 48px;
     }
 
     .hero-main,
-    .editorial-photo--hero,
     .hero-copy {
         grid-column: 1;
         grid-row: auto;
@@ -302,20 +277,6 @@
         max-width: 86%;
         margin: 28px 0 0 10%;
         font-size: clamp(23px, 8vw, 38px);
-    }
-
-    .editorial-photo--hero {
-        width: 72%;
-        justify-self: end;
-        transform: translateX(var(--gutter));
-    }
-
-    .photo-surface {
-        min-height: 330px;
-    }
-
-    .photo-surface strong {
-        font-size: 190px;
     }
 
     .hero-copy {
@@ -687,17 +648,6 @@
         font-size: 92px;
     }
 
-    .final-result-photo {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        width: 58%;
-        margin-left: auto;
-    }
-
-    .final-result-photo .photo-surface {
-        min-height: 260px;
-    }
-
     .final-result-copy {
         margin-bottom: 44px;
     }
@@ -837,14 +787,6 @@
         font-size: clamp(96px, 32vw, 125px);
     }
 
-    .editorial-photo--hero {
-        width: 78%;
-    }
-
-    .photo-surface {
-        min-height: 300px;
-    }
-
     .mode-name {
         font-size: 29px;
     }
@@ -889,7 +831,4 @@
         font-size: min(19vw, 360px);
     }
 
-    .editorial-photo--hero {
-        width: 470px;
-    }
 }

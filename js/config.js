@@ -123,14 +123,6 @@ export const ALBUM_THEMES = Object.freeze({
 export const CONFIG = Object.freeze({
     app: APP_INFO,
 
-    assets: {
-        photos: {
-            hero: null,
-            result: null
-        },
-        root: "assets/images"
-    },
-
     data: {
         sources: {
             lyrics: {

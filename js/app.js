@@ -33,11 +33,9 @@ import { applyAppInfo } from "./versions.js";
 import { initMuseum } from "./museum/museum.js";
 import {
     getAlbumTheme,
-    getSessionTheme,
     setAlbumTheme
 } from "./themes.js";
 import { initEditorialCursor } from "./cursor.js";
-import { initEditorialPhotos } from "./photos.js";
 
 /* =========================================================
    DATA SOURCES
@@ -1527,32 +1525,6 @@ $$(".difficulty-btn")
    MODE BUTTONS
    ========================================================= */
 
-function previewMode(button) {
-
-    const photo =
-        $("#heroEditorialPhoto");
-
-    if (!photo) {
-        return;
-    }
-
-    const info =
-        MODE_INFO[button.dataset.mode];
-
-    photo.dataset.modePreview =
-        button.dataset.mode;
-
-    $("#heroPhotoFile").textContent =
-        `BQ / MODE FILE ${info?.index || "00"}`;
-
-    $("#heroPhotoCaption").textContent =
-        button.dataset.photoCaption ||
-        info?.label ||
-        "EDITORIAL PORTRAIT SLOT";
-
-}
-
-
 $$(".mode")
     .forEach(
 
@@ -1572,23 +1544,6 @@ $$(".mode")
 
             );
 
-
-            button.addEventListener(
-
-                "pointerenter",
-
-                () => previewMode(button)
-
-            );
-
-
-            button.addEventListener(
-
-                "focus",
-
-                () => previewMode(button)
-
-            );
 
         }
 
@@ -5928,32 +5883,12 @@ function finishSession() {
     const grade =
         gradeSession(session);
 
-    const sessionTheme =
-        getSessionTheme(session);
-
     const modeLabel =
         MODE_INFO[session.mode]?.label ||
         session.mode.toUpperCase();
 
     $("#finalResultMode").textContent =
         `${modeLabel} / FINAL SCORE`;
-
-    $("#finalEraLabel").textContent =
-        sessionTheme.label;
-
-    const finalPhoto =
-        $(".final-result-photo");
-
-    finalPhoto.dataset.era =
-        sessionTheme.id;
-    finalPhoto.style.setProperty(
-        "--photo-accent",
-        sessionTheme.colors.primary
-    );
-    finalPhoto.style.setProperty(
-        "--photo-signal",
-        sessionTheme.colors.signal
-    );
 
     $("#newRunGrade").textContent =
         grade;
@@ -6545,8 +6480,6 @@ document
 applyAppInfo();
 
 setAlbumTheme(null);
-
-initEditorialPhotos(CONFIG.assets.photos);
 
 renderRecords();
 

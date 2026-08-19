@@ -9,7 +9,7 @@ BUNNY QUIZ es un juego web de letras, canciones, feats y álbumes de Bad Bunny. 
 
 Esta versión reconstruye la interfaz alrededor de tres lenguajes que comparten un mismo sistema:
 
-- revista musical para la tipografía, las fotografías y la composición;
+- revista musical para la tipografía, el ritmo y la composición;
 - arcade para las preguntas, el score y las respuestas;
 - archivo para OG Mode, el museo y la historia real del proyecto.
 
@@ -34,11 +34,6 @@ NEW MODE es una run de diez rondas con tres vidas, challenges, bosses, combo, mu
 ```text
 index.html
 │
-├── assets/images/
-│   ├── editorial/
-│   ├── eras/
-│   └── archive/
-│
 ├── css/
 │   ├── styles.css
 │   ├── records.css
@@ -49,7 +44,6 @@ index.html
 │   ├── app.js
 │   ├── config.js
 │   ├── themes.js
-│   ├── photos.js
 │   ├── cursor.js
 │   ├── sharing.js
 │   ├── storage.js
@@ -67,10 +61,6 @@ index.html
 ```
 
 `config.js` es la fuente única para versión, fuentes de datos, reglas y temas de álbum. `themes.js` resuelve álbumes conocidos y desconocidos hacia custom properties compartidas. `app.js` conserva el flujo principal del juego.
-
-## Fotografía
-
-La interfaz incluye slots editoriales, pero no descarga ni enlaza fotografías externas. Los assets locales se organizan en `assets/images/` y se activan desde `CONFIG.assets.photos`. Si un archivo no existe, el fallback tipográfico conserva la composición sin mostrar una imagen rota.
 
 ## Datos y persistencia
 

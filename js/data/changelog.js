@@ -13,7 +13,7 @@ export const CHANGELOG = Object.freeze([
             "Game screen con jerarquía extrema, metadata técnica y respuestas tipo tracklist.",
             "OG MODE reconstruido como archivo interactivo de MusicQuiz.",
             "Resultados y PNG compartible rediseñados como póster editorial.",
-            "Slots fotográficos con fallback hasta recibir assets del proyecto.",
+            "Composición editorial sostenida por tipografía, color y ritmo visual.",
             "Cursor contextual de escritorio y responsive rehecho desde móvil."
         ]
     },
